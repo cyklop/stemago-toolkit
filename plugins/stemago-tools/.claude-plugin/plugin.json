@@ -1,0 +1,10 @@
+{
+  "name": "stemago-tools",
+  "description": "Development toolkit with MCP wrappers, agents, and safety hooks",
+  "version": "1.0.0",
+  "author": {
+    "name": "Schneider"
+  },
+  "license": "MIT",
+  "keywords": ["mcp", "development", "agents", "workflow", "tdd", "quality"]
+}
