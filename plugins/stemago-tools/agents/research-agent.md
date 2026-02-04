@@ -141,7 +141,7 @@ WebSearch(query: "library best practices 2025")
 After completing research, I hand off to the task-generator-agent with:
 
 ```
-Use the task-generator-agent subagent to create TaskMaster tasks from the research findings.
+Use the task-generator-agent subagent to create Beads tasks from the research findings.
 
 RESEARCH FINDINGS PACKAGE:
 - Technologies Researched: [List of all technologies with findings]

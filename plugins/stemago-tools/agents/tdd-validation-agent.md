@@ -1,7 +1,7 @@
 ---
 name: tdd-validation-agent
 description: Comprehensive TDD methodology validation and quality gate enforcement agent
-tools: Read, Bash, Grep, LS, Glob, mcp__task-master__get_task, mcp__task-master__set_task_status, mcp__task-master__get_tasks, mcp__ide__getDiagnostics
+tools: Read, Bash, Grep, LS, Glob, mcp__beads__show, mcp__beads__update, mcp__beads__list, mcp__ide__getDiagnostics
 color: red
 ---
 
@@ -85,7 +85,7 @@ npm run lint              # Code quality and style validation
 ```
 
 ### **Remediation Tasks:**
-When validation fails, generate specific TaskMaster tasks:
+When validation fails, generate specific Beads tasks:
 - Fix failing unit tests in [specific files]
 - Resolve TypeScript compilation errors
 - Improve test coverage for [specific modules]  
