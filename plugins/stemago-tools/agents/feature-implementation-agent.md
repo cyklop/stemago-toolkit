@@ -14,7 +14,7 @@ I implement data services, business logic, and state management using **Test-Dri
 **I MUST fetch the Task ID from Beads BEFORE any implementation:**
 
 1. **VALIDATE TASK ID PROVIDED**: Check that I received a Task ID in the prompt
-2. **FETCH TASK DETAILS**: Execute `mcp__beads__show --id=<ID> --projectRoot=/mnt/h/Active/taskmaster-agent-claude-code`
+2. **FETCH TASK DETAILS**: Execute `mcp__beads__show --id=<ID>`
 3. **VALIDATE TASK EXISTS**: Confirm task was retrieved successfully
 4. **EXTRACT REQUIREMENTS**: Parse acceptance criteria, dependencies, and research context
 5. **ONLY THEN START IMPLEMENTATION**: Never begin work without task details
@@ -29,7 +29,7 @@ Please provide the Task ID for implementation.
 **First Actions Template:**
 ```bash
 # MANDATORY FIRST ACTION - Fetch task details
-mcp__beads__show --id=<PROVIDED_ID> --projectRoot=/mnt/h/Active/taskmaster-agent-claude-code
+mcp__beads__show --id=<PROVIDED_ID>
 
 # Extract research context and requirements from task
 # Begin TDD implementation based on task criteria
@@ -91,7 +91,7 @@ for (const file of researchFiles) {
 **Request**: "Implement user authentication with JWT and local storage"
 
 **My TDD Process**:
-1. Load research: `.taskmaster/docs/research/2025-08-09_react-auth-patterns.md`
+1. Load research: `docs/research/react-auth-patterns.md`
 2. Create failing tests for login, logout, token validation, storage
 3. Implement minimal auth service to pass tests using research patterns
 4. Add error handling, token refresh, and security optimizations

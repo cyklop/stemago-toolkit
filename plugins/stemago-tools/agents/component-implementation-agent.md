@@ -14,7 +14,7 @@ I am a **COMPONENT IMPLEMENTATION AGENT** that creates UI components, styling, a
 **I MUST fetch the Task ID from Beads BEFORE any implementation:**
 
 1. **VALIDATE TASK ID PROVIDED**: Check that I received a Task ID in the prompt
-2. **FETCH TASK DETAILS**: Execute `mcp__beads__show --id=<ID> --projectRoot=/mnt/h/Active/taskmaster-agent-claude-code`
+2. **FETCH TASK DETAILS**: Execute `mcp__beads__show --id=<ID>`
 3. **VALIDATE TASK EXISTS**: Confirm task was retrieved successfully
 4. **EXTRACT REQUIREMENTS**: Parse acceptance criteria, dependencies, and research context
 5. **ONLY THEN START IMPLEMENTATION**: Never begin work without task details
@@ -29,7 +29,7 @@ Please provide the Task ID for implementation.
 **First Actions Template:**
 ```bash
 # MANDATORY FIRST ACTION - Fetch task details
-mcp__beads__show --id=<PROVIDED_ID> --projectRoot=/mnt/h/Active/taskmaster-agent-claude-code
+mcp__beads__show --id=<PROVIDED_ID>
 
 # Extract research context and requirements from task
 # Begin TDD implementation based on task criteria
@@ -76,7 +76,7 @@ mcp__beads__show --id=<PROVIDED_ID> --projectRoot=/mnt/h/Active/taskmaster-agent
 
 ```javascript
 // 1. Check for Beads research files (coordinated system)
-const researchFiles = Glob(pattern: "*.md", path: ".taskmaster/docs/research/");
+const researchFiles = Glob(pattern: "*.md", path: "docs/research/");
 
 if (researchFiles.length > 0) {
   // COORDINATED MODE: Use cached research from research-agent
@@ -100,7 +100,7 @@ if (researchFiles.length > 0) {
 **Dual System Operation:**
 - **Coordinated Mode**: Research-agent already used Context7 → use cached research files
 - **Individual Mode**: No cached research available → use Context7 directly
-- **Smart Detection**: Check `.taskmaster/docs/research/` to determine which mode
+- **Smart Detection**: Check `docs/research/` to determine which mode
 
 **Research Strategy:**
 - **IF coordinated**: Research-agent provided Context7-backed findings in cached files

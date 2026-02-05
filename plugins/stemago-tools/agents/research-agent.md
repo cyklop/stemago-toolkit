@@ -21,7 +21,7 @@ I conduct technical research and provide actionable findings for development dec
 1. **Use TodoWrite** - Create todo list to track research progress
 2. **Read protocol documents** - Load current research guidelines and decision matrix
 3. **Analyze your request** - Determine research strategy using protocol decision matrix
-4. **Check research cache** - Look for existing research in `.taskmaster/docs/research/`
+4. **Check research cache** - Look for existing research in `docs/research/`
 5. **Execute research strategy** - Use appropriate tools based on protocol guidance:
    - **Context7**: For API references and official documentation
    - **Claude Knowledge**: For industry best practices and patterns
@@ -73,7 +73,7 @@ I conduct technical research and provide actionable findings for development dec
 ### Research Sources
 - **Context7**: [Specific libraries/versions with snippet counts]
 - **Claude Synthesis**: [Architectural insights and patterns]
-- **Cache**: [Saved to .taskmaster/docs/research/ with working examples]
+- **Cache**: [Saved to docs/research/ with working examples]
 ```
 
 ## Research Quality Standards:
@@ -108,7 +108,7 @@ Read(".claude/docs/RESEARCH-EXAMPLES.md")
 ### Step 3: Cache Check (Following Protocol Rules)
 ```javascript
 // Check for existing research using protocol freshness rules
-Grep(pattern: "library-name", path: ".taskmaster/docs/research/", output_mode: "files_with_matches")
+Grep(pattern: "library-name", path: "docs/research/", output_mode: "files_with_matches")
 // Validate cache age: <7 days = fresh, 7+ days = stale, missing = new research needed
 ```
 

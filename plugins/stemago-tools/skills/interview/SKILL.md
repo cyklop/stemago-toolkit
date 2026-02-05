@@ -1,7 +1,7 @@
 ---
 name: interview
 description: "Conduct a structured interview about features/plans using deep questioning"
-argument-hint: "[spec-file] or [feature-name]"
+argument-hint: "[feature-name]"
 ---
 
 # Spec-Based Interview
@@ -13,7 +13,7 @@ Führe ein strukturiertes Interview durch, um ein tiefes Verständnis der Anford
 ### Schritt 1: Spec lesen (falls vorhanden)
 
 Prüfe ob eine Spec-Datei existiert:
-- Primär: `.taskmaster/docs/spec.md`
+- Pfad: `docs/specs/<feature-name>.md`
 - Oder als Argument übergeben: $ARGUMENTS
 
 Falls vorhanden, lies sie und verwende sie als Ausgangspunkt für das Interview.
@@ -61,9 +61,18 @@ Verwende das **AskUserQuestion** Tool um den User zu interviewen.
    - API-Änderungen nötig?
    - Datenbankmigrationen?
 
+### Nach jeder Fragerunde: Nächste Aktion wählen
+
+Verwende **AskUserQuestion** mit folgenden Optionen:
+
+1. **Vertiefen** - Weitere Fragen zu diesem Thema stellen
+2. **Neues Thema** - Zum nächsten Themengebiet wechseln
+3. **Spec speichern** - Erkenntnisse in Spec-Datei schreiben
+4. **Tasks generieren** - Spec speichern und Beads-Tasks erstellen
+
 ### Schritt 3: Spec schreiben
 
-Nachdem das Interview abgeschlossen ist, schreibe die Erkenntnisse in `.taskmaster/docs/spec.md`:
+Nachdem das Interview abgeschlossen ist, schreibe die Erkenntnisse in `docs/specs/<feature-name>.md`:
 
 ```markdown
 # Feature Specification: [Name]
@@ -98,9 +107,43 @@ Nachdem das Interview abgeschlossen ist, schreibe die Erkenntnisse in `.taskmast
 1. ...
 ```
 
-### Schritt 4: Bestätigung
+### Schritt 4: Beads-Integration für Task-Generierung
 
-Zeige dem User eine Zusammenfassung und frage ob er die Spec anpassen oder direkt Tasks generieren möchte.
-Nächster Schritt wäre: /tm:parse-prd .taskmaster/docs/spec.md
+Falls der User "Tasks generieren" wählt:
+
+1. **Spec analysieren** und Tasks identifizieren
+2. **Tasks erstellen** via `mcp__beads__create`:
+   ```javascript
+   // Für jeden identifizierten Task:
+   mcp__beads__create({
+     title: "Task-Titel",
+     description: "Detaillierte Beschreibung",
+     issue_type: "task", // oder "feature", "bug"
+     priority: 2,
+     labels: ["from-interview", "<feature-name>"]
+   });
+   ```
+
+3. **Dependencies verknüpfen** via `mcp__beads__dep`:
+   ```javascript
+   // Wenn Task B von Task A abhängt:
+   mcp__beads__dep({
+     issue_id: "task-b-id",
+     depends_on_id: "task-a-id",
+     dep_type: "blocks"
+   });
+   ```
+
+4. **Zusammenfassung zeigen**:
+   - Anzahl erstellter Tasks
+   - Dependency-Graph
+   - Nächster empfohlener Schritt
+
+### Schritt 5: Bestätigung
+
+Zeige dem User eine Zusammenfassung:
+- Spec-Datei Pfad: `docs/specs/<feature-name>.md`
+- Erstellte Tasks (falls gewählt)
+- Empfohlene nächste Schritte
 
 $ARGUMENTS
