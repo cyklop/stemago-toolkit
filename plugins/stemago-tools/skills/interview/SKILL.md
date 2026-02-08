@@ -139,11 +139,105 @@ Falls der User "Tasks generieren" wählt:
    - Dependency-Graph
    - Nächster empfohlener Schritt
 
-### Schritt 5: Bestätigung
+### Schritt 5: Nächste Schritte
 
 Zeige dem User eine Zusammenfassung:
 - Spec-Datei Pfad: `docs/specs/<feature-name>.md`
-- Erstellte Tasks (falls gewählt)
-- Empfohlene nächste Schritte
+- Anzahl erstellter Tasks mit Dependency-Graph
+
+Dann verwende **AskUserQuestion** mit folgenden Optionen:
+
+1. **Tasks parallel ausführen** - Task-Orchestrator startet parallele Bearbeitung durch spezialisierte Agents
+2. **Ready Queue anzeigen** - Verfügbare Tasks ohne Blocker anzeigen
+3. **Ersten Task manuell starten** - Details des ersten Tasks anzeigen und selbst bearbeiten
+4. **Fertig** - Tasks für später aufheben
+
+### Schritt 6: Ausführung basierend auf Auswahl
+
+**Falls "Tasks parallel ausführen":**
+
+Starte den Task-Orchestrator für parallele Koordination:
+
+```
+Task(
+  subagent_type="task-orchestrator",
+  prompt="Analysiere die Beads Task-Queue für Feature '<feature-name>'.
+    Spec: docs/specs/<feature-name>.md
+    Labels: from-interview, <feature-name>
+
+    1. Nutze mcp__beads__ready um Tasks ohne Blocker zu finden
+    2. Analysiere Dependencies für Parallelisierung
+    3. Deploye spezialisierte Agents (component, feature, infrastructure)
+    4. Koordiniere TDD-basierte Implementierung"
+)
+```
+
+Bestätige dem User:
+- Orchestrator gestartet
+- Fortschritt mit `bd list` oder `bd stats` verfolgbar
+
+**Falls "Ready Queue anzeigen":**
+Führe `mcp__beads__ready` aus und zeige die Ergebnisse.
+
+**Falls "Ersten Task manuell starten":**
+Zeige den ersten Task mit `mcp__beads__show <first-ready-task-id>` und starte die Bearbeitung.
+
+**Falls "Fertig":**
+Bestätige dass Spec und Tasks gespeichert sind.
+
+### Schritt 7: Code Review
+
+Nachdem die Implementierung abgeschlossen ist (Orchestrator meldet Fertigstellung, oder manuelle Arbeit beendet), verwende **AskUserQuestion**:
+
+1. **Code Review durchführen** - Alle Änderungen reviewen (Security, Performance, Qualität)
+2. **Überspringen** - Direkt zum Abschluss
+
+**Falls "Code Review durchführen":**
+
+Starte den Quality-Agent für ein umfassendes Review:
+
+```
+Task(
+  subagent_type="quality-agent",
+  prompt="Führe ein Code Review der letzten Änderungen für Feature '<feature-name>' durch.
+    Spec: docs/specs/<feature-name>.md
+
+    1. Analysiere alle Änderungen via git diff
+    2. Prüfe: Security (OWASP Top 10), Performance, Code-Qualität, Pattern-Einhaltung
+    3. Erstelle strukturierte Findings (Critical, Warning, Info)
+    4. Schlage konkrete Fixes vor"
+)
+```
+
+Zeige dem User die Review-Ergebnisse und frage ob Findings behoben werden sollen.
+
+### Schritt 8: Session Reflect
+
+Nach dem Code Review (oder wenn übersprungen), verwende **AskUserQuestion**:
+
+1. **Reflect durchführen** - Session-Learnings extrahieren und speichern
+2. **Fertig** - Session ohne Reflect beenden
+
+**Falls "Reflect durchführen":**
+
+Rufe den Reflect-Skill auf:
+
+```
+Skill(skill="stemago-tools:reflect")
+```
+
+Dies analysiert die gesamte Session (Interview, Implementierung, Review) und extrahiert:
+- Erfolgreiche Patterns und Strategien
+- Korrektionen und Präferenzen des Users
+- Technische Learnings
+
+Die Learnings werden in `.claude/learnings/project-learnings.md` gespeichert.
+
+**Falls "Fertig":**
+Zeige eine Abschluss-Zusammenfassung:
+- Spec-Pfad
+- Anzahl bearbeiteter Tasks
+- Review-Status (durchgeführt/übersprungen)
+- Hinweis auf `bd stats` für Fortschritt
 
 $ARGUMENTS
