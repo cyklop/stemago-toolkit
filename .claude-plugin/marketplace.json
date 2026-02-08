@@ -5,14 +5,14 @@
   },
   "metadata": {
     "description": "Claude Code development toolkit with MCP wrappers, specialized agents, and safety hooks",
-    "version": "1.0.0"
+    "version": "1.3.0"
   },
   "plugins": [
     {
       "name": "stemago-tools",
       "source": "./plugins/stemago-tools",
       "description": "MCP wrappers, specialized agents, and development workflows",
-      "version": "1.0.0"
+      "version": "1.3.0"
     }
   ]
 }
