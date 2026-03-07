@@ -1,6 +1,6 @@
 ---
 name: browser-test
-description: "UI im Browser testen - Screenshots, Interaktionen, DevTools"
+description: "UI im Browser testen - Screenshots, Interaktionen, DevTools. Verwende diesen Skill wenn der User die UI im Browser prüfen, Screenshots machen, Formulare testen, oder visuell verifizieren will ob Änderungen korrekt aussehen. Auch bei 'schau mal ob die Seite stimmt', 'mach einen Screenshot', 'teste das Formular', 'prüf die UI', 'was zeigt der Browser', oder wenn nach Code-Änderungen das Ergebnis im Browser validiert werden soll."
 ---
 
 # Chrome DevTools MCP - Browser-Testing

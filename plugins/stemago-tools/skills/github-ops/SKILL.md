@@ -1,6 +1,6 @@
 ---
 name: github-ops
-description: "GitHub Operationen - PRs, Issues, Branches, Commits"
+description: "GitHub Operationen - PRs, Issues, Branches, Commits. Verwende diesen Skill wenn der User Pull Requests erstellen, Issues verwalten, Code Reviews durchführen, oder komplexe GitHub-Operationen über die MCP API ausführen will. Auch bei 'erstelle einen PR', 'zeig offene Issues', 'merge den PR', 'erstelle ein Issue', oder wenn Batch-Operationen auf GitHub nötig sind. Für einfache git-Befehle reicht gh CLI."
 ---
 
 # GitHub MCP - Repository-Operationen

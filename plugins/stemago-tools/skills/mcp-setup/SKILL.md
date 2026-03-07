@@ -1,6 +1,6 @@
 ---
 name: mcp-setup
-description: "MCP Server prüfen und fehlende installieren"
+description: "MCP Server prüfen und fehlende installieren. Verwende diesen Skill wenn der User wissen will welche MCP Server konfiguriert sind, fehlende Tools installieren möchte, oder das Setup prüfen will. Auch bei 'welche MCPs habe ich', 'Tools installieren', 'MCP einrichten', 'Setup prüfen', 'fehlt mir was', oder wenn ein MCP-abhängiger Skill nicht funktioniert."
 ---
 
 # MCP Server Setup

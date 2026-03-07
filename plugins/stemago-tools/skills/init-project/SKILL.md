@@ -1,6 +1,6 @@
 ---
 name: init-project
-description: "Projekt-CLAUDE.md mit Workflow-Regeln initialisieren"
+description: "Projekt-CLAUDE.md mit Workflow-Regeln initialisieren. Verwende diesen Skill wenn der User ein neues Projekt einrichten, Workflow-Regeln konfigurieren, oder eine CLAUDE.md erstellen will. Auch bei 'Projekt initialisieren', 'Workflow einrichten', 'CLAUDE.md erstellen', 'Regeln für das Projekt festlegen'."
 ---
 
 # /init-project - Projekt Workflow-Regeln

@@ -1,6 +1,6 @@
 ---
 name: reflect
-description: "Session Learning Extractor - Analysiert Session und extrahiert Learnings"
+description: "Session Learning Extractor - Analysiert die aktuelle Session und extrahiert Learnings für zukünftige Sessions. Verwende diesen Skill wenn der User Learnings speichern will, am Session-Ende reflektieren möchte, oder fragt 'was haben wir gelernt', 'speicher das als Learning', 'was war wichtig in dieser Session'. Auch bei 'reflektiere', 'Learnings extrahieren', oder wenn der User explizit um Reflection bittet."
 ---
 
 # /reflect - Session Learning Extractor

@@ -1,6 +1,6 @@
 ---
 name: beads-ready
-description: "Zeigt Tasks ohne Blocker (Ready Queue)"
+description: "Zeigt Tasks ohne Blocker (Ready Queue). Verwende diesen Skill wenn der User wissen will was als nächstes zu tun ist, verfügbare Tasks sehen möchte, oder nach offenen Aufgaben fragt. Auch bei 'was kann ich machen', 'nächster Task', 'was steht an', 'offene Tasks', 'womit anfangen', oder am Session-Start um den Einstiegspunkt zu finden."
 ---
 
 # Beads Ready

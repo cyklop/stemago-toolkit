@@ -1,6 +1,6 @@
 ---
 name: docs-lookup
-description: "Aktuelle Dokumentation abrufen - React, Next.js, Tailwind, etc."
+description: "Aktuelle Dokumentation abrufen - React, Next.js, Tailwind, Prisma, DaisyUI, Zod, etc. Verwende diesen Skill wenn der User nach aktueller Library-Dokumentation fragt, wissen will wie ein API funktioniert, oder Best Practices für ein Framework braucht. Auch bei 'wie macht man X in Next.js', 'Prisma Syntax für Y', 'was ist neu in React 19', 'Tailwind Klasse für Z', oder wenn du selbst unsicher über aktuelle API-Syntax bist."
 ---
 
 # Context7 MCP - Dokumentations-Lookup

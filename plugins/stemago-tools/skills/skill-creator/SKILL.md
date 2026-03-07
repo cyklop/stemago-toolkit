@@ -1,6 +1,6 @@
 ---
 name: skill-creator
-description: Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.
+description: "Skills erstellen oder aktualisieren. Verwende diesen Skill wenn der User einen neuen Skill designen, strukturieren oder paketieren will, oder bestehende Skills verbessern möchte. Auch bei 'erstelle einen Skill', 'neuen Slash-Command bauen', 'Skill aktualisieren', 'SKILL.md schreiben', oder wenn Skills mit Scripts, References und Assets strukturiert werden sollen."
 ---
 
 # Skill Creator

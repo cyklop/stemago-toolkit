@@ -1,6 +1,6 @@
 ---
 name: reflect-status
-description: "Zeige aktuellen Reflect-Status und letzte Learnings"
+description: "Zeige aktuellen Reflect-Status und letzte Learnings. Verwende diesen Skill wenn der User den Reflection-Status prüfen will, wissen möchte ob Auto-Reflect aktiv ist, oder nach gespeicherten Learnings fragt. Auch bei 'wie viele Learnings habe ich', 'ist Reflect aktiv', 'zeig Learnings-Statistik'."
 ---
 
 # /reflect-status - Reflection Status

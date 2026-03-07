@@ -1,6 +1,6 @@
 ---
 name: review
-description: "Code Review der letzten Änderungen durchführen"
+description: "Code Review der letzten Änderungen durchführen. Verwende diesen Skill wenn der User Code prüfen lassen will, nach einem Review fragt, oder die Qualität der Änderungen validieren möchte. Auch bei 'prüf mal den Code', 'ist das so OK', 'gibt es Probleme', 'Security-Check', 'schau dir die Änderungen an', 'Review bitte', oder wenn nach einer Implementierung die Code-Qualität geprüft werden soll."
 ---
 
 # /review - Code Review

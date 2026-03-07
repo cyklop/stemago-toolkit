@@ -1,6 +1,6 @@
 ---
 name: db-inspect
-description: "Datenbank inspizieren - Tabellen, Schema, Queries ausführen"
+description: "Datenbank inspizieren - Tabellen, Schema, Queries ausführen. Verwende diesen Skill wenn der User Datenbank-Inhalte sehen will, Tabellen oder Schema anzeigen möchte, SQL-Queries ausführen will, oder Daten debuggen muss. Auch bei 'was steht in der DB', 'zeig mir die Tabellen', 'Daten prüfen', 'Schema anschauen', 'Query ausführen', oder wenn Prisma-Migrationen gegen den DB-Stand geprüft werden sollen."
 ---
 
 # MariaDB MCP - Datenbank-Inspektion

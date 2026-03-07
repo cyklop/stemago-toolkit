@@ -1,6 +1,6 @@
 ---
 name: reflect-on
-description: "Aktiviere automatische Session-Reflection am Session-Ende"
+description: "Aktiviere automatische Session-Reflection am Session-Ende. Verwende diesen Skill wenn der User automatisches Lernen aktivieren will, 'reflect einschalten', 'auto-reflect an', oder 'am Ende immer Learnings extrahieren' sagt."
 ---
 
 # /reflect-on - Auto-Reflect aktivieren

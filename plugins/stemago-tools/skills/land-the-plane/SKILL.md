@@ -1,6 +1,6 @@
 ---
 name: land-the-plane
-description: "Session-Ende Handoff mit Prompt für nächste Session"
+description: "Session-Ende Handoff mit Prompt für nächste Session. Verwende diesen Skill wenn der User die Session beenden, einen Handoff erstellen, oder den Stand für die nächste Session sichern will. Auch bei 'Feierabend', 'ich höre auf', 'Session beenden', 'mach einen Handoff', 'sichere den Stand', 'was muss die nächste Session wissen'."
 ---
 
 # Land the Plane

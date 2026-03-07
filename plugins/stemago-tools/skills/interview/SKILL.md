@@ -1,6 +1,6 @@
 ---
 name: interview
-description: "Conduct a structured interview about features/plans using deep questioning"
+description: "Strukturiertes Interview über Features und Pläne mit tiefgehenden Fragen führen. Verwende diesen Skill wenn der User ein Feature besprechen, Anforderungen klären, oder eine Spec erarbeiten will. Auch bei 'lass uns das Feature planen', 'Interview starten', 'Anforderungen klären', 'Spec erstellen', 'was genau brauchen wir', oder wenn ein neues Feature vor der Implementierung durchdacht werden soll."
 argument-hint: "[feature-name]"
 ---
 
@@ -185,59 +185,12 @@ Zeige den ersten Task mit `mcp__beads__show <first-ready-task-id>` und starte di
 **Falls "Fertig":**
 Bestätige dass Spec und Tasks gespeichert sind.
 
-### Schritt 7: Code Review
+### Nächste Schritte nach der Implementierung
 
-Nachdem die Implementierung abgeschlossen ist (Orchestrator meldet Fertigstellung, oder manuelle Arbeit beendet), verwende **AskUserQuestion**:
+Weise den User auf diese weiterführenden Skills hin:
 
-1. **Code Review durchführen** - Alle Änderungen reviewen (Security, Performance, Qualität)
-2. **Überspringen** - Direkt zum Abschluss
-
-**Falls "Code Review durchführen":**
-
-Starte den Quality-Agent für ein umfassendes Review:
-
-```
-Task(
-  subagent_type="quality-agent",
-  prompt="Führe ein Code Review der letzten Änderungen für Feature '<feature-name>' durch.
-    Spec: docs/specs/<feature-name>.md
-
-    1. Analysiere alle Änderungen via git diff
-    2. Prüfe: Security (OWASP Top 10), Performance, Code-Qualität, Pattern-Einhaltung
-    3. Erstelle strukturierte Findings (Critical, Warning, Info)
-    4. Schlage konkrete Fixes vor"
-)
-```
-
-Zeige dem User die Review-Ergebnisse und frage ob Findings behoben werden sollen.
-
-### Schritt 8: Session Reflect
-
-Nach dem Code Review (oder wenn übersprungen), verwende **AskUserQuestion**:
-
-1. **Reflect durchführen** - Session-Learnings extrahieren und speichern
-2. **Fertig** - Session ohne Reflect beenden
-
-**Falls "Reflect durchführen":**
-
-Rufe den Reflect-Skill auf:
-
-```
-Skill(skill="stemago-tools:reflect")
-```
-
-Dies analysiert die gesamte Session (Interview, Implementierung, Review) und extrahiert:
-- Erfolgreiche Patterns und Strategien
-- Korrektionen und Präferenzen des Users
-- Technische Learnings
-
-Die Learnings werden in `.claude/learnings/project-learnings.md` gespeichert.
-
-**Falls "Fertig":**
-Zeige eine Abschluss-Zusammenfassung:
-- Spec-Pfad
-- Anzahl bearbeiteter Tasks
-- Review-Status (durchgeführt/übersprungen)
-- Hinweis auf `bd stats` für Fortschritt
+- `/review` — Code Review der Änderungen (Security, Performance, Qualität)
+- `/reflect` — Session-Learnings extrahieren und speichern
+- `/land-the-plane` — Session-Handoff für die nächste Session erstellen
 
 $ARGUMENTS

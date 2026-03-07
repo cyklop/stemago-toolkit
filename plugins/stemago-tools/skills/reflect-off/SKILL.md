@@ -1,6 +1,6 @@
 ---
 name: reflect-off
-description: "Deaktiviere automatische Session-Reflection"
+description: "Deaktiviere automatische Session-Reflection. Verwende diesen Skill wenn der User automatisches Lernen ausschalten will, 'reflect deaktivieren', 'auto-reflect aus', oder 'keine Learnings mehr am Ende' sagt."
 ---
 
 # /reflect-off - Auto-Reflect deaktivieren

@@ -1,6 +1,6 @@
 ---
 name: beads-setup
-description: "Beads Memory-System initialisieren und konfigurieren"
+description: "Beads Memory-System initialisieren und konfigurieren. Verwende diesen Skill wenn der User Beads einrichten, das Task-Tracking-System installieren, oder bd CLI und beads-mcp konfigurieren will. Auch bei 'Beads installieren', 'Task-System einrichten', 'bd init', oder wenn Beads noch nicht initialisiert ist und benötigt wird."
 ---
 
 # Beads Setup
