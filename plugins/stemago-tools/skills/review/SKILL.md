@@ -39,7 +39,7 @@ Ermittle abhängige Dateien:
 
 ### Schritt 3: Parallele Review-Agents starten
 
-Starte **drei spezialisierte Review-Agents parallel** — jeder fokussiert auf sein Gebiet:
+Starte **vier spezialisierte Review-Agents parallel** — jeder fokussiert auf sein Gebiet:
 
 ```
 # Agent 1: Security Review (haiku — regelbasiert, schnell)
@@ -93,11 +93,30 @@ Agent(
 )
 ```
 
-**WICHTIG:** Alle drei Agents in EINEM Message-Block starten für echte Parallelität.
+# Agent 4: Docs-Validierung (haiku + Context7 — aktuelle API-Prüfung)
+Agent(
+  subagent_type="research-agent",
+  model="haiku",
+  description="Docs Validation",
+  prompt="Prüfe ob der geänderte Code aktuelle Library-APIs und Best Practices verwendet.
+    Geänderte Dateien: <liste>
+    Diff: <diff>
+
+    VORGEHEN:
+    1. Identifiziere alle verwendeten Libraries/Frameworks im Diff
+    2. Recherchiere via Context7 die aktuelle Dokumentation für jede Library
+    3. Prüfe auf: deprecated APIs, veraltete Patterns, bessere Alternativen in aktueller Version
+
+    Ausgabe: Liste mit Severity (warning/info), Datei:Zeile, Beschreibung, aktuelle Alternative.
+    Falls alles aktuell: 'Alle verwendeten APIs sind aktuell.'"
+)
+```
+
+**WICHTIG:** Alle vier Agents in EINEM Message-Block starten für echte Parallelität.
 
 ### Schritt 4: Review-Ergebnis konsolidieren
 
-Sammle die Ergebnisse aller drei Agents und zeige eine konsolidierte Übersicht:
+Sammle die Ergebnisse aller vier Agents und zeige eine konsolidierte Übersicht:
 
 ```
 ## Code Review Ergebnis
@@ -125,8 +144,12 @@ Sammle die Ergebnisse aller drei Agents und zeige eine konsolidierte Übersicht:
 - [Dokumentation] README.md - Neuer Export fehlt in der Dokumentation
   → Vorschlag: API-Doku aktualisieren
 
+#### Deprecated/Veraltet
+- [API] file1.ts:8 - `getServerSideProps` ist in Next.js 15 deprecated
+  → Vorschlag: Server Component mit async verwenden (laut aktueller Docs)
+
 ### Zusammenfassung
-- Critical: X | Warning: Y | Info: Z | Docs: W
+- Critical: X | Warning: Y | Info: Z | Docs: W | Deprecated: V
 - Gesamtbewertung: [Gut/Akzeptabel/Verbesserung nötig]
 ```
 

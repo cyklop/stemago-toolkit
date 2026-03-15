@@ -36,10 +36,22 @@ Verwende das **AskUserQuestion** Tool um den User zu interviewen.
    - Was ist NICHT Teil des Scopes?
    - Welche Probleme werden gelöst?
 
-2. **Technische Implementierung**
+2. **Technische Implementierung** (mit Docs-Recherche)
    - Welche bestehenden Patterns sollen verwendet werden?
    - Gibt es Performance-Anforderungen?
    - Wie soll mit Fehlern umgegangen werden?
+   - **Docs-Check**: Sobald Libraries/Frameworks genannt werden, starte parallel einen Research-Agent (haiku) um aktuelle Best Practices und API-Änderungen zu recherchieren:
+     ```
+     Agent(
+       subagent_type="research-agent",
+       model="haiku",
+       description="Docs für <library>",
+       prompt="Recherchiere aktuelle Dokumentation für <library> via Context7.
+         Fokus: aktuelle API, Breaking Changes, empfohlene Patterns.
+         Kurze Zusammenfassung der relevanten Findings."
+     )
+     ```
+   - Fließe die Recherche-Ergebnisse in die Fragen ein (z.B. "Wisst ihr, dass X seit v15 deprecated ist?")
 
 3. **UI/UX Concerns**
    - Wie soll die Interaktion aussehen?
@@ -97,6 +109,9 @@ Schreibe die Erkenntnisse in `docs/specs/<feature-name>.md`:
 
 ## Technische Anforderungen
 - ...
+
+## Docs-Recherche Ergebnisse
+[Erkenntnisse aus Context7-Recherche: aktuelle APIs, Breaking Changes, Best Practices]
 
 ## UI/UX Anforderungen
 - ...
