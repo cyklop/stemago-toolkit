@@ -61,18 +61,22 @@ Verwende das **AskUserQuestion** Tool um den User zu interviewen.
    - API-Änderungen nötig?
    - Datenbankmigrationen?
 
-### Nach jeder Fragerunde: Nächste Aktion wählen
+### Schritt 3: Interview-Abschluss — Immer zwei Optionen anbieten
 
-Verwende **AskUserQuestion** mit folgenden Optionen:
+Nach jeder Fragerunde verwende **AskUserQuestion** mit IMMER diesen Optionen:
 
-1. **Vertiefen** - Weitere Fragen zu diesem Thema stellen
-2. **Neues Thema** - Zum nächsten Themengebiet wechseln
-3. **Spec speichern** - Erkenntnisse in Spec-Datei schreiben
-4. **Tasks generieren** - Spec speichern und Beads-Tasks erstellen
+1. **Vertiefen** — Vertiefende Fragen stellen (zu aktuellem oder neuem Thema)
+2. **Spec speichern** — Interview abschließen und Erkenntnisse als Spec-Datei sichern
+3. **Spec & Tasks erstellen** — Interview abschließen, Spec schreiben UND Beads-Tasks generieren
 
-### Schritt 3: Spec schreiben
+**Wiederhole diesen Schritt** bis der User Option 2 oder 3 wählt.
 
-Nachdem das Interview abgeschlossen ist, schreibe die Erkenntnisse in `docs/specs/<feature-name>.md`:
+Falls "Spec speichern": Weiter mit Schritt 4, dann Abschluss (Spec-Pfad zeigen, auf `/stemago-tools:beads-ready` hinweisen).
+Falls "Spec & Tasks erstellen": Weiter mit Schritt 4, dann Schritt 5.
+
+### Schritt 4: Spec schreiben
+
+Schreibe die Erkenntnisse in `docs/specs/<feature-name>.md`:
 
 ```markdown
 # Feature Specification: [Name]
@@ -102,31 +106,24 @@ Nachdem das Interview abgeschlossen ist, schreibe die Erkenntnisse in `docs/spec
 
 ## Offene Fragen
 - ...
-
-## Nächste Schritte
-1. ...
 ```
 
-### Schritt 4: Beads-Integration für Task-Generierung
+### Schritt 5: Beads-Tasks generieren
 
-Falls der User "Tasks generieren" wählt:
-
-1. **Spec analysieren** und Tasks identifizieren
+1. **Spec analysieren** und Tasks identifizieren — zerlege in möglichst unabhängige, parallelisierbare Einheiten
 2. **Tasks erstellen** via `mcp__beads__create`:
    ```javascript
-   // Für jeden identifizierten Task:
    mcp__beads__create({
      title: "Task-Titel",
-     description: "Detaillierte Beschreibung",
-     issue_type: "task", // oder "feature", "bug"
+     description: "Detaillierte Beschreibung mit Akzeptanzkriterien",
+     issue_type: "task",
      priority: 2,
      labels: ["from-interview", "<feature-name>"]
    });
    ```
 
-3. **Dependencies verknüpfen** via `mcp__beads__dep`:
+3. **Dependencies verknüpfen** via `mcp__beads__dep` — nur wo echte Abhängigkeiten bestehen:
    ```javascript
-   // Wenn Task B von Task A abhängt:
    mcp__beads__dep({
      issue_id: "task-b-id",
      depends_on_id: "task-a-id",
@@ -135,62 +132,75 @@ Falls der User "Tasks generieren" wählt:
    ```
 
 4. **Zusammenfassung zeigen**:
+   - Spec-Datei Pfad
    - Anzahl erstellter Tasks
-   - Dependency-Graph
-   - Nächster empfohlener Schritt
+   - Dependency-Graph (welche parallel, welche sequentiell)
+   - Geschätzte Parallelisierungsgruppen
 
-### Schritt 5: Nächste Schritte
+### Schritt 6: Parallele Task-Bearbeitung starten
 
-Zeige dem User eine Zusammenfassung:
-- Spec-Datei Pfad: `docs/specs/<feature-name>.md`
-- Anzahl erstellter Tasks mit Dependency-Graph
+Frage den User via **AskUserQuestion**:
 
-Dann verwende **AskUserQuestion** mit folgenden Optionen:
+1. **Jetzt parallel bearbeiten** — Alle unabhängigen Tasks sofort starten
+2. **Fertig** — Tasks für später aufheben
 
-1. **Tasks parallel ausführen** - Task-Orchestrator startet parallele Bearbeitung durch spezialisierte Agents
-2. **Ready Queue anzeigen** - Verfügbare Tasks ohne Blocker anzeigen
-3. **Ersten Task manuell starten** - Details des ersten Tasks anzeigen und selbst bearbeiten
-4. **Fertig** - Tasks für später aufheben
+**Falls "Jetzt parallel bearbeiten":**
 
-### Schritt 6: Ausführung basierend auf Auswahl
-
-**Falls "Tasks parallel ausführen":**
-
-Starte den Task-Orchestrator für parallele Koordination:
+Starte den Task-Orchestrator für maximale Parallelisierung:
 
 ```
-Task(
+Agent(
   subagent_type="task-orchestrator",
-  prompt="Analysiere die Beads Task-Queue für Feature '<feature-name>'.
+  prompt="Analysiere und bearbeite die Beads Task-Queue für Feature '<feature-name>'.
     Spec: docs/specs/<feature-name>.md
     Labels: from-interview, <feature-name>
 
-    1. Nutze mcp__beads__ready um Tasks ohne Blocker zu finden
-    2. Analysiere Dependencies für Parallelisierung
-    3. Deploye spezialisierte Agents (component, feature, infrastructure)
-    4. Koordiniere TDD-basierte Implementierung"
+    STRATEGIE:
+    1. Nutze mcp__beads__ready um alle Tasks ohne Blocker zu identifizieren
+    2. Starte ALLE unabhängigen Tasks PARALLEL über spezialisierte Agents
+    3. Sobald ein Task abgeschlossen ist, prüfe ob neue Tasks freigeschaltet wurden
+    4. Wiederhole bis alle Tasks erledigt sind
+    5. Melde den Abschluss aller Tasks zurück"
 )
 ```
 
-Bestätige dem User:
-- Orchestrator gestartet
-- Fortschritt mit `bd list` oder `bd stats` verfolgbar
-
-**Falls "Ready Queue anzeigen":**
-Führe `mcp__beads__ready` aus und zeige die Ergebnisse.
-
-**Falls "Ersten Task manuell starten":**
-Zeige den ersten Task mit `mcp__beads__show <first-ready-task-id>` und starte die Bearbeitung.
+**Warte auf Abschluss des Orchestrators**, dann weiter mit Schritt 7.
 
 **Falls "Fertig":**
-Bestätige dass Spec und Tasks gespeichert sind.
+Bestätige dass Spec und Tasks gespeichert sind. Weise auf `/stemago-tools:beads-ready` hin.
 
-### Nächste Schritte nach der Implementierung
+### Schritt 7: Review & Reflect — Abschluss-Workflow
 
-Weise den User auf diese weiterführenden Skills hin:
+Nachdem ALLE Tasks abgeschlossen sind, führe den Abschluss-Workflow durch:
 
-- `/review` — Code Review der Änderungen (Security, Performance, Qualität)
-- `/reflect` — Session-Learnings extrahieren und speichern
-- `/land-the-plane` — Session-Handoff für die nächste Session erstellen
+**7a: Review anbieten**
+
+Frage den User via **AskUserQuestion**:
+
+> Alle Tasks sind abgeschlossen. Möchtest du ein Code Review durchführen?
+
+1. **Review starten** — `/review` ausführen
+2. **Überspringen** — Direkt zu Reflect
+
+Falls "Review starten": Führe den `/review` Skill aus. Warte auf Abschluss.
+
+**7b: Reflect anbieten**
+
+Frage den User via **AskUserQuestion**:
+
+> Möchtest du die Session-Learnings extrahieren?
+
+1. **Reflect starten** — `/reflect` ausführen
+2. **Fertig** — Session beenden
+
+Falls "Reflect starten": Führe den `/reflect` Skill aus.
+
+**7c: Abschluss**
+
+Zeige eine finale Zusammenfassung:
+- Spec-Datei: `docs/specs/<feature-name>.md`
+- Erstellte/abgeschlossene Tasks
+- Review-Ergebnis (falls durchgeführt)
+- Gespeicherte Learnings (falls reflektiert)
 
 $ARGUMENTS

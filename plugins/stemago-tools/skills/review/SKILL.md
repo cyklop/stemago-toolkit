@@ -5,7 +5,7 @@ description: "Code Review der letzten Änderungen durchführen. Verwende diesen 
 
 # /review - Code Review
 
-Führe einen strukturierten Code Review der letzten Änderungen durch.
+Führe einen strukturierten, parallelisierten Code Review der letzten Änderungen durch.
 
 ## Deine Aufgabe
 
@@ -16,58 +16,88 @@ Führe folgende Befehle aus um die zu reviewenden Änderungen zu finden:
 ```bash
 git diff HEAD
 git diff --cached
+git diff --name-only HEAD  # Liste geänderter Dateien
 ```
 
-Falls beide leer sind, reviewe den letzten Commit:
+Falls beide Diffs leer sind, reviewe den letzten Commit:
 
 ```bash
 git diff HEAD~1
+git diff --name-only HEAD~1
 ```
 
-Falls auch das leer ist: "Keine Änderungen zum Reviewen gefunden."
+Falls auch das leer ist: "Keine Änderungen zum Reviewen gefunden." — Abbruch.
 
-### Schritt 2: Geänderte Dateien analysieren
+### Schritt 2: Kontext sammeln
 
-Liste alle geänderten Dateien auf und lies jede einzeln. Analysiere auf:
+Lies NICHT nur den Diff — lies die **vollständigen geänderten Dateien** sowie **direkt abhängige Dateien** (Imports, aufgerufene Module, Typdefinitionen). Nur mit dem vollen Kontext kann ein Review Qualität liefern.
 
-1. **Code-Qualität und Konsistenz**
-   - Naming-Konventionen eingehalten?
-   - Konsistenz mit bestehendem Code?
-   - Unnötige Komplexität?
-   - Duplizierter Code?
+Ermittle abhängige Dateien:
+- Folge Imports der geänderten Dateien
+- Prüfe welche Dateien die geänderten Exports verwenden (via Grep)
+- Lies relevante Typdefinitionen und Interfaces
 
-2. **Security (OWASP Top 10)**
-   - SQL Injection
-   - XSS
-   - Command Injection
-   - Unsichere Deserialisierung
-   - Hartcodierte Secrets/Credentials
-   - Fehlende Input-Validierung
+### Schritt 3: Parallele Review-Agents starten
 
-3. **Performance**
-   - N+1 Queries
-   - Unnötige Re-Renders
-   - Fehlende Indizes
-   - Große Payloads
-   - Memory Leaks
+Starte **drei spezialisierte Review-Agents parallel** — jeder fokussiert auf sein Gebiet:
 
-4. **Error Handling**
-   - Unbehandelte Exceptions
-   - Fehlende Null-Checks
-   - Unklare Fehlermeldungen
+```
+# Agent 1: Security Review (haiku — regelbasiert, schnell)
+Agent(
+  subagent_type="quality-agent",
+  model="haiku",
+  description="Security Review",
+  prompt="Analysiere diese Dateien auf Security-Probleme (OWASP Top 10):
+    Geänderte Dateien: <liste>
+    Diff: <diff>
 
-5. **Pattern-Einhaltung**
-   - Passt der Code zu bestehenden Patterns im Projekt?
-   - Werden etablierte Konventionen befolgt?
+    Prüfe auf: SQL Injection, XSS, Command Injection, unsichere Deserialisierung,
+    hartcodierte Secrets/Credentials, fehlende Input-Validierung, CSRF, Path Traversal.
 
-6. **Dokumentations-Aktualität**
-   - Neue exports/APIs ohne Dokumentation?
-   - README.md veraltet (Features, Struktur, Installationsschritte)?
-   - CLAUDE.md veraltet (Regeln passen nicht mehr zum Code)?
+    Ausgabe: Liste mit Severity (critical/warning/info), Datei:Zeile, Beschreibung, Vorschlag.
+    Falls keine Findings: 'Keine Security-Probleme gefunden.'"
+)
 
-### Schritt 3: Review-Ergebnis
+# Agent 2: Performance & Error Handling (haiku — pattern-matching)
+Agent(
+  subagent_type="quality-agent",
+  model="haiku",
+  description="Performance Review",
+  prompt="Analysiere diese Dateien auf Performance und Error Handling:
+    Geänderte Dateien: <liste>
+    Diff: <diff>
 
-Zeige eine strukturierte Zusammenfassung:
+    Performance: N+1 Queries, unnötige Re-Renders, fehlende Indizes, große Payloads, Memory Leaks.
+    Error Handling: Unbehandelte Exceptions, fehlende Null-Checks, unklare Fehlermeldungen.
+
+    Ausgabe: Liste mit Severity (critical/warning/info), Datei:Zeile, Beschreibung, Vorschlag.
+    Falls keine Findings: 'Keine Performance/Error-Probleme gefunden.'"
+)
+
+# Agent 3: Code-Qualität, Patterns & Docs (sonnet — braucht Urteilsvermögen)
+Agent(
+  subagent_type="quality-agent",
+  model="sonnet",
+  description="Quality & Pattern Review",
+  prompt="Analysiere diese Dateien auf Code-Qualität, Pattern-Einhaltung und Dokumentation:
+    Geänderte Dateien: <liste>
+    Vollständige Dateien + Kontext-Dateien: <inhalt>
+    Diff: <diff>
+
+    Code-Qualität: Naming-Konventionen, Konsistenz, unnötige Komplexität, Duplizierung.
+    Pattern-Einhaltung: Passt der Code zu bestehenden Patterns im Projekt?
+    Dokumentation: Neue exports/APIs ohne Docs? README/CLAUDE.md veraltet?
+
+    Ausgabe: Liste mit Severity (critical/warning/info), Datei:Zeile, Beschreibung, Vorschlag.
+    Falls keine Findings: 'Keine Qualitäts-Probleme gefunden.'"
+)
+```
+
+**WICHTIG:** Alle drei Agents in EINEM Message-Block starten für echte Parallelität.
+
+### Schritt 4: Review-Ergebnis konsolidieren
+
+Sammle die Ergebnisse aller drei Agents und zeige eine konsolidierte Übersicht:
 
 ```
 ## Code Review Ergebnis
@@ -75,6 +105,7 @@ Zeige eine strukturierte Zusammenfassung:
 ### Geprüfte Dateien
 - file1.ts (geändert)
 - file2.ts (neu)
+- file3.ts (Kontext — importiert file1)
 
 ### Findings
 
@@ -91,23 +122,51 @@ Zeige eine strukturierte Zusammenfassung:
   → Vorschlag: camelCase statt snake_case
 
 #### Docs
-- [Dokumentation] README.md - Neuer Skill "xyz" fehlt in der Skills-Tabelle
-  → Vorschlag: Skills-Tabelle und Strukturbaum aktualisieren
+- [Dokumentation] README.md - Neuer Export fehlt in der Dokumentation
+  → Vorschlag: API-Doku aktualisieren
 
 ### Zusammenfassung
-- Critical: X | Warning: Y | Info: Z
+- Critical: X | Warning: Y | Info: Z | Docs: W
 - Gesamtbewertung: [Gut/Akzeptabel/Verbesserung nötig]
 ```
 
-### Schritt 4: Fixes anbieten
+### Schritt 5: Nächste Aktion — Immer User fragen
 
-Falls Findings vorhanden:
+Falls Findings vorhanden, frage den User via **AskUserQuestion**:
 
+1. **Alle Findings beheben** — Alle Critical, Warning und Info-Findings fixen
+2. **Nur Critical/Warning beheben** — Info-Findings ignorieren
+3. **Als Beads-Tasks tracken** — Findings als Tasks in Beads erstellen (für spätere Bearbeitung)
+4. **Nichts tun** — Nur zur Kenntnis nehmen
+
+**WICHTIG:** Keine automatischen Fixes — IMMER erst Rückfrage mit dem User.
+
+**Falls "Alle Findings beheben" oder "Nur Critical/Warning beheben":**
+
+Behebe die gewählten Findings. Danach automatisch:
+1. Tests laufen lassen (falls vorhanden): `npm test` / `npm run lint` / projektspezifisch
+2. Ergebnis zeigen — welche Findings behoben, ob Tests grün sind
+
+**Falls "Als Beads-Tasks tracken":**
+
+Erstelle für jedes Finding einen Beads-Task:
+```javascript
+mcp__beads__create({
+  title: "[Review] <Finding-Titel>",
+  description: "Severity: <critical/warning/info>\nDatei: <datei:zeile>\n\nBeschreibung: <beschreibung>\nVorschlag: <vorschlag>",
+  issue_type: "bug",
+  priority: 1, // critical=1, warning=2, info=3
+  labels: ["from-review", "<severity>"]
+});
 ```
-Soll ich die Findings direkt beheben?
-- Alle Findings beheben
-- Nur Critical/Warning beheben
-- Nein, nur als Info
-```
+
+Zeige Zusammenfassung der erstellten Tasks.
+
+### Schritt 6: Reflect anbieten
+
+Nach Abschluss (Fixes oder Task-Erstellung), frage den User via **AskUserQuestion**:
+
+1. **Reflect starten** — `/reflect` ausführen um Session-Learnings zu extrahieren
+2. **Fertig** — Review abschließen
 
 $ARGUMENTS
