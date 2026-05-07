@@ -1,6 +1,6 @@
 ---
 name: review
-description: "Code Review der letzten Änderungen durchführen. Verwende diesen Skill wenn der User Code prüfen lassen will, nach einem Review fragt, oder die Qualität der Änderungen validieren möchte. Auch bei 'prüf mal den Code', 'ist das so OK', 'gibt es Probleme', 'Security-Check', 'schau dir die Änderungen an', 'Review bitte', oder wenn nach einer Implementierung die Code-Qualität geprüft werden soll."
+description: "stemago-tools Code Review: prüft die Änderungen seit dem letzten Commit gegen Projekt-Konventionen aus CLAUDE.md mit fünf parallelen Review-Agents (Security, Performance, Quality, Docs, Spec-Compliance). Verwende wenn der User 'Review bitte', 'prüf den Code' oder 'ist das so OK' sagt UND das Projekt eine CLAUDE.md mit Konventionen hat. NICHT verwenden für PR-Reviews oder gezielte Security-Audits — dafür github-ops oder /code-review oder /security-review."
 ---
 
 # /review - Code Review
