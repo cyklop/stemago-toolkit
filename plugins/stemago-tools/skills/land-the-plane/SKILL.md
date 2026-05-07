@@ -26,7 +26,7 @@ Falls nicht initialisiert:
 ```markdown
 ## Beads nicht initialisiert
 
-Führe zuerst `/beads-setup` aus, um Beads zu konfigurieren.
+Führe zuerst `/setup --beads` aus, um Beads zu konfigurieren.
 ```
 
 Stoppe hier.
@@ -168,6 +168,6 @@ Beide ergänzen sich und sollten am Session-Ende ausgeführt werden:
 - **Keine Tasks erledigt**: Trotzdem Handoff generieren mit aktuellem Stand
 - **Keine Ready Tasks**: Hinweis dass neue Tasks erstellt werden sollten
 - **Uncommitted Changes**: Warnung ausgeben, Handoff trotzdem erstellen
-- **Beads nicht initialisiert**: Auf `/beads-setup` verweisen
+- **Beads nicht initialisiert**: Auf `/setup --beads` verweisen
 
 $ARGUMENTS
