@@ -31,7 +31,7 @@ cat << EOF
 ║ → /stemago-tools:review                                  ║
 ║                                                          ║
 ║ Für automatische Reviews in Projekten:                   ║
-║ → /stemago-tools:init-project                            ║
+║ → /stemago-tools:setup --project                         ║
 ╚══════════════════════════════════════════════════════════╝
 
 EOF
