@@ -114,6 +114,10 @@ Falls "Spec speichern": Weiter mit Schritt 4 → 4b → Abschluss.
 Falls "Spec & Tasks erstellen": Weiter mit Schritt 4 → 4b → 4c → 5.
 Falls "Abbrechen": Bestätige Abbruch, fasse kurz zusammen was besprochen wurde (für den Fall dass der User später zurückkommen will).
 
+### Advisor-Check vor Spec
+
+Falls der Advisor verfügbar ist — `advisor()` aufrufen bevor du die Spec schreibst. Der Advisor sieht das gesamte Interview-Transcript und kann Lücken, Widersprüche oder YAGNI-Verletzungen erkennen die du übersehen hast.
+
 ### Schritt 4: Spec schreiben
 
 Schreibe die Erkenntnisse in `docs/specs/<feature-name>.md`:

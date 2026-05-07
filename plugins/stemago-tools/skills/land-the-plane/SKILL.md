@@ -55,7 +55,13 @@ bd blocked --format=json
 
 ### Schritt 3: Session-Kontext aus Konversation extrahieren
 
-Analysiere die aktuelle Session nach:
+Falls `/recap` verfügbar ist, führe es zuerst aus — es zeigt was passiert ist während das Terminal nicht im Fokus war und ergänzt den manuellen Kontext-Extrakt:
+
+```bash
+/recap
+```
+
+Analysiere dann die aktuelle Session nach:
 
 1. **Was wurde erreicht?**
    - Implementierte Features

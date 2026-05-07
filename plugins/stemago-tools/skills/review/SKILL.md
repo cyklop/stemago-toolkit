@@ -148,6 +148,10 @@ Agent(
 
 **WICHTIG:** Alle fünf Agents in EINEM Message-Block starten für echte Parallelität. Agent 5 nur starten wenn eine Spec/Plan-Datei gefunden wurde.
 
+### Advisor-Check nach Agents
+
+Wenn alle Agents zurückgekehrt sind und bevor du konsolidierst — `advisor()` aufrufen falls verfügbar. Der Advisor sieht alle Agent-Ergebnisse im Transcript und kann einschätzen welche Findings wirklich kritisch sind vs. False Positives.
+
 ### Schritt 4: Review-Ergebnis konsolidieren
 
 Sammle die Ergebnisse aller Agents und zeige eine konsolidierte Übersicht:
