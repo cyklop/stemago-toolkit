@@ -1,0 +1,37 @@
+{
+  "evaluated_at": "2026-05-07",
+  "method": "subagent-classifier (sonnet) — predict whether Claude would trigger each skill given the description",
+  "target_threshold_percent": 80,
+  "skills": {
+    "setup": {
+      "score_percent": 95,
+      "correct": 19,
+      "total": 20,
+      "false_positives": [],
+      "false_negatives": [
+        {
+          "id": 6,
+          "query": "der context7 MCP scheint zu fehlen, ich kriege ständig 'tool not available' wenn ich docs-lookup nutze",
+          "rationale": "Borderline: liest sich eher als MCP-Diagnose/Troubleshooting statt expliziter Setup-Anfrage. Description nicht verbreitert um nicht weitere False-Positives zu provozieren."
+        }
+      ],
+      "decision": "ACCEPT — über Threshold, einzelner Misser ist akzeptabel borderline."
+    },
+    "reflect-config": {
+      "score_percent": 100,
+      "correct": 20,
+      "total": 20,
+      "false_positives": [],
+      "false_negatives": [],
+      "decision": "ACCEPT — perfekte Trefferquote. Strenge Abgrenzung zu /reflect funktioniert."
+    },
+    "review": {
+      "score_percent": 100,
+      "correct": 20,
+      "total": 20,
+      "false_positives": [],
+      "false_negatives": [],
+      "decision": "ACCEPT — perfekte Abgrenzung zu /code-review (PR) und /security-review (Audit)."
+    }
+  }
+}

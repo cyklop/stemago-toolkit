@@ -1,0 +1,22 @@
+[
+  {"query": "kannst du auto-reflect bitte einschalten? Ich will am Session-Ende automatisch Learnings extrahieren", "should_trigger": true},
+  {"query": "schalte das automatische Lernen aus, das nervt mich gerade beim Refactoring", "should_trigger": true},
+  {"query": "ist Auto-Reflect bei diesem Projekt aktiv oder nicht? Ich sehe nichts beim Session-Ende", "should_trigger": true},
+  {"query": "wie viele Learnings habe ich bisher in dem famflow-Repo gesammelt?", "should_trigger": true},
+  {"query": "zeig mir bitte den Status vom Reflection-System inklusive Statistik", "should_trigger": true},
+  {"query": "auto-reflect an", "should_trigger": true},
+  {"query": "auto-reflect aus", "should_trigger": true},
+  {"query": "deaktiviere die automatische Learnings-Extraktion fürs Wochenende", "should_trigger": true},
+  {"query": "ich will keine Learnings mehr am Ende automatisch sehen", "should_trigger": true},
+  {"query": "wann wurde reflect zuletzt aktiviert in diesem Projekt?", "should_trigger": true},
+  {"query": "extrahier jetzt bitte alle Learnings aus der aktuellen Session", "should_trigger": false},
+  {"query": "speicher das was wir hier gerade besprochen haben als Learning ab", "should_trigger": false},
+  {"query": "reflektiere mal kurz was wir heute gelernt haben und schreib das in die Learnings-Datei", "should_trigger": false},
+  {"query": "was haben wir in dieser Session über Prisma gelernt?", "should_trigger": false},
+  {"query": "lass uns das Refactoring nochmal durchgehen und prüfen ob alles passt", "should_trigger": false},
+  {"query": "kannst du den Code-Review-Hook im Plugin aktivieren?", "should_trigger": false},
+  {"query": "wie funktioniert der session-reflect.sh Hook eigentlich intern?", "should_trigger": false},
+  {"query": "schreib mir die Doku zur reflect-Funktionalität in das README", "should_trigger": false},
+  {"query": "ich sehe '.claude/state/reflect-enabled' im Repo — was ist das?", "should_trigger": false},
+  {"query": "lösch bitte alle Learnings die älter als 60 Tage sind aus der Datei", "should_trigger": false}
+]

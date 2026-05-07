@@ -1,0 +1,22 @@
+[
+  {"query": "ich richte gerade ein neues Next.js-Projekt für einen Kunden ein und brauche die Workflow-Regeln aus CLAUDE.md, kannst du das einrichten?", "should_trigger": true},
+  {"query": "Beads ist hier noch nicht installiert, kannst du das initialisieren? Wir wollen Tasks tracken im /Users/me/projekte/familienapp", "should_trigger": true},
+  {"query": "wie ist der Stand der MCPs in dem Projekt? sind context7 und chrome-devtools überhaupt eingerichtet?", "should_trigger": true},
+  {"query": "richte mir bitte alles ein — CLAUDE.md, Beads und die MCPs für ein neues Repo", "should_trigger": true},
+  {"query": "kannst du Beads neu initialisieren? Die alte Datenbank ist kaputt und ich will frisch starten", "should_trigger": true},
+  {"query": "ich glaube unsere CLAUDE.md fehlt komplett im backend-monorepo, kannst du sie mit den Workflow-Regeln neu erstellen?", "should_trigger": true},
+  {"query": "der context7 MCP scheint zu fehlen, ich kriege ständig 'tool not available' wenn ich docs-lookup nutze", "should_trigger": true},
+  {"query": "frisch geklontes Repo, was muss ich für Setup machen damit Beads und MCPs funktionieren?", "should_trigger": true},
+  {"query": "der bd-Befehl ist nicht installiert, kannst du den auch mit aufsetzen?", "should_trigger": true},
+  {"query": "in meinem famflow-projekt fehlt noch das Beads-tracking, mag das mal jemand initialisieren?", "should_trigger": true},
+  {"query": "ich hab gerade einen Bug in der Auth-Logik gefixt, kannst du nochmal drüberschauen?", "should_trigger": false},
+  {"query": "schreib mir die Migration für die neue users-Tabelle", "should_trigger": false},
+  {"query": "wie funktioniert der OAuth-Flow in unserem Backend?", "should_trigger": false},
+  {"query": "die MCP-Antwort vom github-server ist langsam, woran kann das liegen?", "should_trigger": false},
+  {"query": "kannst du eine neue Beads-Task erstellen für 'Mobile Layout fixen'?", "should_trigger": false},
+  {"query": "ich brauche einen Code Review für die Änderungen die ich gerade gepusht habe", "should_trigger": false},
+  {"query": "gib mir bitte die aktuelle Doku zu Next.js 15 Server Actions", "should_trigger": false},
+  {"query": "die CLAUDE.md ist da aber etwas veraltet, kannst du den Abschnitt zur Test-Strategie aktualisieren?", "should_trigger": false},
+  {"query": "warum scheitert mein Deployment auf Plesk gerade?", "should_trigger": false},
+  {"query": "speicher das als Learning: wir nutzen ab jetzt Zod für API-Validierung", "should_trigger": false}
+]
