@@ -114,7 +114,7 @@ Statistik:
 Gespeichert in: .claude/learnings/project-learnings.md
 Git Commit: [commit hash] (wenn committed)
 
-Tipp: Verwende /reflect-on für automatische Reflection am Session-Ende
+Tipp: Verwende /reflect-config --on für automatische Reflection am Session-Ende
 ```
 
 $ARGUMENTS

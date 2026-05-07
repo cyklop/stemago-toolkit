@@ -1,0 +1,22 @@
+[
+  {"query": "kannst du den Code von dem letzten Commit reviewen? Ich hab die Auth umgebaut", "should_trigger": true},
+  {"query": "Review bitte — die Änderungen an der Prisma-Schema-Migration", "should_trigger": true},
+  {"query": "schau dir die geänderten Dateien an, ist das so OK was ich da gemacht habe?", "should_trigger": true},
+  {"query": "prüf mal den Code ob da Security-Probleme drin sind, ich hab grad das Login refactored", "should_trigger": true},
+  {"query": "gibt es Probleme in dem was ich heute geschrieben habe? CLAUDE.md sagt wir sollen reviewen wenn 3+ Dateien betroffen sind", "should_trigger": true},
+  {"query": "ich hab in /Users/me/famflow gerade 5 Dateien geändert, kannst du das reviewen gegen unsere Konventionen?", "should_trigger": true},
+  {"query": "Review der letzten Änderungen mit Fokus auf Performance und N+1 Queries bitte", "should_trigger": true},
+  {"query": "validiere meine Implementation gegen die Spec docs/superpowers/specs/2026-05-07-stemago-tools-v2-consolidation-design.md", "should_trigger": true},
+  {"query": "kannst du nochmal prüfen ob das so passt was ich gemacht habe? Ist alles committed", "should_trigger": true},
+  {"query": "ich brauch einen Quality-Check bevor ich pushe, kann was übersehen sein", "should_trigger": true},
+  {"query": "review PR #142 in dem repo stemago/famflow bitte", "should_trigger": false},
+  {"query": "kannst du den offenen Pull Request von Lisa zu OAuth durchgehen?", "should_trigger": false},
+  {"query": "mach einen vollständigen Security-Audit der gesamten Codebase", "should_trigger": false},
+  {"query": "der CI Build ist rot, kannst du schauen warum?", "should_trigger": false},
+  {"query": "ich brauche ein Code Review aber für einen GitHub PR, nicht lokal", "should_trigger": false},
+  {"query": "wir haben kein CLAUDE.md im Projekt, kannst du trotzdem die Code-Qualität prüfen?", "should_trigger": false},
+  {"query": "lass uns über die Architektur-Entscheidung von gestern brainstormen", "should_trigger": false},
+  {"query": "schreib bitte Tests für die neue parseInvoice-Funktion", "should_trigger": false},
+  {"query": "kannst du den Diff zwischen branch foo und main zeigen?", "should_trigger": false},
+  {"query": "git status bitte und dann commit was offen ist", "should_trigger": false}
+]

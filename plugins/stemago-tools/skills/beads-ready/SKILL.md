@@ -20,7 +20,7 @@ Falls nicht initialisiert:
 ```markdown
 ## Beads nicht initialisiert
 
-Führe zuerst `/beads-setup` aus, um Beads zu konfigurieren.
+Führe zuerst `/setup --beads` aus, um Beads zu konfigurieren.
 ```
 
 Stoppe hier.

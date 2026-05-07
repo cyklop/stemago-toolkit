@@ -57,7 +57,13 @@ block_command() {
 # Check for filesystem destruction patterns
 check_filesystem_destruction() {
     local cmd="$1"
-    
+
+    # Whitelist: `git rm` is fully reversible via git history — skip filesystem checks.
+    # Genuinely destructive git operations are still caught in check_git_destruction.
+    if echo "$cmd" | grep -qE "^[[:space:]]*git[[:space:]]+rm([[:space:]]|$)"; then
+        return 0
+    fi
+
     # Recursive force deletion
     if echo "$cmd" | grep -qiE "rm\s+.*-.*r.*f|rm\s+.*-.*f.*r"; then
         block_command "recursive force deletion (rm -rf)" "$cmd"

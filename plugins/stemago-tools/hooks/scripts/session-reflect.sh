@@ -43,7 +43,7 @@ cat << 'EOF'
 ║ 💡 Die automatische Analyse der Session-Learnings        ║
 ║    erfordert eine aktive Claude-Session.                 ║
 ║                                                          ║
-║ Deaktivieren: /reflect-off                               ║
+║ Deaktivieren: /reflect-config --off                      ║
 ╚══════════════════════════════════════════════════════════╝
 
 EOF
