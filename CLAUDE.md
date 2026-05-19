@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 2.0.2.
+**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 2.2.0.
 
 ## Testing the Plugin
 
@@ -113,6 +113,32 @@ All implementation agents follow TDD methodology (Red-Green-Refactor).
 - Specs: `docs/specs/<feature-name>.md`
 - Research cache: `docs/research/<topic>.md`
 - Beads data: `.beads/issues.jsonl`
+- Domain Language: `CONTEXT.md` (Projekt-Root)
+- Bug Post-Mortems: `docs/post-mortems/<datum>-<bug>.md`
+
+## Domain Language (CONTEXT.md)
+
+Jedes Projekt das stemago-tools nutzt, sollte eine `CONTEXT.md` im Root haben — ein lebendes Glossar für projektspezifische Begriffe.
+
+**Format:**
+```markdown
+# CONTEXT.md — Domain Language
+
+## Begriffe
+
+### [Begriff]
+[Präzise Definition in 1-2 Sätzen]
+Abgrenzung zu: [verwandte Begriffe]
+
+### [Begriff 2]
+...
+```
+
+**Regeln:**
+- Skills challengen vage Sprache sofort und ergänzen klare Definitionen direkt in `CONTEXT.md`
+- Neue Begriffe werden inline während Interviews/Planung definiert — nicht nachträglich
+- Bei Konflikten zwischen `CONTEXT.md` und Code: Code ist die Wahrheit, `CONTEXT.md` updaten
+- Ein Begriff gilt als definiert sobald er in `CONTEXT.md` steht — danach challengen gilt nicht mehr
 
 ## Landing the Plane (Session Completion)
 

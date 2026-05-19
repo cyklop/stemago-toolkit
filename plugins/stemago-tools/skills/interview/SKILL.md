@@ -10,319 +10,131 @@ Führe ein strukturiertes Interview durch, um ein tiefes Verständnis der Anford
 
 ## Grundprinzipien
 
-- **YAGNI** (You Aren't Gonna Need It): Hinterfrage aktiv jede Anforderung — brauchen wir das wirklich JETZT? Filtere Feature-Creep heraus. Wenn der User "und vielleicht noch X" sagt, frage: "Ist X für den ersten Release nötig, oder kann das später kommen?"
-- Stelle KEINE offensichtlichen Fragen
-- Gehe in die TIEFE — frage nach Edge Cases, Trade-offs, Prioritäten
+- **YAGNI**: Hinterfrage jede Anforderung — brauchen wir das wirklich JETZT? Wenn der User "und vielleicht noch X" sagt: "Ist X für den ersten Release nötig?"
+- Stelle KEINE offensichtlichen Fragen — gehe in die TIEFE (Edge Cases, Trade-offs, Prioritäten)
+- **Challengiere vage Sprache sofort**: "smart", "flexibel", "skalierbar", "einfach" → sofort fragen: "Was meinst du konkret mit X?"
+- **Eine Frage nach der anderen** (im Grill-Modus): tiefere Antworten als bei Listen
 
-## Deine Aufgabe
+---
 
-### Schritt 1: Spec lesen (falls vorhanden)
+## Schritt 1: Spec lesen (falls vorhanden)
 
-Prüfe ob eine Spec-Datei existiert:
-- Pfad: `docs/specs/<feature-name>.md`
-- Oder als Argument übergeben: $ARGUMENTS
+Prüfe `docs/specs/<feature-name>.md` oder `$ARGUMENTS`.
+Falls vorhanden → als Ausgangspunkt nutzen. Falls nicht → Interview von Grund auf starten.
 
-Falls vorhanden, lies sie und verwende sie als Ausgangspunkt für das Interview.
-Falls nicht vorhanden, starte das Interview von Grund auf.
+---
 
-### Schritt 2: Interview führen
+## Schritt 2: Interview führen
 
-Verwende das **AskUserQuestion** Tool um den User zu interviewen.
+Verwende **AskUserQuestion**. Stelle 2-4 Fragen pro Runde.
 
-**Wichtig:**
-- Stelle 2-4 Fragen pro Runde, dann warte auf Antworten
-- Wende das YAGNI-Prinzip aktiv an: Challenge Anforderungen die nach Overengineering klingen
-- Fahre fort bis du ein vollständiges Bild hast
+**Fragegebiete:** Scope & Ziele, Technische Implementierung, UI/UX, Trade-offs, Edge Cases, Integration.
+→ Details und Beispiel-Fragen: lies `REFERENCE.md` in diesem Skill-Verzeichnis.
 
-**Scope-Check:** Falls das Feature mehrere unabhängige Subsysteme umfasst, schlage vor es in separate Specs aufzuteilen. Jede Spec sollte eigenständig testbare Software produzieren.
+#### Terminologie-Challenge (Grill-Modus)
 
-**Themengebiete für Fragen:**
+Vage Begriffe **sofort** stoppen: "Kurz stopp — was meinst du genau mit '[Begriff]'?"
 
-1. **Scope & Ziele**
-   - Was genau soll erreicht werden?
-   - Was ist NICHT Teil des Scopes?
-   - Welche Probleme werden gelöst?
+Trigger: "smart", "flexibel", "skalierbar", "einfach", "robust", "viele User", "schnell", jeder projektspezifische Fachbegriff.
 
-2. **Technische Implementierung** (mit Docs-Recherche)
-   - Welche bestehenden Patterns sollen verwendet werden?
-   - Gibt es Performance-Anforderungen?
-   - Wie soll mit Fehlern umgegangen werden?
-   - **Docs-Check**: Sobald Libraries/Frameworks genannt werden, starte parallel einen Research-Agent (haiku) um aktuelle Best Practices und API-Änderungen zu recherchieren:
-     ```
-     Agent(
-       subagent_type="research-agent",
-       model="haiku",
-       description="Docs für <library>",
-       prompt="Recherchiere aktuelle Dokumentation für <library> via Context7.
-         Fokus: aktuelle API, Breaking Changes, empfohlene Patterns.
-         Kurze Zusammenfassung der relevanten Findings."
-     )
-     ```
-   - Fließe die Recherche-Ergebnisse in die Fragen ein (z.B. "Wisst ihr, dass X seit v15 deprecated ist?")
+Falls `CONTEXT.md` existiert: zuerst lesen, neue klare Definitionen dort ergänzen.
 
-3. **UI/UX Concerns**
-   - Wie soll die Interaktion aussehen?
-   - Mobile vs Desktop Priorität?
-   - Accessibility-Anforderungen?
-   - **Visual Companion**: Wenn UI/UX-Themen besprochen werden, biete an Mockups oder Diagramme zu generieren:
-     ```
-     Skill(skill="generate-image", args="<Beschreibung des UI-Mockups/Diagramms>")
-     ```
-     Nutze dies für: Wireframes, Layout-Varianten, Flowcharts, Architektur-Diagramme.
-     Generiere Visuals proaktiv wenn sie die Diskussion voranbringen.
+#### Design-Stress-Test
 
-4. **Trade-offs & Prioritäten**
-   - Zeit vs Qualität vs Features?
-   - Was kann später kommen?
-   - Was ist "must have" vs "nice to have"?
+Nach jeder Designentscheidung proaktiv herausfordern:
+- "Was passiert wenn [Worst-Case-Szenario]?"
+- "Stell dir vor es ist 6 Monate später und der Ansatz hat nicht funktioniert — was wäre der Grund?"
 
-5. **Edge Cases**
-   - Was passiert bei leeren Daten?
-   - Wie mit Concurrent Access umgehen?
-   - Rollback-Strategien?
+#### Docs-Recherche
 
-6. **Integration**
-   - Welche bestehenden Systeme sind betroffen?
-   - API-Änderungen nötig?
-   - Datenbankmigrationen?
-
-### Schritt 2b: Lösungsansätze vorschlagen
-
-Sobald genug Kontext für eine fundierte Einschätzung gesammelt wurde (typisch nach 2-3 Fragerunden), schlage **2-3 Lösungsansätze** vor:
-
-- Jeder Ansatz mit kurzer Beschreibung (2-3 Sätze)
-- **Trade-offs** pro Ansatz: Was gewinnt man, was verliert man?
-- **Empfehlung**: Welchen Ansatz empfiehlst du und warum?
-- Berücksichtige YAGNI: Der einfachste Ansatz der die Anforderungen erfüllt ist oft der beste
-
-Frage den User via **AskUserQuestion** welchen Ansatz er bevorzugt, oder ob ein Hybrid-Ansatz gewünscht ist.
-
-**Fahre erst mit dem Interview fort, wenn ein Ansatz gewählt wurde.** Der gewählte Ansatz bestimmt die Richtung der verbleibenden Fragen.
-
-### Schritt 3: Interview-Abschluss — Optionen nach jeder Runde
-
-Nach jeder Fragerunde (ab Schritt 2b, also nachdem ein Lösungsansatz gewählt wurde) verwende **AskUserQuestion** mit IMMER diesen Optionen:
-
-1. **Vertiefen** — Vertiefende Fragen stellen (zu aktuellem oder neuem Thema)
-2. **Spec speichern** — Interview abschließen und Erkenntnisse als Spec-Datei sichern
-3. **Spec & Tasks erstellen** — Interview abschließen, Spec schreiben UND Beads-Tasks generieren
-4. **Abbrechen** — Interview beenden ohne Spec (z.B. wenn das Feature keinen Sinn mehr macht)
-
-**Wiederhole diesen Schritt** bis der User Option 2, 3 oder 4 wählt.
-
-Falls "Spec speichern": Weiter mit Schritt 4 → 4b → Abschluss.
-Falls "Spec & Tasks erstellen": Weiter mit Schritt 4 → 4b → 4c → 5.
-Falls "Abbrechen": Bestätige Abbruch, fasse kurz zusammen was besprochen wurde (für den Fall dass der User später zurückkommen will).
-
-### Advisor-Check vor Spec
-
-Falls der Advisor verfügbar ist — `advisor()` aufrufen bevor du die Spec schreibst. Der Advisor sieht das gesamte Interview-Transcript und kann Lücken, Widersprüche oder YAGNI-Verletzungen erkennen die du übersehen hast.
-
-### Schritt 4: Spec schreiben
-
-Schreibe die Erkenntnisse in `docs/specs/<feature-name>.md`:
-
-```markdown
-# Feature Specification: [Name]
-
-## Übersicht
-[Kurze Beschreibung]
-
-## Ziele
-- [Ziel 1]
-- [Ziel 2]
-
-## Gewählter Lösungsansatz
-[Beschreibung des gewählten Ansatzes und Begründung]
-
-### Verworfene Alternativen
-- [Ansatz B]: [Warum verworfen]
-- [Ansatz C]: [Warum verworfen]
-
-## Scope
-### Inkludiert
-- ...
-
-### Exkludiert (YAGNI)
-- ... [mit Begründung warum bewusst ausgeschlossen]
-
-## Technische Anforderungen
-- ...
-
-## Docs-Recherche Ergebnisse
-[Erkenntnisse aus Context7-Recherche: aktuelle APIs, Breaking Changes, Best Practices]
-
-## UI/UX Anforderungen
-- ...
-
-## Edge Cases & Error Handling
-- ...
-
-## Offene Fragen
-- ...
+Sobald Libraries/Frameworks genannt werden, Research-Agent parallel starten:
+```
+Agent(subagent_type="research-agent", model="haiku",
+  prompt="Recherchiere aktuelle Dokumentation für <library> via Context7.
+    Fokus: aktuelle API, Breaking Changes, empfohlene Patterns. Kurze Zusammenfassung.")
 ```
 
-### Schritt 4b: Spec-Review-Loop
+---
 
-Bevor die Spec finalisiert wird, durchlaufe einen Review-Loop (max 3 Iterationen):
+## Schritt 2b: Lösungsansätze vorschlagen
 
-1. **Review-Agent starten**:
-   ```
-   Agent(
-     subagent_type="quality-agent",
-     model="sonnet",
-     description="Spec Review für <feature-name>",
-     prompt="Reviewe die Spec-Datei docs/specs/<feature-name>.md auf:
-       - Vollständigkeit: Fehlen wichtige Aspekte?
-       - Widersprüche: Widersprechen sich Anforderungen?
-       - YAGNI: Gibt es überflüssige Anforderungen?
-       - Umsetzbarkeit: Sind alle Anforderungen technisch machbar?
-       - Klarheit: Sind Anforderungen eindeutig formuliert?
-       Gib konkrete Verbesserungsvorschläge zurück."
-   )
-   ```
+Nach 2-3 Fragerunden: **2-3 Lösungsansätze** vorstellen.
+- Kurze Beschreibung + Trade-offs + Empfehlung
+- YAGNI: der einfachste Ansatz der die Anforderungen erfüllt ist oft der beste
 
-2. **Findings dem User zeigen**: Präsentiere die Review-Ergebnisse und frage ob Anpassungen gewünscht sind.
+Via **AskUserQuestion** Ansatz wählen lassen. **Erst fortfahren wenn ein Ansatz gewählt ist.**
 
-3. **Spec anpassen**: Falls der User Änderungen wünscht, aktualisiere die Spec und wiederhole den Review (max 3 Iterationen).
+---
 
-4. **Approval-Gate**: Der User muss die finale Spec explizit freigeben bevor Tasks erstellt werden:
-   > "Die Spec ist reviewt und bereit. Soll ich sie so finalisieren und mit der Task-Erstellung fortfahren?"
+## Schritt 3: Abschluss-Optionen (nach jeder Runde ab 2b)
 
-**Ohne explizites Approval keine Task-Erstellung.**
+Via **AskUserQuestion** immer diese 4 Optionen anbieten:
 
-### Schritt 4c: Implementierungsplan erstellen
+1. **Vertiefen** — weitere Fragen
+2. **Spec speichern** → Schritt 4 → 4b
+3. **Spec & Tasks erstellen** → Schritt 4 → 4b → 4c → 5
+4. **Abbrechen** — kurze Zusammenfassung, kein Dokument
 
-Nachdem die Spec approved wurde, erstelle einen Implementierungsplan bevor Tasks generiert werden. Der Plan ist eine Struktur-Skizze — konkreter Code und exakte Zeilen folgen erst bei der Task-Ausführung durch die Implementation-Agents.
+---
 
-**Codebase explorieren:**
-Bevor du den Plan schreibst, erkunde die bestehende Codebase um realistische Pfade und Patterns zu verwenden:
-- Glob/Grep um bestehende Dateistruktur und Patterns zu verstehen
-- Relevante Dateien lesen die modifiziert werden müssen
+## Advisor-Check vor Spec
 
-**File Structure Mapping:**
-Mappe welche Dateien erstellt oder modifiziert werden müssen:
-```markdown
-## File Structure
+`advisor()` aufrufen bevor die Spec geschrieben wird. Sieht das gesamte Transcript — findet Lücken, Widersprüche, YAGNI-Verletzungen.
 
-### Neue Dateien
-- `src/path/to/new-file.ts` — [Verantwortung]
-- `tests/path/to/test-file.test.ts` — [Was wird getestet]
+---
 
-### Modifizierte Dateien
-- `src/path/to/existing.ts` — [Was wird geändert]
-```
+## Schritt 4: Spec schreiben
 
-**Task-Dekomposition:**
-Zerlege in unabhängige Tasks mit klarer Abgrenzung:
-- Welche Dateien gehören zusammen (ändern sich gemeinsam)?
-- Was kann parallel bearbeitet werden?
-- Wo gibt es echte Abhängigkeiten?
+Schreibe nach `docs/specs/<feature-name>.md`.
+→ Spec-Template: lies `REFERENCE.md` in diesem Skill-Verzeichnis.
 
-Pro Task definieren:
-- Klares Ziel und Akzeptanzkriterien
-- Betroffene Dateien (erstellen/modifizieren)
-- TDD-Ansatz: Was soll zuerst getestet werden?
-- Test-Befehle die der Agent ausführen soll
+---
 
-**Plan dem User zeigen** via **AskUserQuestion** und auf Feedback warten bevor Tasks erstellt werden.
-
-### Schritt 5: Beads-Tasks generieren
-
-1. **Tasks aus Implementierungsplan ableiten** — jeder Task enthält:
-   - Akzeptanzkriterien aus der Spec
-   - File-Mapping aus dem Plan (welche Dateien betroffen)
-   - Bite-sized Steps aus dem Plan
-   - Exakte Test-Befehle
-
-2. **Tasks erstellen** via `mcp__beads__create` — jeder Task enthält Akzeptanzkriterien, betroffene Dateien, TDD-Ansatz und Test-Befehle aus dem Implementierungsplan:
-   ```javascript
-   mcp__beads__create({
-     title: "Task-Titel",
-     description: "Akzeptanzkriterien, Dateien, TDD-Steps aus dem Plan",
-     issue_type: "task",
-     priority: 2,
-     labels: ["from-interview", "<feature-name>"]
-   });
-   ```
-
-3. **Dependencies verknüpfen** via `mcp__beads__dep` — nur wo echte Abhängigkeiten bestehen:
-   ```javascript
-   mcp__beads__dep({
-     issue_id: "task-b-id",
-     depends_on_id: "task-a-id",
-     dep_type: "blocks"
-   });
-   ```
-
-4. **Zusammenfassung zeigen**:
-   - Spec-Datei Pfad
-   - Anzahl erstellter Tasks
-   - Dependency-Graph (welche parallel, welche sequentiell)
-   - Geschätzte Parallelisierungsgruppen
-
-### Schritt 6: Parallele Task-Bearbeitung starten
-
-Frage den User via **AskUserQuestion**:
-
-1. **Jetzt parallel bearbeiten** — Alle unabhängigen Tasks sofort starten
-2. **Fertig** — Tasks für später aufheben
-
-**Falls "Jetzt parallel bearbeiten":**
-
-Starte den Task-Orchestrator für maximale Parallelisierung:
+## Schritt 4b: Spec-Review-Loop (max 3 Iterationen)
 
 ```
-Agent(
-  subagent_type="task-orchestrator",
-  prompt="Analysiere und bearbeite die Beads Task-Queue für Feature '<feature-name>'.
-    Spec: docs/specs/<feature-name>.md
-    Labels: from-interview, <feature-name>
-
-    STRATEGIE:
-    1. Nutze mcp__beads__ready um alle Tasks ohne Blocker zu identifizieren
-    2. Starte ALLE unabhängigen Tasks PARALLEL über spezialisierte Agents
-    3. Sobald ein Task abgeschlossen ist, prüfe ob neue Tasks freigeschaltet wurden
-    4. Wiederhole bis alle Tasks erledigt sind
-    5. Melde den Abschluss aller Tasks zurück"
-)
+Agent(subagent_type="quality-agent", model="sonnet",
+  prompt="Reviewe docs/specs/<feature-name>.md auf:
+    Vollständigkeit, Widersprüche, YAGNI, Umsetzbarkeit, Klarheit.
+    Konkrete Verbesserungsvorschläge.")
 ```
 
-**Warte auf Abschluss des Orchestrators**, dann weiter mit Schritt 7.
+Findings zeigen → User entscheidet ob Anpassungen. Danach: **explizites Approval einholen** bevor Tasks erstellt werden.
 
-**Falls "Fertig":**
-Bestätige dass Spec und Tasks gespeichert sind. Weise auf `/stemago-tools:beads-ready` hin.
+---
 
-### Schritt 7: Review & Reflect — Abschluss-Workflow
+## Schritt 4c: Implementierungsplan erstellen
 
-Nachdem ALLE Tasks abgeschlossen sind, führe den Abschluss-Workflow durch:
+Codebase erkunden (Glob/Grep), dann:
+- **File Structure Map**: welche Dateien neu / modifiziert
+- **Task-Dekomposition**: unabhängige Tasks mit Akzeptanzkriterien, TDD-Ansatz, Test-Befehlen
 
-**7a: Review anbieten**
+Plan via **AskUserQuestion** zeigen und Feedback abwarten.
 
-Frage den User via **AskUserQuestion**:
+---
 
-> Alle Tasks sind abgeschlossen. Möchtest du ein Code Review durchführen?
+## Schritt 5: Beads-Tasks generieren
 
-1. **Review starten** — `/review` ausführen
-2. **Überspringen** — Direkt zu Reflect
+→ Task-Format und Code-Beispiele: lies `REFERENCE.md` in diesem Skill-Verzeichnis.
 
-Falls "Review starten": Führe den `/review` Skill aus. Warte auf Abschluss.
+Tasks anlegen via `mcp__beads__create`, Dependencies via `mcp__beads__dep`.
 
-**7b: Reflect anbieten**
+Zusammenfassung: Spec-Pfad, Anzahl Tasks, Dependency-Graph, Parallelisierungsgruppen.
 
-Frage den User via **AskUserQuestion**:
+---
 
-> Möchtest du die Session-Learnings extrahieren?
+## Schritt 6: Parallele Bearbeitung starten
 
-1. **Reflect starten** — `/reflect` ausführen
-2. **Fertig** — Session beenden
+Via **AskUserQuestion**:
+1. **Jetzt parallel bearbeiten** → Task-Orchestrator starten
+2. **Fertig** → Tasks für später aufheben, auf `/stemago-tools:beads-ready` hinweisen
 
-Falls "Reflect starten": Führe den `/reflect` Skill aus.
+---
 
-**7c: Abschluss**
+## Schritt 7: Review & Reflect
 
-Zeige eine finale Zusammenfassung:
-- Spec-Datei: `docs/specs/<feature-name>.md`
-- Erstellte/abgeschlossene Tasks
-- Review-Ergebnis (falls durchgeführt)
-- Gespeicherte Learnings (falls reflektiert)
+Nachdem alle Tasks erledigt:
+
+**7a:** `/review` anbieten → ausführen falls gewünscht.
+**7b:** `/reflect` anbieten → ausführen falls gewünscht.
+**7c:** Finale Zusammenfassung: Spec-Pfad, Tasks, Review-Ergebnis, Learnings.
