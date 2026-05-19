@@ -1,0 +1,30 @@
+{
+  "run_id": "eval-3-with_skill",
+  "expectations": [
+    {
+      "text": "has_agent_section",
+      "passed": true,
+      "evidence": "rufe (neu installiert).  ---  ## Agents — Einsatz  | Agent | Aufrufe | Modell | Notizen | |-------|-"
+    },
+    {
+      "text": "has_unused_section",
+      "passed": true,
+      "evidence": "im Zeitraum aufgerufen.  ### Nicht genutzte Skills ⚠️  Folgende **stemago-tools**-Skills waren inst"
+    },
+    {
+      "text": "has_cleanup_recommendations",
+      "passed": true,
+      "evidence": ", aber 0 Aufrufe in 30 Tagen. Kandidat zur Konsolidierung mit `reflect`. - `stemago-tools:db-inspect"
+    },
+    {
+      "text": "has_model_section",
+      "passed": true,
+      "evidence": "ps-Aufgaben. 0 Aufrufe.  ---  ## Modell-Verteilung  | Modell | Aufrufe | Anteil | |--------|--------"
+    },
+    {
+      "text": "has_overview_table",
+      "passed": true,
+      "evidence": "nalysiert  ---  ## Übersicht  | Metrik | Wert | |--------|------| | Sessions | 2 | | Skill-Aufrufe g"
+    }
+  ]
+}

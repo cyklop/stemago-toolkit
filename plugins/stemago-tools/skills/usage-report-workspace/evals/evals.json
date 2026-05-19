@@ -1,0 +1,104 @@
+{
+  "skill_name": "usage-report",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Erstell bitte einen usage report für dieses Projekt",
+      "expected_output": "Vollständiger Markdown-Report mit Übersicht, Skill-Tabelle, Modell-Verteilung und Empfehlungen. Report wird in docs/reports/usage-YYYY-MM.md gespeichert.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "has_overview_table: Report enthält eine Übersichtstabelle mit Session-Count und Metrik-Spalten",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_skill_section: Abschnitt 'Skills — Nutzung' mit mindestens einer Tabellenzeile vorhanden",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_model_section: Modell-Verteilung mit Prozentwerten enthalten",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_recommendations: Mindestens eine konkrete nummerierte Empfehlung vorhanden",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "report_saved: Ausgabe-Datei in docs/reports/ wurde gespeichert",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Ich möchte sehen welche Skills wir in den letzten 3 Monaten genutzt haben — mach mal einen usage report",
+      "expected_output": "Report mit 3-Monats-Zeitraum, erkennbar an der längeren Periode im Header. Skill-Nutzung über längeren Zeitraum.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "uses_3_month_period: Zeitraum im Report zeigt mindestens 80 Tage (3 Monate)",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_overview_table: Übersichtstabelle mit Session-Count vorhanden",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_skill_section: Skills-Abschnitt mit Tabelle vorhanden",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_model_section: Modell-Verteilung enthalten",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_recommendations: Mindestens eine Empfehlung vorhanden",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Kannst du prüfen welche Agents und Modelle im stemago-toolkit eingesetzt werden? Ich überlege was ich bereinigen kann.",
+      "expected_output": "Report mit explizitem Fokus auf Agents und Modell-Verteilung. Empfehlungen enthalten konkrete Bereinigungsvorschläge.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "has_agent_section: Abschnitt 'Agents — Einsatz' vorhanden",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_unused_section: Abschnitt über nicht genutzte Skills oder Agents vorhanden",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_cleanup_recommendations: Empfehlungen enthalten mindestens einen Bereinigungsvorschlag (entfernen/deaktivieren)",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_model_section: Modell-Verteilung enthalten",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "has_overview_table: Übersichtstabelle vorhanden",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    }
+  ]
+}

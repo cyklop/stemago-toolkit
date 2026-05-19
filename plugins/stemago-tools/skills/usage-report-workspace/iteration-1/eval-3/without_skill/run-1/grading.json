@@ -1,0 +1,47 @@
+{
+  "run_id": "eval-3-without_skill",
+  "eval_name": "cleanup-focus",
+  "prompt": "Kannst du prüfen welche Agents und Modelle im stemago-toolkit eingesetzt werden? Ich überlege was ich bereinigen kann.",
+  "expectations": [
+    {
+      "text": "has_agent_section",
+      "passed": true,
+      "evidence": "e Agents referenziert |  ---  ## Agents — Vollständige Liste  | Agent | Modell | Farbe | Von Skills/"
+    },
+    {
+      "text": "has_unused_section",
+      "passed": false,
+      "evidence": ""
+    },
+    {
+      "text": "has_cleanup_recommendations",
+      "passed": true,
+      "evidence": "n.  2. **Parallele QA-Systeme konsolidieren**: `quality-agent`, `completion-gate` und `readiness-gat"
+    },
+    {
+      "text": "has_model_section",
+      "passed": true,
+      "evidence": "direkt referenziert) |  ---  ## Modell-Verteilung (Konfiguration)  | Modell | Agents | Anteil | |--"
+    },
+    {
+      "text": "has_overview_table",
+      "passed": true,
+      "evidence": "12 Skills  ---  ## Übersicht  | Metrik | Wert | |--------|------| | Agents gesamt (konfiguriert) | 1"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  },
+  "execution_metrics": {
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0
+  },
+  "timing": {
+    "executor_duration_seconds": 157.1,
+    "total_tokens": 57012
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "run_id": "eval-3-without_skill",
+  "expectations": [
+    {
+      "text": "has_agent_section",
+      "passed": true,
+      "evidence": "e Agents referenziert |  ---  ## Agents — Vollständige Liste  | Agent | Modell | Farbe | Von Skills/"
+    },
+    {
+      "text": "has_unused_section",
+      "passed": false,
+      "evidence": ""
+    },
+    {
+      "text": "has_cleanup_recommendations",
+      "passed": true,
+      "evidence": "n.  2. **Parallele QA-Systeme konsolidieren**: `quality-agent`, `completion-gate` und `readiness-gat"
+    },
+    {
+      "text": "has_model_section",
+      "passed": true,
+      "evidence": "direkt referenziert) |  ---  ## Modell-Verteilung (Konfiguration)  | Modell | Agents | Anteil | |--"
+    },
+    {
+      "text": "has_overview_table",
+      "passed": true,
+      "evidence": "12 Skills  ---  ## Übersicht  | Metrik | Wert | |--------|------| | Agents gesamt (konfiguriert) | 1"
+    }
+  ]
+}

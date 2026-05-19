@@ -1,0 +1,47 @@
+{
+  "run_id": "eval-1-without_skill",
+  "eval_name": "standard-report",
+  "prompt": "Erstell bitte einen usage report für dieses Projekt",
+  "expectations": [
+    {
+      "text": "has_overview_table",
+      "passed": true,
+      "evidence": "nalysiert  ---  ## Übersicht  | Metrik | Wert | |--------|------| | Sessions gesamt | 13 | | Subagen"
+    },
+    {
+      "text": "has_skill_section",
+      "passed": true,
+      "evidence": "ols Agents | 1 von 14 |  ---  ## Skills — Nutzung  ### Explizit aufgerufene Skills (via Skill-Tool)"
+    },
+    {
+      "text": "has_model_section",
+      "passed": true,
+      "evidence": "okumentationsrecherche.  ---  ## Modell-Verteilung  ### Gesamt (alle Sessions)  | Modell | Aufrufe |"
+    },
+    {
+      "text": "has_recommendations",
+      "passed": true,
+      "evidence": "ln und evaluieren | 6 |  ---  ## Empfehlungen  1. **`db-inspect` entfernen**: 0 Aufrufe über die ges"
+    },
+    {
+      "text": "report_saved",
+      "passed": true,
+      "evidence": "/Users/schne1s/Projekte/stemago-toolkit/docs/reports/usage-2026-05.md"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0
+  },
+  "timing": {
+    "executor_duration_seconds": 316.6,
+    "total_tokens": 66839
+  }
+}

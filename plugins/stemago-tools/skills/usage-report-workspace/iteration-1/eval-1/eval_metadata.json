@@ -1,0 +1,6 @@
+{
+  "eval_id": 1,
+  "eval_name": "standard-report",
+  "prompt": "Erstell bitte einen usage report für dieses Projekt",
+  "assertions": []
+}

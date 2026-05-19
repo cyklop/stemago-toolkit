@@ -1,0 +1,30 @@
+{
+  "run_id": "eval-2-with_skill",
+  "expectations": [
+    {
+      "text": "uses_3_month_period",
+      "passed": true,
+      "evidence": "age Report: stemago-toolkit — Februar–Mai 2026  > Zeitraum: 11.02. – 12.05.2026 · 2 Sessions analysi"
+    },
+    {
+      "text": "has_overview_table",
+      "passed": true,
+      "evidence": "nalysiert  ---  ## Übersicht  | Metrik | Wert | |--------|------| | Sessions | 2 | | Skill-Aufrufe g"
+    },
+    {
+      "text": "has_skill_section",
+      "passed": true,
+      "evidence": "von 14 installierten |  ---  ## Skills — Nutzung  | Skill | Aufrufe | Anteil | Trend | |-------|---"
+    },
+    {
+      "text": "has_model_section",
+      "passed": true,
+      "evidence": "prüfung nicht via Agent  ---  ## Modell-Verteilung  | Modell | Aufrufe | Anteil | |--------|--------"
+    },
+    {
+      "text": "has_recommendations",
+      "passed": true,
+      "evidence": "plementierungsaufgaben.  ---  ## Empfehlungen  1. **Subagenten-Modell auf Sonnet umstellen**: Die 5"
+    }
+  ]
+}

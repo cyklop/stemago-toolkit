@@ -1,0 +1,82 @@
+[
+  {
+    "query": "Erstell bitte einen usage report für dieses Projekt",
+    "should_trigger": false
+  },
+  {
+    "query": "Ich möchte sehen welche Skills wir in den letzten 3 Monaten genutzt haben — mach mal einen usage report",
+    "should_trigger": true
+  },
+  {
+    "query": "Kannst du prüfen welche Agents und Modelle im stemago-toolkit eingesetzt werden? Ich überlege was ich bereinigen kann.",
+    "should_trigger": true
+  },
+  {
+    "query": "welche skills nutze ich eigentlich wirklich? hab das gefühl viele sind installiert aber nie in verwendung",
+    "should_trigger": true
+  },
+  {
+    "query": "zeig mir eine auswertung über die claude-nutzung im letzten monat — welche tools, welche modelle",
+    "should_trigger": true
+  },
+  {
+    "query": "ich will wissen ob meine stemago-tools skills überhaupt benutzt werden oder ob ich die hälfte davon löschen kann",
+    "should_trigger": true
+  },
+  {
+    "query": "monatlicher report bitte — was haben wir an claude-tooling wirklich genutzt",
+    "should_trigger": true
+  },
+  {
+    "query": "gibt es skills oder agents die ich konfiguriert hab aber nie aufgerufen werden? wäre gut das zu wissen",
+    "should_trigger": true
+  },
+  {
+    "query": "mach eine analyse der session-daten: welche modelle werden eingesetzt, welche agents, welche skills — und was davon ist untergenutzt?",
+    "should_trigger": true
+  },
+  {
+    "query": "ich möchte einen überblick bekommen was ich von meinem claude-setup wirklich verwende — für eine bereinigung",
+    "should_trigger": true
+  },
+  {
+    "query": "kannst du den code in diesem projekt reviewen und mir sagen ob es verbesserungen gibt?",
+    "should_trigger": false
+  },
+  {
+    "query": "was haben wir in der letzten session gemacht? kannst du eine zusammenfassung geben",
+    "should_trigger": false
+  },
+  {
+    "query": "erstell mir eine auswertung der test-coverage in diesem typescript projekt",
+    "should_trigger": false
+  },
+  {
+    "query": "welche npm packages nutze ich eigentlich und welche kann ich entfernen? package.json aufräumen",
+    "should_trigger": false
+  },
+  {
+    "query": "zeig mir alle git commits von letztem monat mit author und message",
+    "should_trigger": false
+  },
+  {
+    "query": "ich möchte lernings aus dieser session speichern — was war heute wichtig",
+    "should_trigger": false
+  },
+  {
+    "query": "welche claude features nutzen wir in unserem api-integration code? ich schaue mir gerade caching und tool-use an",
+    "should_trigger": false
+  },
+  {
+    "query": "erstell einen monatsreport für das marketing team mit kpi-übersicht aus unserem analytics dashboard",
+    "should_trigger": false
+  },
+  {
+    "query": "kannst du prüfen welche github actions in diesem repo konfiguriert sind und welche zuletzt gelaufen sind?",
+    "should_trigger": false
+  },
+  {
+    "query": "zeig mir alle beads tasks die in diesem monat geschlossen wurden",
+    "should_trigger": false
+  }
+]

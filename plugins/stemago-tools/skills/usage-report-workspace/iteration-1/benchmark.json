@@ -1,0 +1,323 @@
+{
+  "metadata": {
+    "skill_name": "usage-report",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-05-12T12:05:38Z",
+    "evals_run": [
+      1,
+      2,
+      3
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "has_overview_table",
+          "passed": true,
+          "evidence": "nalysiert  ---  ## \u00dcbersicht  | Metrik | Wert | |--------|------| | Sessions | 2 | | Skill-Aufrufe g"
+        },
+        {
+          "text": "has_skill_section",
+          "passed": true,
+          "evidence": "stemago-tools Agents |  ---  ## Skills \u2014 Nutzung  | Skill | Aufrufe | Anteil | Trend | |-------|---"
+        },
+        {
+          "text": "has_model_section",
+          "passed": true,
+          "evidence": "r Entwicklungs-Session.  ---  ## Modell-Verteilung  | Modell | Aufrufe | Anteil | |--------|--------"
+        },
+        {
+          "text": "has_recommendations",
+          "passed": true,
+          "evidence": "guriert werden k\u00f6nnten.  ---  ## Empfehlungen  1. **`db-inspect` entfernen**: 0 Aufrufe in 30 Tagen,"
+        },
+        {
+          "text": "report_saved",
+          "passed": true,
+          "evidence": "/Users/schne1s/Projekte/stemago-toolkit/docs/reports/usage-2026-05.md"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "uses_3_month_period",
+          "passed": true,
+          "evidence": "age Report: stemago-toolkit \u2014 Februar\u2013Mai 2026  > Zeitraum: 11.02. \u2013 12.05.2026 \u00b7 2 Sessions analysi"
+        },
+        {
+          "text": "has_overview_table",
+          "passed": true,
+          "evidence": "nalysiert  ---  ## \u00dcbersicht  | Metrik | Wert | |--------|------| | Sessions | 2 | | Skill-Aufrufe g"
+        },
+        {
+          "text": "has_skill_section",
+          "passed": true,
+          "evidence": "von 14 installierten |  ---  ## Skills \u2014 Nutzung  | Skill | Aufrufe | Anteil | Trend | |-------|---"
+        },
+        {
+          "text": "has_model_section",
+          "passed": true,
+          "evidence": "pr\u00fcfung nicht via Agent  ---  ## Modell-Verteilung  | Modell | Aufrufe | Anteil | |--------|--------"
+        },
+        {
+          "text": "has_recommendations",
+          "passed": true,
+          "evidence": "plementierungsaufgaben.  ---  ## Empfehlungen  1. **Subagenten-Modell auf Sonnet umstellen**: Die 5"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "has_agent_section",
+          "passed": true,
+          "evidence": "rufe (neu installiert).  ---  ## Agents \u2014 Einsatz  | Agent | Aufrufe | Modell | Notizen | |-------|-"
+        },
+        {
+          "text": "has_unused_section",
+          "passed": true,
+          "evidence": "im Zeitraum aufgerufen.  ### Nicht genutzte Skills \u26a0\ufe0f  Folgende **stemago-tools**-Skills waren inst"
+        },
+        {
+          "text": "has_cleanup_recommendations",
+          "passed": true,
+          "evidence": ", aber 0 Aufrufe in 30 Tagen. Kandidat zur Konsolidierung mit `reflect`. - `stemago-tools:db-inspect"
+        },
+        {
+          "text": "has_model_section",
+          "passed": true,
+          "evidence": "ps-Aufgaben. 0 Aufrufe.  ---  ## Modell-Verteilung  | Modell | Aufrufe | Anteil | |--------|--------"
+        },
+        {
+          "text": "has_overview_table",
+          "passed": true,
+          "evidence": "nalysiert  ---  ## \u00dcbersicht  | Metrik | Wert | |--------|------| | Sessions | 2 | | Skill-Aufrufe g"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "has_overview_table",
+          "passed": true,
+          "evidence": "nalysiert  ---  ## \u00dcbersicht  | Metrik | Wert | |--------|------| | Sessions gesamt | 13 | | Subagen"
+        },
+        {
+          "text": "has_skill_section",
+          "passed": true,
+          "evidence": "ols Agents | 1 von 14 |  ---  ## Skills \u2014 Nutzung  ### Explizit aufgerufene Skills (via Skill-Tool)"
+        },
+        {
+          "text": "has_model_section",
+          "passed": true,
+          "evidence": "okumentationsrecherche.  ---  ## Modell-Verteilung  ### Gesamt (alle Sessions)  | Modell | Aufrufe |"
+        },
+        {
+          "text": "has_recommendations",
+          "passed": true,
+          "evidence": "ln und evaluieren | 6 |  ---  ## Empfehlungen  1. **`db-inspect` entfernen**: 0 Aufrufe \u00fcber die ges"
+        },
+        {
+          "text": "report_saved",
+          "passed": true,
+          "evidence": "/Users/schne1s/Projekte/stemago-toolkit/docs/reports/usage-2026-05.md"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.4,
+        "passed": 2,
+        "failed": 3,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "uses_3_month_period",
+          "passed": true,
+          "evidence": "-02-12 bis 2026-05-12 (letzte 3 Monate)   **Erstellt:** 2026-05-12   **Datenquelle:** `~/.claude/his"
+        },
+        {
+          "text": "has_overview_table",
+          "passed": true,
+          "evidence": "---  ## 1. Gesamtaktivit\u00e4t  | Metrik | Wert | |---|---| | Zeitraum | 2026-02-12 \u2013 2026-05-12 | | G"
+        },
+        {
+          "text": "has_skill_section",
+          "passed": false,
+          "evidence": ""
+        },
+        {
+          "text": "has_model_section",
+          "passed": false,
+          "evidence": ""
+        },
+        {
+          "text": "has_recommendations",
+          "passed": false,
+          "evidence": ""
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "has_agent_section",
+          "passed": true,
+          "evidence": "e Agents referenziert |  ---  ## Agents \u2014 Vollst\u00e4ndige Liste  | Agent | Modell | Farbe | Von Skills/"
+        },
+        {
+          "text": "has_unused_section",
+          "passed": false,
+          "evidence": ""
+        },
+        {
+          "text": "has_cleanup_recommendations",
+          "passed": true,
+          "evidence": "n.  2. **Parallele QA-Systeme konsolidieren**: `quality-agent`, `completion-gate` und `readiness-gat"
+        },
+        {
+          "text": "has_model_section",
+          "passed": true,
+          "evidence": "direkt referenziert) |  ---  ## Modell-Verteilung (Konfiguration)  | Modell | Agents | Anteil | |--"
+        },
+        {
+          "text": "has_overview_table",
+          "passed": true,
+          "evidence": "12 Skills  ---  ## \u00dcbersicht  | Metrik | Wert | |--------|------| | Agents gesamt (konfiguriert) | 1"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.7333,
+        "stddev": 0.3055,
+        "min": 0.4,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.27",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": []
+}

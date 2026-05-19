@@ -1,0 +1,30 @@
+{
+  "run_id": "eval-2-without_skill",
+  "expectations": [
+    {
+      "text": "uses_3_month_period",
+      "passed": true,
+      "evidence": "-02-12 bis 2026-05-12 (letzte 3 Monate)   **Erstellt:** 2026-05-12   **Datenquelle:** `~/.claude/his"
+    },
+    {
+      "text": "has_overview_table",
+      "passed": true,
+      "evidence": "---  ## 1. Gesamtaktivität  | Metrik | Wert | |---|---| | Zeitraum | 2026-02-12 – 2026-05-12 | | G"
+    },
+    {
+      "text": "has_skill_section",
+      "passed": false,
+      "evidence": ""
+    },
+    {
+      "text": "has_model_section",
+      "passed": false,
+      "evidence": ""
+    },
+    {
+      "text": "has_recommendations",
+      "passed": false,
+      "evidence": ""
+    }
+  ]
+}

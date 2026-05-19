@@ -1,0 +1,6 @@
+{
+  "eval_id": 3,
+  "eval_name": "cleanup-focus",
+  "prompt": "Kannst du prüfen welche Agents und Modelle im stemago-toolkit eingesetzt werden? Ich überlege was ich bereinigen kann.",
+  "assertions": []
+}
