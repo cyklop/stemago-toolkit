@@ -58,6 +58,8 @@ Schlage noch keine konkreten Interfaces vor — erst nach dem Grilling-Loop.
 
 ## Phase 3: Grilling-Loop
 
+**Checkpoint-Disziplin:** Architektur-Grillings sind lang und füllen den Kontext. Bei mehr als einem Kandidaten lege eine Capture-Datei unter `brainstorms/{YYYY-MM-DD}-arch-{bereich}.md` an und halte jede getroffene Designentscheidung sofort fest — die Datei ist die Wahrheit, nicht dein Kontext. So überlebt die Diskussion einen Kontext-Verlust, bevor Beads-Task und ADR geschrieben sind. → Mechanik: siehe `/grill-me`.
+
 Für jeden vom User gewählten Kandidaten:
 
 **Eine Frage nach der anderen** via **AskUserQuestion** — Designentscheidungen gemeinsam treffen:

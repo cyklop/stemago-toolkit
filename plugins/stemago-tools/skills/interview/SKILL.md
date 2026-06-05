@@ -1,6 +1,6 @@
 ---
 name: interview
-description: "Strukturiertes Interview über Features und Anforderungen führen, dann Spec und Implementierungsplan erstellen. Verwende diesen Skill IMMER wenn der User: ein neues Feature planen oder besprechen will, Anforderungen klären möchte, eine Spec oder einen Plan braucht, 'was brauchen wir für X' fragt, eine grobe Feature-Idee hat die durchdacht werden soll, oder eine existierende Spec als Basis für Tasks nutzen will. Auch bei: 'lass uns das durchsprechen', 'können wir die Anforderungen klären', 'ich hab eine Idee für...', 'Interview starten', 'Feature planen', 'Spec erstellen'. NICHT verwenden für: Bug-Fixes, Code Reviews, direkte Implementierungsaufträge, oder Fragen zu bestehenden APIs/Libraries."
+description: "Strukturiertes Interview über Features und Anforderungen führen, das in einen formalen Deliverable mündet — Spec, Implementierungsplan und Beads-Tasks. Verwende diesen Skill wenn der User: ein neues Feature planen will und am Ende eine Spec/Tasks braucht, Anforderungen für eine konkrete Umsetzung klären möchte, 'was brauchen wir für X' fragt, oder eine existierende Spec als Basis für Tasks nutzen will. Auch bei: 'Feature planen', 'Spec erstellen', 'Anforderungen für die Umsetzung klären'. NICHT verwenden für: Bug-Fixes, Code Reviews, direkte Implementierungsaufträge, oder Fragen zu bestehenden APIs/Libraries. Wenn nur Wissen aus dem Kopf extrahiert, ein Plan gestresstestet oder offen gebrainstormt werden soll OHNE formalen Spec-Output — dafür /grill-me."
 argument-hint: "[feature-name]"
 ---
 
@@ -21,6 +21,16 @@ Führe ein strukturiertes Interview durch, um ein tiefes Verständnis der Anford
 
 Prüfe `docs/specs/<feature-name>.md` oder `$ARGUMENTS`.
 Falls vorhanden → als Ausgangspunkt nutzen. Falls nicht → Interview von Grund auf starten.
+
+---
+
+## Schritt 1b: Capture-Datei anlegen (Checkpoint-Disziplin)
+
+Lange Interviews füllen den Kontext. Damit nichts verloren geht, bevor die Spec geschrieben wird, lege **vor der ersten Frage** eine Capture-Datei unter `brainstorms/{YYYY-MM-DD}-{feature-slug}.md` an (Ordner anlegen falls er fehlt — Datum via `date +%F`).
+
+**Checkpoint nach jeder Interview-Runde, bevor die nächste kommt:** Antworten, Entscheidungen (in den Worten des Users wo es zählt) und offene Flags (Punkt → Owner) dort festhalten. Die Datei — nicht dein Kontext — ist die Quelle der Wahrheit. Wird der Kontext mittendrin verloren, hält die Datei bereits alles bisher Gesagte. Beim Schreiben der Spec (Schritt 4) verdichtest du dieses Capture zum finalen Dokument; die rohe Erfassung bleibt in `brainstorms/`.
+
+→ Detail-Mechanik und Dateistruktur: siehe `/grill-me`.
 
 ---
 

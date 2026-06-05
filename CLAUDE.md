@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 2.2.0.
+**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 2.3.0.
 
 ## Testing the Plugin
 
@@ -115,6 +115,7 @@ All implementation agents follow TDD methodology (Red-Green-Refactor).
 - Beads data: `.beads/issues.jsonl`
 - Domain Language: `CONTEXT.md` (Projekt-Root)
 - Bug Post-Mortems: `docs/post-mortems/<datum>-<bug>.md`
+- Brainstorm-Captures: `brainstorms/<datum>-<topic-slug>.md` (Projekt-Root, bewusst NICHT unter `docs/` — ein vorhersehbarer Sammelort für rohe Interview-Erfassungen aus `/grill-me` und `/interview`. Polierte Ergebnisse wandern danach in `docs/` oder `projects/`.)
 
 ## Domain Language (CONTEXT.md)
 
