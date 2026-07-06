@@ -82,6 +82,8 @@ Bevor die Spec geschrieben wird, wird der **gewählte** Lösungsansatz von einem
 
 Starte **fünf Persona-Agents parallel in einem Message-Block** (`subagent_type: general-purpose`, Researcher via `research-agent`). Paste in jeden denselben Kurz-Kontext: die Anforderung, den gewählten Ansatz, die relevanten Constraints. Jede Persona greift den Ansatz aus ihrem Winkel an und liefert knapp zurück.
 
+**Kein Ersatz durch Inline-Selbstcheck.** Der Council sind fünf *echte* parallele Agents — nicht du, der die Perspektiven „im Kopf" oder in einer kurzen Inline-Notiz selbst durchgeht. Diese Rationalisierungen zählen NICHT: „der Ansatz ist Standard", „ich hab die Punkte eh schon bedacht", „ein komprimierter Selbstcheck ist gleichwertig und billiger", „für fünf Agents ist keine Zeit", „der User will's schnell". Fünf Agents laufen — sonst ist der Schritt nicht erfüllt. (Sie laufen parallel: Wall-Clock ist eine Runde, nicht fünf; der reale Preis sind Tokens, nicht Zeit.) Komprimieren darfst du die *Persona-Prompts*, nicht die *Anzahl der Agents*.
+
 → Die fünf Persona-Prompts und die Synthese-Anleitung: lies den Abschnitt **„Council-Personas (Schritt 2c)"** in `REFERENCE.md`.
 
 Wenn alle zurück sind, **synthetisierst DU**: die 3-5 schärfsten Punkte, welche **Anpassungen am gewählten Ansatz** nötig sind (oder ob er hält), und was in die Spec einfließt — verschärfte *Edge Cases*, *Offene Fragen* und die Begründung unter *Verworfene Alternativen*. Der Council füttert die Spec; er ersetzt die Ansatzwahl aus 2b nicht.
