@@ -69,14 +69,24 @@ Analysiere dann die aktuelle Session nach:
    - Abgeschlossene Refactorings
 
 2. **Was ist der aktuelle Stand?**
-   - Welche Dateien wurden geändert?
+   - Welche Dateien wurden geändert? (die weißt du aus dieser Session — nicht neu ergrep­pen)
    - Gibt es uncommitted Changes?
    - Welche Tests laufen/fehlschlagen?
 
-3. **Was sind die nächsten Schritte?**
+3. **Was läuft noch? (Running State)**
+   - Background-Prozesse, die du mit `run_in_background` gestartet hast: **Shell-IDs + was es ist + Kill-Befehl**. Diese IDs sind load-bearing — die nächste Session findet sie sonst nicht.
+   - Dev-Server / offene Ports (URL + Port).
+   - Offene Worktrees / Branches.
+
+4. **Wie verifiziert man, dass es noch läuft?**
+   - Konkrete Befehle + erwartetes Ergebnis (z.B. `npm test` → grün, `curl localhost:3000/health` → 200).
+
+5. **Was sind die nächsten Schritte?**
    - Welcher Task ist als nächstes dran?
-   - Gibt es bekannte Blocker?
+   - Gibt es bekannte Blocker oder offene Fragen (an dich oder an den User)?
    - Welcher Kontext ist wichtig?
+
+**Adressat des Handoffs = die nächste Instanz von DIR, kein Stakeholder.** Synthetisiere, was in dieser Session passiert ist — kein `git log`, keine breiten `Glob`-Sweeps.
 
 ### Schritt 4: Git-Status prüfen
 
@@ -88,33 +98,43 @@ git branch --show-current
 
 ### Schritt 5: Handoff-Prompt generieren
 
-Erstelle einen strukturierten Prompt für die nächste Session:
+Erstelle einen strukturierten Handoff. **Struktur-Stabilität ist Pflicht:** Hat eine Sektion nichts zu melden, schreibe „keine" — lass sie nie weg. Absolute Pfade verwenden (die nächste Session kann ein anderes Working Directory haben).
 
 ```markdown
-## Session-Handoff
+## Session-Handoff — [Ein-Zeilen-Titel worum es ging]
 
 ### Erledigte Tasks
 - [x] bd-xxxx - [Task-Titel]
 - [x] bd-yyyy - [Task-Titel]
 
+### Entscheidungen & was geliefert wurde
+- [Entscheidung/Änderung] — [warum, und wo es liegt (absoluter Pfad bei Dateien)]
+
 ### Nächster Task
 **bd-zzzz - [Task-Titel]** (Priorität X)
 
-### Kontext für nächste Session
-[Wichtige Informationen die der Agent wissen muss]
+### Wichtigste Dateien für die nächste Session
+- `[absoluter Pfad]` — [warum zuerst lesen]
+- Plan-/Spec-Datei: `[Pfad]` (falls eine Spec/ein Plan die Session getrieben hat — hier zuerst nennen)
 
-- Aktueller Branch: `feature/xxx`
-- Letzte Änderung: [Datei/Komponente]
-- Wichtig: [Kritische Info]
+### Running State
+- Background-Prozesse: [Shell-IDs + was es ist + Kill-Befehl] — oder „keine"
+- Dev-Server / Ports: [URL + Port] — oder „keine"
+- Offene Worktrees / Branches: [Pfade / aktueller Branch] — oder „keine"
 
-### Offene Fragen / Blocker
-- [ ] [Falls vorhanden]
+### Verifikation — so bestätigt man, dass alles noch läuft
+- `[Befehl]` — [erwartetes Ergebnis]
+
+### Offene Fragen / Blocker / Deferred
+- Deferred: [Punkt] — [warum verschoben]
+- Offen: [Frage die User-Input braucht] — [Kontext]
+- oder „keine"
 
 ### Prompt für nächste Session
 ```
 Fortsetzen bei: bd-zzzz [Task-Titel]
 Kontext: [1-2 Sätze was bereits gemacht wurde]
-Nächster Schritt: [Konkrete Aktion]
+Nächster Schritt: [die eine wahrscheinlichste Aktion]
 Branch: [aktueller Branch]
 ```
 ```

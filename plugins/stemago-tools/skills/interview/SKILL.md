@@ -76,6 +76,20 @@ Via **AskUserQuestion** Ansatz wählen lassen. **Erst fortfahren wenn ein Ansatz
 
 ---
 
+## Schritt 2c: Council-Stress-Test (PFLICHT)
+
+Bevor die Spec geschrieben wird, wird der **gewählte** Lösungsansatz von einem adversarialen Council zerlegt. Das ist die formale, mehrperspektivische Version des Design-Stress-Tests — **kein optionaler Schritt.** Führe ihn in **jedem** Interview aus, auch bei kleinen Features.
+
+Starte **fünf Persona-Agents parallel in einem Message-Block** (`subagent_type: general-purpose`, Researcher via `research-agent`). Paste in jeden denselben Kurz-Kontext: die Anforderung, den gewählten Ansatz, die relevanten Constraints. Jede Persona greift den Ansatz aus ihrem Winkel an und liefert knapp zurück.
+
+→ Die fünf Persona-Prompts und die Synthese-Anleitung: lies den Abschnitt **„Council-Personas (Schritt 2c)"** in `REFERENCE.md`.
+
+Wenn alle zurück sind, **synthetisierst DU**: die 3-5 schärfsten Punkte, welche **Anpassungen am gewählten Ansatz** nötig sind (oder ob er hält), und was in die Spec einfließt — verschärfte *Edge Cases*, *Offene Fragen* und die Begründung unter *Verworfene Alternativen*. Der Council füttert die Spec; er ersetzt die Ansatzwahl aus 2b nicht.
+
+Kurze Zusammenfassung zeigen, dann weiter zu Schritt 3.
+
+---
+
 ## Schritt 3: Abschluss-Optionen (nach jeder Runde ab 2b)
 
 Via **AskUserQuestion** immer diese 4 Optionen anbieten:

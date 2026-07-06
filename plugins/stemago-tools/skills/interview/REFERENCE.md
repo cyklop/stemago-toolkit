@@ -46,6 +46,31 @@ Detail-Dokumentation für den `/interview` Skill. Lies diese Datei wenn du:
 
 ---
 
+## Council-Personas (Schritt 2c)
+
+Fünf adaptierte Personas stressen den **gewählten technischen Ansatz** (nicht eine Geschäftsidee — dafür `/roast`). Alle parallel in einem Message-Block. In jeden Prompt denselben Kurz-Kontext pasten: `[kontext]` = Anforderung + gewählter Ansatz + relevante Constraints.
+
+Jede Persona liefert knapp: eine Ein-Zeilen-Haltung, ihre 3-5 schärfsten Punkte, das eine wichtigste Ding, und einen Score 1-10 (1 = so nicht bauen, 10 = solide) auf ihrer Dimension.
+
+**1. Der Contrarian (Red Team)** — `general-purpose`
+> Nimm an, dieser Ansatz scheitert in der Umsetzung. Finde die fatalen Flaws, den schnellsten Weg wie er in der Praxis bricht, und die fragilen Annahmen. Schonungslos und konkret, kein Hedging. Stell dir vor, es ist 6 Monate später und der Ansatz hat nicht funktioniert — was war der Grund? KONTEXT: [kontext]
+
+**2. Der Expansionist** — `general-purpose`
+> Was übersieht der Ansatz? Zeig die robustere/skalierbarere Version und die angrenzenden Anforderungen, die jetzt billig mitzunehmen wären. ABER YAGNI-gecheckt: markiere klar, was echter Mehrwert für JETZT ist vs. was bewusst später kommt. KONTEXT: [kontext]
+
+**3. Der Logician (Erste Prinzipien)** — `general-purpose`, KEINE externe Recherche
+> Denk rein aus ersten Prinzipien: Hält die Architektur? Stimmen Datenfluss, Zuständigkeiten und Invarianten? Gibt es Zustände, die der Ansatz nicht sauber abbildet? Ergeben die Zusicherungen zusammen Sinn oder widersprechen sie sich? Zerleg es auf die Fundamente. KONTEXT: [kontext]
+
+**4. Der Researcher (Evidenz)** — `research-agent`, model `haiku`
+> Via Context7/Web: Gibt es etablierte Patterns, Libraries oder Framework-Features, die genau das lösen — statt es selbst zu bauen? Löst jemand das nachweislich anders (besser)? Nutzt der Ansatz deprecated APIs oder veraltete Patterns? Zitiere Fundstellen. KONTEXT: [kontext]
+
+**5. Der User/Stakeholder** — `general-purpose`
+> Spiel den echten Nutzer bzw. den betroffenen Entwickler/das betroffene Team. Reagier in der Ich-Form. Passt der Ansatz zu eurem echten Workflow? Was nervt in der Praxis? Wo würdet ihr ihn umgehen oder einen Workaround bauen? Was fehlt, damit ihr ihn wirklich nutzt? KONTEXT: [kontext]
+
+**Synthese (DU):** Nicht die Scores mitteln. Benenne die Spannung (z.B. Expansionist vs. YAGNI, Researcher findet fertige Lösung vs. gewählter Eigenbau). Entscheide: hält der Ansatz, braucht er eine konkrete Anpassung, oder muss zurück zu 2b? Trag die Konsequenzen in die Spec: verschärfte *Edge Cases*, *Offene Fragen*, Begründung unter *Verworfene Alternativen*.
+
+---
+
 ## Spec-Template (Schritt 4)
 
 ```markdown
