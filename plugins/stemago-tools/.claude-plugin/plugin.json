@@ -1,7 +1,7 @@
 {
   "name": "stemago-tools",
   "description": "Development toolkit with MCP wrappers, agents, and safety hooks",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "author": {
     "name": "Schneider"
   },

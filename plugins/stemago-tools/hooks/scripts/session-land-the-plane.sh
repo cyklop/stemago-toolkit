@@ -1,8 +1,11 @@
 #!/bin/bash
-# Session Land-the-Plane Hook
-# Erinnert an Beads Handoff am Session-Ende wenn Beads initialisiert ist
+# Session Beads Reminder Hook
+# Weist am Session-START auf aktive Beads-Tasks hin und erinnert an den
+# Land-the-Plane-Handoff am Ende.
 #
-# Wird durch SessionEnd Hook aufgerufen
+# Wird durch SessionStart Hook aufgerufen (matcher: startup, resume, clear).
+# stdout eines SessionStart-Hooks wird als zusätzlicher Kontext injiziert,
+# daher knapper Klartext statt ASCII-Box.
 
 # Prüfe ob Beads initialisiert ist (suche .beads/ im aktuellen oder Parent-Verzeichnis)
 find_beads_dir() {
@@ -29,25 +32,23 @@ if ! command -v bd &> /dev/null; then
     exit 0
 fi
 
-# Hole Ready-Tasks Anzahl (falls bd funktioniert)
-READY_COUNT=$(bd ready --format=count 2>/dev/null || echo "?")
+# Ready-Tasks robust zählen. bd 1.x kennt kein --format=count; wir zählen die
+# JSON-Ausgabe. Schlägt bd fehl (z.B. DB nicht geladen), bleibt COUNT_LINE leer.
+COUNT_LINE=""
+READY_JSON=$(bd ready --json 2>/dev/null)
+if [ -n "$READY_JSON" ]; then
+    READY_COUNT=$(printf '%s' "$READY_JSON" | python3 -c 'import sys,json
+try:
+    d=json.load(sys.stdin)
+    print(len(d) if isinstance(d,list) else len(d.get("issues",[])))
+except Exception:
+    pass' 2>/dev/null)
+    if [ -n "$READY_COUNT" ]; then
+        COUNT_LINE=" ($READY_COUNT Ready-Task(s))"
+    fi
+fi
 
-# Ausgabe für den User
-cat << EOF
-
-╔══════════════════════════════════════════════════════════╗
-║           ✈️  LAND THE PLANE REMINDER                    ║
-╠══════════════════════════════════════════════════════════╣
-║ Beads ist aktiv in diesem Projekt.                       ║
-║                                                          ║
-║ Ready Tasks: $READY_COUNT                                         ║
-║                                                          ║
-║ Für sauberen Session-Handoff:                            ║
-║ → /land-the-plane                                        ║
-║                                                          ║
-║ Der generierte Prompt hilft beim nächsten Session-Start. ║
-╚══════════════════════════════════════════════════════════╝
-
-EOF
+# Kontext-Hinweis für das Modell/den User
+echo "[stemago-tools] Beads ist in diesem Projekt aktiv${COUNT_LINE}. Ready-Queue: /stemago-tools:beads-ready. Am Session-Ende für sauberen Handoff: /stemago-tools:land-the-plane."
 
 exit 0

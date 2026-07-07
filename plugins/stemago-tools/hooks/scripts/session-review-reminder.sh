@@ -1,8 +1,9 @@
 #!/bin/bash
 # Session Review Reminder Hook
-# Erinnert am Session-Ende an ungeprüfte Änderungen
+# Weist am Session-START auf uncommitted Änderungen im Workspace hin.
 #
-# Wird durch SessionEnd Hook aufgerufen
+# Wird durch SessionStart Hook aufgerufen (matcher: startup, resume, clear).
+# stdout wird als zusätzlicher Kontext injiziert -> knapper Klartext.
 
 # Prüfe ob wir in einem Git-Repo sind
 if ! git rev-parse --is-inside-work-tree &>/dev/null; then
@@ -18,22 +19,8 @@ if [ -z "$CHANGES" ]; then
 fi
 
 # Zähle geänderte Dateien
-FILE_COUNT=$(echo "$CHANGES" | wc -l | tr -d ' ')
+FILE_COUNT=$(printf '%s\n' "$CHANGES" | wc -l | tr -d ' ')
 
-cat << EOF
-
-╔══════════════════════════════════════════════════════════╗
-║          Code Review Reminder                            ║
-╠══════════════════════════════════════════════════════════╣
-║ Es gibt $FILE_COUNT ungeprüfte Datei(en) im Workspace.
-║                                                          ║
-║ Beim nächsten Start:                                     ║
-║ → /stemago-tools:review                                  ║
-║                                                          ║
-║ Für automatische Reviews in Projekten:                   ║
-║ → /stemago-tools:setup --project                         ║
-╚══════════════════════════════════════════════════════════╝
-
-EOF
+echo "[stemago-tools] $FILE_COUNT Datei(en) mit uncommitted changes im Workspace. Vor dem Commit ggf. reviewen: /stemago-tools:review."
 
 exit 0

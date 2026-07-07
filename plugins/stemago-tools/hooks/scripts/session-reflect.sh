@@ -1,14 +1,15 @@
 #!/bin/bash
-# Session Reflect Hook
-# Triggert automatische Reflection am Session-Ende wenn aktiviert
+# Session Reflect Reminder Hook
+# Erinnert am Session-START daran, am Ende /reflect auszuführen — sofern
+# Auto-Reflect aktiviert ist.
 #
-# Wird durch SessionStop Hook aufgerufen (wenn konfiguriert)
+# Wird durch SessionStart Hook aufgerufen (matcher: startup, resume, clear).
+# stdout wird als zusätzlicher Kontext injiziert -> knapper Klartext.
+#
+# Das Flag wird projektrelativ geprüft (.claude/state/reflect-enabled),
+# konsistent mit dem /reflect-config Skill, der es dort anlegt.
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
-STATE_DIR="$PROJECT_DIR/.claude/state"
-REFLECT_FLAG="$STATE_DIR/reflect-enabled"
-LAST_REFLECT="$STATE_DIR/last-reflect.json"
+REFLECT_FLAG=".claude/state/reflect-enabled"
 
 # Prüfe ob Auto-Reflect aktiviert ist
 if [ ! -f "$REFLECT_FLAG" ]; then
@@ -16,45 +17,6 @@ if [ ! -f "$REFLECT_FLAG" ]; then
     exit 0
 fi
 
-# Logge dass Auto-Reflect getriggert wurde
-echo "🧠 Auto-Reflect: Session-Ende erkannt..."
-
-# Erstelle Last-Reflect Timestamp
-mkdir -p "$STATE_DIR"
-cat > "$LAST_REFLECT" << EOF
-{
-  "timestamp": "$(date -Iseconds)",
-  "triggered_by": "session-end-hook",
-  "status": "pending"
-}
-EOF
-
-# Ausgabe für den User
-cat << 'EOF'
-
-╔══════════════════════════════════════════════════════════╗
-║          🧠 AUTO-REFLECT GETRIGGERT                       ║
-╠══════════════════════════════════════════════════════════╣
-║ Auto-Reflection ist aktiviert.                           ║
-║                                                          ║
-║ Für manuelle Reflection in der nächsten Session:         ║
-║ → Rufe /reflect auf um Learnings zu extrahieren          ║
-║                                                          ║
-║ 💡 Die automatische Analyse der Session-Learnings        ║
-║    erfordert eine aktive Claude-Session.                 ║
-║                                                          ║
-║ Deaktivieren: /reflect-config --off                      ║
-╚══════════════════════════════════════════════════════════╝
-
-EOF
-
-# Update Status
-cat > "$LAST_REFLECT" << EOF
-{
-  "timestamp": "$(date -Iseconds)",
-  "triggered_by": "session-end-hook",
-  "status": "reminder-shown"
-}
-EOF
+echo "[stemago-tools] Auto-Reflect ist aktiviert. Denk am Session-Ende daran, Learnings zu sichern: /stemago-tools:reflect."
 
 exit 0

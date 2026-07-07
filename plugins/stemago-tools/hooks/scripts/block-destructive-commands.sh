@@ -64,14 +64,14 @@ check_filesystem_destruction() {
         return 0
     fi
 
-    # Recursive force deletion
-    if echo "$cmd" | grep -qiE "rm\s+.*-.*r.*f|rm\s+.*-.*f.*r"; then
-        block_command "recursive force deletion (rm -rf)" "$cmd"
-    fi
-    
-    # Recursive deletion without confirmation
-    if echo "$cmd" | grep -qiE "rm\s+.*-r\s+"; then
-        block_command "recursive deletion without confirmation" "$cmd"
+    # Recursive deletion (rm -r / -R / -rf / -fr / --recursive, any flag order).
+    # The recursive flag must be a real option token: 'rm' anchored to a command
+    # boundary, the flag preceded by whitespace and starting with a dash, and we
+    # never scan past a command separator (; & |). This avoids false positives on
+    # filenames like 'reflect-enabled' or chained commands that merely happen to
+    # contain the letters r and f (the previous '.*' regex blocked those).
+    if echo "$cmd" | grep -qiE '(^|[;&|(]|[[:space:]])rm([[:space:]][^;&|]*)?[[:space:]](-[A-Za-z]*[rR]|--recursive)'; then
+        block_command "recursive deletion (rm -r/-rf)" "$cmd"
     fi
     
     # Format commands
