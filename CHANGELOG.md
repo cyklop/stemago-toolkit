@@ -3,6 +3,34 @@
 Alle nennenswerten Änderungen am stemago-toolkit Plugin.
 Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
+## 3.0.0 — 2026-09-03
+
+Prompt-Audit (`/claude-api prompt-audit`) komplett umgesetzt. Report und Patch: `docs/reports/prompt-audit-2026-09-03.{md,patch}`.
+
+### Breaking
+- Agents entfernt (Duplikate ohne Aufrufer, 0 Aufrufe laut Usage-Report 2026-05):
+  - `enhanced-quality-gate` → PASS/FAIL-Gate-Modus in `quality-agent` gefaltet
+  - `completion-gate`, `task-checker` → Akzeptanzkriterien-Check in `quality-agent` (Gate 1) und `tdd-validation-agent` (Gate 3)
+  - `readiness-gate` → `bd stats` / `bd blocked` im `task-orchestrator`
+  - `task-executor` → Modellwahl-Heuristik und Task-Assignment-Template in `task-orchestrator`
+- `task-orchestrator` arbeitet im Hub-Muster: plant und endet mit `Use the <agent> subagent to …`; der aufrufende Skill startet die Agents (Subagents können in Claude Code keine Subagents starten). Tools `Task` und Context7 entfernt.
+
+### Added
+- `redesign-studio`: Website-Redesign von Interview bis Handoff — Brief-Checkpoint in `brainstorms/`, Recherche-Subagents (haiku), N unterscheidbare HTML-Mockups mit Verifier, Vergleichsboard, Folgeseiten, Handoff-Paket. Liefert `scrollfx.js` (Reveal, Parallax, Sticky-Szenen mit `--p`, Zähler, Tilt, Reduced-Motion) mit. Eingearbeitet nach den Audit-Regeln: kein Claude-Design-Zweig, `Agent` statt `Task`, keine Zeilen-Obergrenzen, Pfade nach Plugin-Konvention.
+
+### Changed
+- Alle neun verbleibenden Agents neu geschrieben (2.141 → 411 Zeilen): Mermaid-Decision-Paths, `HANDOFF_TOKEN`/`COLLECTIVE_HANDOFF_READY`, Taskmaster-Reste (`--projectRoot`, `--prompt`, Status `done`), Routing auf nicht existierende Agents, „Crisis Protocol"-Register und Template-Stack-Annahmen (WSL2, CRA, Redux) entfernt. Zuständigkeiten, Two-Stage-Review und Status-Protokoll (`DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED`) erhalten.
+- Context7-Tool-Namen vereinheitlicht auf `mcp__context7__resolve-library-id` + `mcp__context7__query-docs`.
+- `research-agent`: Protokoll-Dateien (`.claude/docs/RESEARCH-*.md`, existierten nie) entfernt; darf jetzt nach `docs/research/` schreiben (Cache).
+- `quality-agent`: bekommt `mcp__ide__getDiagnostics`; kein Beads-Pflichtabruf mehr bei Diff-Reviews.
+- `land-the-plane`: bd-Befehle auf bd 1.x korrigiert (`--json`, `--closed-after` statt `--since`/`--format=json`).
+- `reflect`, `reflect-config`, `CLAUDE.md`, `README.md`: Hook-Beschreibung an v2.4.2 angepasst (SessionStart-Reminder, keine automatische Reflection).
+- `interview`, `review`: `advisor()`-Aufrufe durch Konsistenz- bzw. Plausibilitäts-Check ersetzt; `interview/REFERENCE.md` Orchestrator-Prompt auf Hub-Muster.
+- `setup`: `sequential-thinking` von Core nach Optional; generierter CLAUDE.md-Block in Normallautstärke.
+- `storm-research`: Wort-Obergrenzen in den Lens-/Verifier-Prompts durch qualitative Längenvorgabe ersetzt.
+- `db-inspect`, `github-ops`, `browser-test`: projektspezifische Beispielwerte durch Platzhalter ersetzt.
+- `AGENTS.md`: Landing-the-Plane-Regeln ohne Caps-Register, mit Begründung.
+
 ## 2.0.0 — 2026-05-07
 
 ### Breaking

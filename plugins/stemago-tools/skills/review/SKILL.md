@@ -148,9 +148,9 @@ Agent(
 
 **WICHTIG:** Alle fünf Agents in EINEM Message-Block starten für echte Parallelität. Agent 5 nur starten wenn eine Spec/Plan-Datei gefunden wurde.
 
-### Advisor-Check nach Agents
+### Plausibilitäts-Check nach Agents
 
-Wenn alle Agents zurückgekehrt sind und bevor du konsolidierst — `advisor()` aufrufen falls verfügbar. Der Advisor sieht alle Agent-Ergebnisse im Transcript und kann einschätzen welche Findings wirklich kritisch sind vs. False Positives.
+Wenn alle Agents zurück sind und bevor du konsolidierst: jedes Critical- und Warning-Finding gegen den Code prüfen, den es benennt. Ein Finding ohne belastbare Stelle im Code ist ein False Positive und wird als solches markiert, nicht weitergereicht.
 
 ### Schritt 4: Review-Ergebnis konsolidieren
 

@@ -13,13 +13,13 @@ Nutze den GitHub MCP Server für Repository-Operationen. Für einfache Git-Befeh
 
 **`mcp__github__search_repositories`**
 ```
-query: "match-admin in:name"
+query: "<name> in:name"
 ```
 
 **`mcp__github__get_file_contents`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 path: "src/app/page.tsx"
 branch: "main"  # Optional
 ```
@@ -28,16 +28,16 @@ branch: "main"  # Optional
 
 **`mcp__github__create_branch`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 branch: "feature/new-feature"
 from_branch: "main"  # Optional
 ```
 
 **`mcp__github__list_commits`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 sha: "main"  # Branch name
 ```
 
@@ -45,8 +45,8 @@ sha: "main"  # Branch name
 
 **`mcp__github__create_pull_request`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 title: "feat: Add new feature"
 head: "feature/new-feature"
 base: "main"
@@ -56,22 +56,22 @@ draft: false
 
 **`mcp__github__list_pull_requests`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 state: "open"  # oder "closed", "all"
 ```
 
 **`mcp__github__get_pull_request`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 pull_number: 123
 ```
 
 **`mcp__github__merge_pull_request`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 pull_number: 123
 merge_method: "squash"  # oder "merge", "rebase"
 ```
@@ -80,8 +80,8 @@ merge_method: "squash"  # oder "merge", "rebase"
 
 **`mcp__github__create_issue`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 title: "Bug: Something broken"
 body: "Description..."
 labels: ["bug"]
@@ -89,16 +89,16 @@ labels: ["bug"]
 
 **`mcp__github__list_issues`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 state: "open"
 labels: ["bug"]
 ```
 
 **`mcp__github__add_issue_comment`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 issue_number: 42
 body: "Comment text..."
 ```
@@ -107,8 +107,8 @@ body: "Comment text..."
 
 **`mcp__github__create_pull_request_review`**
 ```
-owner: "username"
-repo: "Match_Admin"
+owner: "<owner>"
+repo: "<repo>"
 pull_number: 123
 event: "APPROVE"  # oder "REQUEST_CHANGES", "COMMENT"
 body: "Looks good!"

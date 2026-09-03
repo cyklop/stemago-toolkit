@@ -39,7 +39,8 @@ echo "enabled=$(date -Iseconds)" > .claude/state/reflect-enabled
 ```
 Auto-Reflect AKTIVIERT
 
-Am Ende jeder Session wird automatisch analysiert:
+Beim Start jeder Session erinnert der session-reflect Hook daran,
+am Ende /reflect auszuführen. Die Extraktion selbst löst /reflect aus:
 - Korrektionen und explizite Anweisungen
 - Erfolgreiche Patterns
 - Implizite Präferenzen
@@ -56,9 +57,9 @@ Befehle:
 ### Step 3: Hook-Hinweis
 
 ```
-Die automatische Reflection wird durch den session-reflect Hook
-am Session-Ende ausgelöst. Bei manuellen /compact oder Session-Wechsel
-wird empfohlen /reflect manuell aufzurufen.
+Der session-reflect Hook läuft beim Session-Start (startup, resume, clear)
+und gibt nur die Erinnerung aus — /reflect selbst wird nicht automatisch
+ausgeführt. Vor /compact oder einem Session-Wechsel /reflect manuell aufrufen.
 ```
 
 ---
@@ -76,8 +77,7 @@ rm -f .claude/state/reflect-enabled
 ```
 Auto-Reflect DEAKTIVIERT
 
-Die automatische Session-Reflection ist nun ausgeschaltet.
-Learnings werden nicht mehr automatisch extrahiert.
+Die Erinnerung beim Session-Start ist ausgeschaltet.
 
 Du kannst weiterhin manuell /reflect aufrufen.
 

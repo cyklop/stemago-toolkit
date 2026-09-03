@@ -161,12 +161,15 @@ Agent({
 
     STRATEGIE:
     1. mcp__beads__ready → alle Tasks ohne Blocker identifizieren
-    2. Alle unabhängigen Tasks PARALLEL über spezialisierte Agents starten
-    3. Sobald Task abgeschlossen → prüfen ob neue Tasks freigeschaltet
+    2. Für die unabhängigen Tasks je Agent + Modell wählen und mir eine
+       Direktive pro Runde nennen (welche Agents parallel zu starten sind)
+    3. Sobald ein Task abgeschlossen ist → Review-Gates, dann prüfen ob neue Tasks frei sind
     4. Wiederholen bis alle Tasks erledigt
     5. Abschluss melden`
 })
 ```
+
+Der Orchestrator startet keine Agents selbst (Subagents können in Claude Code keine Subagents starten). Er plant und endet mit einer Direktive `Use the <agent> subagent to …`; du startest die genannten Agents parallel in einem Message-Block und rufst ihn mit den Ergebnissen erneut auf.
 
 ---
 

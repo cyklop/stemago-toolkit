@@ -13,7 +13,7 @@ Nutze den Chrome DevTools MCP Server um UI-Änderungen im echten Browser zu test
 
 **`mcp__chrome-devtools__navigate_page`**
 ```
-url: "http://localhost:3000/admin/tournaments"
+url: "http://localhost:<port>/<pfad>"
 type: "url"  # oder "back", "forward", "reload"
 ```
 
@@ -106,5 +106,5 @@ function: "() => document.title"
 
 - **Snapshot bevorzugen**: Effizienter als Screenshots für Navigation
 - **UIDs sind temporär**: Nach Navigation neu snapshottten
-- **Dev Server muss laufen**: `npm run dev` auf Port 3000
+- **Dev Server muss laufen**: Start-Befehl und Port aus dem Projekt (z.B. `npm run dev`)
 - **Wait for**: `wait_for` um auf Text zu warten bevor weiter

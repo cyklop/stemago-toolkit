@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 2.4.2.
+**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.0.0.
 
 ## Testing the Plugin
 
@@ -76,10 +76,10 @@ color: green   # optional: terminal color
 ### Hook System
 
 Hooks in `hooks.json` bind to events:
-- **PreToolUse**: Runs before tool execution (can block)
-- **SessionEnd**: Runs when session ends
+- **PreToolUse** (matcher `Bash`): runs before a shell command and can block it
+- **SessionStart** (matchers `startup`, `resume`, `clear`): runs when a session begins; its stdout is injected into the model's context as a one-line reminder
 
-Scripts receive tool context via stdin JSON and can output `{"decision": "block", "message": "..."}` to prevent execution.
+PreToolUse scripts receive the tool call as JSON on stdin; exit code 2 blocks the call and stderr is shown as the reason.
 
 ## Key Workflows
 
@@ -115,6 +115,7 @@ All implementation agents follow TDD methodology (Red-Green-Refactor).
 - Beads data: `.beads/issues.jsonl`
 - Domain Language: `CONTEXT.md` (Projekt-Root)
 - Bug Post-Mortems: `docs/post-mortems/<datum>-<bug>.md`
+- Design-Mockups (`/redesign-studio`): `design/mockups/<richtung>/index.html`, Verifier-Reports `design/verify/`, Handoff `design/handoff-<slug>/`
 - Brainstorm-Captures: `brainstorms/<datum>-<topic-slug>.md` (Projekt-Root, bewusst NICHT unter `docs/` — ein vorhersehbarer Sammelort für rohe Interview-Erfassungen aus `/grill-me` und `/interview`. Polierte Ergebnisse wandern danach in `docs/` oder `projects/`.)
 
 ## Domain Language (CONTEXT.md)

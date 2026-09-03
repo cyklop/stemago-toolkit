@@ -38,19 +38,19 @@ Stoppe hier.
 Nutze Beads MCP oder CLI:
 
 ```bash
-bd list --status=closed --since=today --format=json
+bd list --status closed --closed-after "$(date +%F)" --json
 ```
 
 **2.2 Offene Tasks (ready) sammeln:**
 
 ```bash
-bd ready --format=json
+bd ready --json
 ```
 
 **2.3 Geblockte Tasks sammeln:**
 
 ```bash
-bd blocked --format=json
+bd blocked --json
 ```
 
 ### Schritt 3: Session-Kontext aus Konversation extrahieren

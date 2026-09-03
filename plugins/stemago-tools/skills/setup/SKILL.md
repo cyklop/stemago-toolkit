@@ -38,7 +38,7 @@ Prüfe Projekt-Zustand und zeige Tabelle:
 ```bash
 [ -f CLAUDE.md ] && echo "✓ CLAUDE.md vorhanden" || echo "✗ CLAUDE.md fehlt"
 [ -d .beads ] && echo "✓ Beads initialisiert" || echo "✗ Beads fehlt"
-claude mcp list 2>/dev/null | grep -E "^(context7|beads|chrome-devtools|sequential-thinking)" || echo "✗ Core MCPs fehlen"
+claude mcp list 2>/dev/null | grep -E "^(context7|beads|chrome-devtools)" || echo "✗ Core MCPs fehlen"
 ```
 
 Frage via AskUserQuestion welche fehlenden Subjobs ausgeführt werden sollen.
@@ -67,10 +67,9 @@ Erstelle `CLAUDE.md` mit folgendem Workflow-Regeln-Block:
 ## Workflow-Regeln
 
 ### Strukturierte Aufgaben-Abarbeitung
-- Bei Aufgaben mit 3+ Schritten: IMMER zuerst eine Task-Liste mit TaskCreate erstellen
-- Jeden Task auf `in_progress` setzen bevor du anfängst, auf `completed` wenn fertig
-- NIEMALS eine Aufgabe als erledigt melden bevor ALLE Tasks completed sind
-- Bei Unterbrechung/Compact: TaskList prüfen und offene Tasks weiterarbeiten
+- Bei Aufgaben mit 3+ Schritten zuerst eine Task-Liste anlegen (TaskCreate) und die Tasks beim Abarbeiten auf `in_progress` bzw. `completed` setzen — so überlebt der Fortschritt einen Compact oder eine Unterbrechung
+- Eine Aufgabe ist erledigt, wenn alle ihre Tasks completed sind
+- Nach Unterbrechung/Compact: TaskList prüfen und offene Tasks weiterarbeiten
 
 ### Code Review am Aufgabenende
 - Nach Abschluss einer Implementierung die 3+ Dateien betrifft:
@@ -210,7 +209,6 @@ claude mcp list
 | MCP | Status | Zweck |
 |-----|--------|-------|
 | `context7` | ✓/✗ | Docs-Lookup |
-| `sequential-thinking` | ✓/✗ | Reasoning |
 | `chrome-devtools` | ✓/✗ | Browser-Test |
 | `beads` | ✓/✗ | Memory & Tasks |
 
@@ -221,6 +219,7 @@ claude mcp list
 | `github` | ✓/✗ | github-ops |
 | `mariadb` | ✓/✗ | db-inspect |
 | `playwright` | ✓/✗ | functional-testing-agent |
+| `sequential-thinking` | ✓/✗ | — (aktuelle Modelle planen ohne externes Thinking-Tool; nur auf ausdrücklichen Wunsch) |
 
 ### C.3 Idempotenz-Check
 
@@ -234,7 +233,6 @@ AskUserQuestion: welche der fehlenden MCPs sollen installiert werden (Multi-Sele
 
 ```bash
 claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
-claude mcp add sequential-thinking -- npx -y @modelcontextprotocol/server-sequential-thinking
 claude mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest
 ```
 
@@ -244,6 +242,7 @@ claude mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest
 
 ```bash
 claude mcp add playwright -- npx -y @anthropic/mcp-server-playwright@latest
+claude mcp add sequential-thinking -- npx -y @modelcontextprotocol/server-sequential-thinking  # nur auf Wunsch
 ```
 
 **Mit Credentials:**

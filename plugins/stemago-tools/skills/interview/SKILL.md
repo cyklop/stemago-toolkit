@@ -103,9 +103,9 @@ Via **AskUserQuestion** immer diese 4 Optionen anbieten:
 
 ---
 
-## Advisor-Check vor Spec
+## Konsistenz-Check vor Spec
 
-`advisor()` aufrufen bevor die Spec geschrieben wird. Sieht das gesamte Transcript — findet Lücken, Widersprüche, YAGNI-Verletzungen.
+Bevor die Spec geschrieben wird, das Capture einmal gegen das Interview lesen: Lücken, Widersprüche zwischen Antworten, YAGNI-Verletzungen. Offene Punkte kommen als *Offene Fragen* in die Spec, nicht als stille Annahmen.
 
 ---
 

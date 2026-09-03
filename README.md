@@ -29,7 +29,7 @@ Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende 
 
 ## Features
 
-### Skills (11)
+### Skills (22)
 
 | Skill | Description | Usage |
 |-------|-------------|-------|
@@ -44,6 +44,17 @@ Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende 
 | `review` | Code Review der lokalen Änderungen gegen CLAUDE.md | `/stemago-tools:review` |
 | `beads-ready` | Tasks ohne Blocker anzeigen (Ready Queue) | `/stemago-tools:beads-ready` |
 | `land-the-plane` | Session-Ende Handoff mit Prompt generieren | `/stemago-tools:land-the-plane` |
+| `grill-me` | Schonungsloses Interview mit Checkpoint-Datei in `brainstorms/` | `/stemago-tools:grill-me` |
+| `to-beads` | Plan oder Spec direkt in Beads-Tasks zerlegen | `/stemago-tools:to-beads [spec-pfad]` |
+| `roast` | Idee vom Fünfer-Council zerlegen lassen: GO / RESHAPE / KILL | `/stemago-tools:roast [idee]` |
+| `storm-research` | Mehrperspektivische, quellenverifizierte Recherche als HTML-Briefing | `/stemago-tools:storm-research [thema]` |
+| `diagnose` | Strukturiertes Debugging, Feedback-Loop zuerst | `/stemago-tools:diagnose [bug]` |
+| `prototype` | Wegwerf-Code, der eine Design-Frage beantwortet | `/stemago-tools:prototype [frage]` |
+| `architecture-review` | Deep-Modules-Check: Reibungspunkte und Vertiefungs-Kandidaten | `/stemago-tools:architecture-review [pfad]` |
+| `zoom-out` | Karte eines Codebereichs: Module, Caller, Dependencies, Grenzen | `/stemago-tools:zoom-out` |
+| `usage-report` | Nutzungsauswertung von Skills, Agents und Modellen | `/stemago-tools:usage-report [--months n]` |
+| `caveman` | Ultra-komprimierter Antwortmodus zum Token-Sparen | `/stemago-tools:caveman` |
+| `redesign-studio` | Website-Redesign: Interview, Recherche, N Mockups, Auswahl, Folgeseiten, Handoff | `/stemago-tools:redesign-studio [url-oder-repo]` |
 
 ### Skills nach Projektphase
 
@@ -63,12 +74,10 @@ In eingerichteten Projekten lassen sich Setup-/Operativ-Skills bei Bedarf via `/
 **Operativ / optional**
 - `reflect-config` — Auto-Reflect aktivieren/deaktivieren/Status
 
-### Agents (14)
+### Agents (9)
 
 #### Task Management (Beads-powered)
-- `task-orchestrator` - Coordinates Beads task execution
-- `task-executor` - Delegates to specialized agents for implementation
-- `task-checker` - Quality assurance and TDD validation
+- `task-orchestrator` - Plans Beads task execution, routes tasks to implementation agents and gates completion
 
 #### Development
 - `research-agent` - Technical research using Context7
@@ -82,19 +91,16 @@ In eingerichteten Projekten lassen sich Setup-/Operativ-Skills bei Bedarf via `/
 - `infrastructure-implementation-agent` - Build systems and tooling
 
 #### Quality Gates
-- `completion-gate` - Task completion validation
-- `readiness-gate` - Phase advancement validation
-- `enhanced-quality-gate` - Security, performance, accessibility
-- `tdd-validation-agent` - TDD methodology enforcement
+- `tdd-validation-agent` - Runs tests and build, returns PASS/FAIL with remediation items
 
 ### Hooks (4)
 
 | Hook | Event | Description |
 |------|-------|-------------|
 | `block-destructive-commands` | PreToolUse | Prevents dangerous git/system commands (whitelists `git rm`) |
-| `session-land-the-plane` | SessionEnd | Beads session handoff reminder |
-| `session-reflect` | SessionEnd | Automatic reflection reminder |
-| `session-review-reminder` | SessionEnd | Reminder for uncommitted changes |
+| `session-land-the-plane` | SessionStart | Beads session handoff reminder |
+| `session-reflect` | SessionStart | Reminder to run /reflect at session end (if enabled) |
+| `session-review-reminder` | SessionStart | Reminder for uncommitted changes |
 
 ## Structure
 
@@ -106,22 +112,31 @@ stemago-toolkit/
 │   └── stemago-tools/            # Main plugin
 │       ├── .claude-plugin/
 │       │   └── plugin.json       # Plugin manifest
-│       ├── skills/               # 11 Skills
-│       │   ├── beads-ready/SKILL.md
-│       │   ├── browser-test/SKILL.md
-│       │   ├── db-inspect/SKILL.md
-│       │   ├── docs-lookup/SKILL.md
-│       │   ├── github-ops/SKILL.md
-│       │   ├── interview/SKILL.md
-│       │   ├── land-the-plane/SKILL.md
-│       │   ├── reflect/SKILL.md
-│       │   ├── reflect-config/SKILL.md
-│       │   ├── review/SKILL.md
-│       │   └── setup/SKILL.md
-│       ├── agents/               # 14 Agents
+│       ├── skills/               # 22 Skills (je SKILL.md)
+│       │   ├── architecture-review/
+│       │   ├── beads-ready/
+│       │   ├── browser-test/
+│       │   ├── caveman/
+│       │   ├── db-inspect/
+│       │   ├── diagnose/
+│       │   ├── docs-lookup/
+│       │   ├── github-ops/
+│       │   ├── grill-me/
+│       │   ├── interview/
+│       │   ├── land-the-plane/
+│       │   ├── prototype/
+│       │   ├── redesign-studio/
+│       │   ├── reflect/
+│       │   ├── reflect-config/
+│       │   ├── review/
+│       │   ├── roast/
+│       │   ├── setup/
+│       │   ├── storm-research/
+│       │   ├── to-beads/
+│       │   ├── usage-report/
+│       │   └── zoom-out/
+│       ├── agents/               # 9 Agents
 │       │   ├── task-orchestrator.md
-│       │   ├── task-executor.md
-│       │   ├── task-checker.md
 │       │   ├── research-agent.md
 │       │   ├── devops-agent.md
 │       │   ├── quality-agent.md
@@ -129,9 +144,6 @@ stemago-toolkit/
 │       │   ├── feature-implementation-agent.md
 │       │   ├── component-implementation-agent.md
 │       │   ├── infrastructure-implementation-agent.md
-│       │   ├── completion-gate.md
-│       │   ├── readiness-gate.md
-│       │   ├── enhanced-quality-gate.md
 │       │   └── tdd-validation-agent.md
 │       └── hooks/
 │           ├── hooks.json        # Hook configuration

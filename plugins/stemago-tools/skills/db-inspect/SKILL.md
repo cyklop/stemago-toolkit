@@ -15,21 +15,21 @@ Alle verfügbaren Datenbanken auflisten.
 ### `mcp__mariadb__list_tables`
 Tabellen einer Datenbank auflisten.
 ```
-database: "volleyball_dev"  # Optional, nutzt Default wenn nicht angegeben
+database: "<datenbank>"  # Optional, nutzt Default wenn nicht angegeben
 ```
 
 ### `mcp__mariadb__describe_table`
 Schema einer Tabelle anzeigen (Spalten, Typen, Constraints).
 ```
-table: "Tournament"
-database: "volleyball_dev"  # Optional
+table: "<Tabelle>"
+database: "<datenbank>"  # Optional
 ```
 
 ### `mcp__mariadb__execute_query`
 SQL-Query ausführen (SELECT, INSERT, UPDATE, DELETE, SHOW, DESCRIBE, EXPLAIN).
 ```
-query: "SELECT * FROM Tournament WHERE slug = 'test'"
-database: "volleyball_dev"  # Optional
+query: "SELECT * FROM <Tabelle> WHERE <spalte> = '<wert>'"
+database: "<datenbank>"  # Optional
 ```
 
 ## Typische Anwendungsfälle
@@ -42,16 +42,16 @@ database: "volleyball_dev"  # Optional
 ## Beispiel-Queries
 
 ```sql
--- Aktive Turniere mit Phasen
-SELECT t.name, t.slug, COUNT(tp.id) as phases
-FROM Tournament t
-LEFT JOIN TournamentPhase tp ON tp.tournamentId = t.id
-GROUP BY t.id;
+-- Eltern mit Anzahl Kinder (1:n-Aggregation)
+SELECT p.name, COUNT(c.id) AS children
+FROM <Parent> p
+LEFT JOIN <Child> c ON c.parentId = p.id
+GROUP BY p.id;
 
--- Unbestätigte Anmeldungen
-SELECT r.*, u.email FROM Registration r
+-- Datensätze in einem bestimmten Status, mit Join auf den User
+SELECT r.*, u.email FROM <Tabelle> r
 JOIN User u ON u.id = r.userId
-WHERE r.status = 'PENDING';
+WHERE r.status = '<STATUS>';
 ```
 
 ## Hinweise
