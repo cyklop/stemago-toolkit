@@ -1,7 +1,7 @@
 ---
 name: devops-agent
 description: PROACTIVELY handles deployment, CI/CD, infrastructure, build systems, and production setup when users need deployment, want hosting, ask about infrastructure, or need build optimization. Use for any DevOps and deployment needs.
-tools: Bash, LS, Read, Write, Edit, Grep, Glob, mcp__beads__show
+tools: Bash, Read, Write, Edit, Grep, Glob, mcp__beads__show
 color: orange
 ---
 

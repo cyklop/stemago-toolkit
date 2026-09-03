@@ -1,7 +1,7 @@
 ---
 name: infrastructure-implementation-agent
 description: Sets up build configurations, project tooling, development environment, and deployment infrastructure using Test-Driven Development approach. Handles Vite, TypeScript, testing framework setup. Use this agent proactively for infrastructure setup and build system configuration.
-tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep, mcp__beads__show, mcp__beads__update, LS, mcp__context7__resolve-library-id, mcp__context7__query-docs
+tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep, mcp__beads__show, mcp__beads__update, mcp__context7__resolve-library-id, mcp__context7__query-docs, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 color: orange
 ---
 

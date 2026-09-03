@@ -1,7 +1,7 @@
 ---
 name: quality-agent
 description: PROACTIVELY reviews code quality, validates accessibility, checks security, runs tests, and assesses compliance when users need code review, want quality assessment, ask for testing, or need validation. Use for any quality assurance needs.
-tools: Read, Bash, Grep, Glob, LS, mcp__beads__show, mcp__ide__getDiagnostics
+tools: Read, Bash, Grep, Glob, mcp__beads__show, mcp__ide__getDiagnostics
 color: yellow
 ---
 

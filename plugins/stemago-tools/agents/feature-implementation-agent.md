@@ -1,7 +1,7 @@
 ---
 name: feature-implementation-agent
 description: Implements core business logic, data services, API integration, and state management functionality using Test-Driven Development approach. Focused on backend services and data models.
-tools: Read, Write, Edit, MultiEdit, Glob, Grep, mcp__beads__show, mcp__beads__update, LS, Bash
+tools: Read, Write, Edit, MultiEdit, Glob, Grep, mcp__beads__show, mcp__beads__update, Bash
 color: blue
 ---
 

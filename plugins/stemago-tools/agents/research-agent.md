@@ -1,7 +1,7 @@
 ---
 name: research-agent
 description: Conducts comprehensive technical research using Context7 for official documentation and Claude knowledge for industry best practices. Provides actionable findings for implementation decisions, library comparisons, and architectural guidance.
-tools: mcp__context7__resolve-library-id, mcp__context7__query-docs, WebSearch, WebFetch, Read, Grep, LS, Write
+tools: mcp__context7__resolve-library-id, mcp__context7__query-docs, WebSearch, WebFetch, Read, Grep, Write, Glob, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 model: sonnet
 color: cyan
 ---

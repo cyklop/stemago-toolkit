@@ -30,7 +30,7 @@
   const reveals = all('[data-reveal]');
   reveals.forEach((el) => {
     if (el.dataset.reveal === 'words') {
-      const words = el.textContent.trim().split(/\s+/);
+      const words = el.textContent.trim().split(/\s+/).filter(Boolean);
       el.textContent = '';
       words.forEach((w, i) => {
         const span = document.createElement('span');
@@ -119,6 +119,7 @@
     all('[data-tilt]').forEach((el) => {
       el.addEventListener('pointermove', (e) => {
         const r = el.getBoundingClientRect();
+        if (!r.width || !r.height) return;
         const x = (e.clientX - r.left) / r.width - 0.5;
         const y = (e.clientY - r.top) / r.height - 0.5;
         el.style.transform = 'perspective(800px) rotateX(' + (-y * 6).toFixed(2) + 'deg) rotateY(' + (x * 6).toFixed(2) + 'deg)';
