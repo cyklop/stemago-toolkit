@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.0.0.
+**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.0.1.
 
 ## Testing the Plugin
 
@@ -28,7 +28,7 @@ bd ready              # Find tasks without blockers
 bd show <id>          # View task details
 bd update <id> --status in_progress  # Claim work
 bd close <id>         # Complete work
-bd sync               # Sync with git
+bd export             # Issues nach .beads/issues.jsonl schreiben (für Git)
 ```
 
 ## Architecture
@@ -148,7 +148,7 @@ Work is NOT complete until `git push` succeeds:
 
 ```bash
 git pull --rebase
-bd sync
+bd export
 git push
 git status  # Must show "up to date with origin"
 ```

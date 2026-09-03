@@ -147,10 +147,10 @@ Speichere in `.beads/session-handoff.md`:
 # Datei wird überschrieben bei jeder Session
 ```
 
-### Schritt 7: Beads synchronisieren
+### Schritt 7: Beads exportieren
 
 ```bash
-bd sync
+bd export   # schreibt .beads/issues.jsonl, damit der Stand mit dem Commit ins Repo geht
 ```
 
 ### Schritt 8: Zusammenfassung anzeigen

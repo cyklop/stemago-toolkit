@@ -3,6 +3,14 @@
 Alle nennenswerten Änderungen am stemago-toolkit Plugin.
 Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
+## 3.0.1 — 2026-09-03
+
+### Fixed
+- Agents: Context7 zusätzlich unter dem Plugin-Präfix `mcp__plugin_context7_context7__*` gewährt (research-, component-, infrastructure-implementation-agent); `LS` (kein Tool mehr) → `Glob` in acht Agents.
+- `redesign-studio/scrollfx.js`: Guard gegen 0-Breite im Tilt, keine leeren Wort-Spans.
+- `land-the-plane`, `CLAUDE.md`, `AGENTS.md`: `bd sync` (in bd 1.x entfernt) → `bd export`.
+- Beads in diesem Repo auf bd 1.x re-initialisiert (Dolt-Backend, Prefix `bd`, `export.auto = true`); die SQLite-Datenbank aus bd 0.49 war leer und wurde entfernt.
+
 ## 3.0.0 — 2026-09-03
 
 Prompt-Audit (`/claude-api prompt-audit`) komplett umgesetzt. Report und Patch: `docs/reports/prompt-audit-2026-09-03.{md,patch}`.
