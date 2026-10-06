@@ -1,169 +1,59 @@
 ---
 name: github-ops
-description: "GitHub Operationen - PRs, Issues, Branches, Commits. Verwende diesen Skill wenn der User Pull Requests erstellen, Issues verwalten, Code Reviews durchführen, oder komplexe GitHub-Operationen über die MCP API ausführen will. Auch bei 'erstelle einen PR', 'zeig offene Issues', 'merge den PR', 'erstelle ein Issue', oder wenn Batch-Operationen auf GitHub nötig sind. Für einfache git-Befehle reicht gh CLI."
+description: "GitHub Operationen - PRs, Issues, Reviews, CI-Status über die gh CLI. Verwende diesen Skill wenn der User Pull Requests erstellen oder mergen, Issues verwalten, PR-Reviews lesen oder abgeben, oder den CI-Status prüfen will. Auch bei 'erstelle einen PR', 'zeig offene Issues', 'merge den PR', 'erstelle ein Issue', 'was sagt die CI'. NICHT für das Review lokaler Änderungen — dafür /stemago-tools:review."
 ---
 
-# GitHub MCP - Repository-Operationen
+# GitHub-Operationen
 
-Nutze den GitHub MCP Server für Repository-Operationen. Für einfache Git-Befehle bevorzuge `gh` CLI via Bash.
+Standardweg ist die `gh` CLI via Bash: sie ist authentifiziert, kennt das Repo aus dem Working Directory und braucht keinen MCP-Server.
 
-## Verfügbare Tools
+## Vorab
 
-### Repository
-
-**`mcp__github__search_repositories`**
-```
-query: "<name> in:name"
-```
-
-**`mcp__github__get_file_contents`**
-```
-owner: "<owner>"
-repo: "<repo>"
-path: "src/app/page.tsx"
-branch: "main"  # Optional
-```
-
-### Branches & Commits
-
-**`mcp__github__create_branch`**
-```
-owner: "<owner>"
-repo: "<repo>"
-branch: "feature/new-feature"
-from_branch: "main"  # Optional
-```
-
-**`mcp__github__list_commits`**
-```
-owner: "<owner>"
-repo: "<repo>"
-sha: "main"  # Branch name
-```
-
-### Pull Requests
-
-**`mcp__github__create_pull_request`**
-```
-owner: "<owner>"
-repo: "<repo>"
-title: "feat: Add new feature"
-head: "feature/new-feature"
-base: "main"
-body: "Description..."
-draft: false
-```
-
-**`mcp__github__list_pull_requests`**
-```
-owner: "<owner>"
-repo: "<repo>"
-state: "open"  # oder "closed", "all"
-```
-
-**`mcp__github__get_pull_request`**
-```
-owner: "<owner>"
-repo: "<repo>"
-pull_number: 123
-```
-
-**`mcp__github__merge_pull_request`**
-```
-owner: "<owner>"
-repo: "<repo>"
-pull_number: 123
-merge_method: "squash"  # oder "merge", "rebase"
-```
-
-### Issues
-
-**`mcp__github__create_issue`**
-```
-owner: "<owner>"
-repo: "<repo>"
-title: "Bug: Something broken"
-body: "Description..."
-labels: ["bug"]
-```
-
-**`mcp__github__list_issues`**
-```
-owner: "<owner>"
-repo: "<repo>"
-state: "open"
-labels: ["bug"]
-```
-
-**`mcp__github__add_issue_comment`**
-```
-owner: "<owner>"
-repo: "<repo>"
-issue_number: 42
-body: "Comment text..."
-```
-
-### Code Reviews
-
-**`mcp__github__create_pull_request_review`**
-```
-owner: "<owner>"
-repo: "<repo>"
-pull_number: 123
-event: "APPROVE"  # oder "REQUEST_CHANGES", "COMMENT"
-body: "Looks good!"
-```
-
-**`mcp__github__get_pull_request_files`**
-Geänderte Dateien eines PRs abrufen.
-
-**`mcp__github__get_pull_request_comments`**
-Review-Kommentare abrufen.
-
-### File Operations
-
-**`mcp__github__push_files`**
-Mehrere Dateien in einem Commit pushen.
-
-**`mcp__github__create_or_update_file`**
-Einzelne Datei erstellen/aktualisieren.
-
-## Wann MCP vs `gh` CLI?
-
-### MCP bevorzugen für:
-- Komplexe PR-Operationen
-- Issue-Management
-- Code Reviews
-- Batch File Operations
-
-### `gh` CLI bevorzugen für:
-- Einfache Befehle: `gh pr view`, `gh issue list`
-- Interaktive Operationen
-- Lokale Git-Integration
-
-## Typische Workflows
-
-### PR erstellen
 ```bash
-# Via gh CLI (einfacher)
-gh pr create --title "feat: ..." --body "..."
-
-# Via MCP (wenn mehr Kontrolle nötig)
-mcp__github__create_pull_request
+gh auth status          # eingeloggt? sonst den User `! gh auth login` ausführen lassen
+gh repo view --json nameWithOwner,defaultBranchRef
 ```
 
-### Issue mit Bug-Label
-```
-mcp__github__create_issue mit labels: ["bug", "priority:high"]
+## Pull Requests
+
+```bash
+gh pr create --title "feat: ..." --body "..." [--draft] [--base main]
+gh pr list --state open
+gh pr view <nr> --json title,body,state,reviewDecision,statusCheckRollup
+gh pr diff <nr>
+gh pr checks <nr>                    # CI-Status
+gh pr merge <nr> --squash            # oder --merge / --rebase
 ```
 
-### PR-Status prüfen
+- Vor `gh pr create`: Branch muss gepusht sein (`git push -u origin <branch>`).
+- PR-Titel folgen der Commit-Konvention des Projekts (siehe CLAUDE.md).
+- `gh pr merge` und alles, was nach außen sichtbar ist (PR/Issue anlegen, kommentieren, Review abgeben), erst nach ausdrücklichem Auftrag oder Rückfrage ausführen.
+
+## Reviews
+
+```bash
+gh pr review <nr> --approve | --request-changes | --comment --body "..."
+gh api repos/{owner}/{repo}/pulls/<nr>/comments    # Inline-Review-Kommentare lesen
 ```
-mcp__github__get_pull_request_status
+
+## Issues
+
+```bash
+gh issue create --title "Bug: ..." --body "..." --label bug
+gh issue list --state open --label bug
+gh issue view <nr> --comments
+gh issue comment <nr> --body "..."
 ```
+
+## Alles andere
+
+`gh api <endpoint>` deckt die gesamte REST-API ab (`--paginate` für Listen, `--jq` zum Filtern). `{owner}` und `{repo}` werden automatisch aus dem aktuellen Repo ersetzt.
+
+## GitHub-MCP (optional)
+
+Ist in der Session ein GitHub-MCP-Server verbunden (`mcp__github__*`), kann er für Operationen ohne lokalen Checkout genutzt werden. Die Tool-Namen aus der Tool-Liste der Session nehmen, nicht aus dem Gedächtnis — sie haben sich zwischen den Server-Generationen geändert. Einrichtung: `/stemago-tools:setup --mcp`.
 
 ## Hinweise
 
-- **Lokale Commits zuerst**: MCP kann keine lokalen Commits erstellen
-- **Branch muss existieren**: Vor PR remote Branch pushen
-- **Rate Limits beachten**: GitHub API hat Limits
+- Lange Texte (PR-Body, Kommentare) per `--body-file` oder Heredoc übergeben, damit Zeilenumbrüche und Backticks erhalten bleiben.
+- Rate Limits: bei Batch-Operationen `gh api rate_limit` prüfen.

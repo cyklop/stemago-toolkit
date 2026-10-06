@@ -1,6 +1,7 @@
 ---
 name: beads-ready
 description: "Zeigt Tasks ohne Blocker (Ready Queue). Verwende diesen Skill wenn der User wissen will was als nächstes zu tun ist, verfügbare Tasks sehen möchte, oder nach offenen Aufgaben fragt. Auch bei 'was kann ich machen', 'nächster Task', 'was steht an', 'offene Tasks', 'womit anfangen', oder am Session-Start um den Einstiegspunkt zu finden."
+allowed-tools: Bash(bd ready *) Bash(bd list *) Bash(bd blocked *) Bash(bd show *)
 ---
 
 # Beads Ready
@@ -11,11 +12,15 @@ Zeigt alle Tasks die keine offenen Blocker haben und bearbeitet werden können.
 
 ### Schritt 1: Beads-Status prüfen
 
-```bash
-ls .beads/ 2>/dev/null || echo "NOT_INITIALIZED"
+Beim Laden des Skills ermittelt:
+
+```!
+if [ -d .beads ]; then bd ready 2>&1 || echo "BD_FEHLER"; else echo "NOT_INITIALIZED"; fi
 ```
 
-Falls nicht initialisiert:
+Steht dort `[shell command execution disabled by policy]`, `bd ready` selbst ausführen. Steht dort `BD_FEHLER`, die Fehlermeldung von bd zeigen und stoppen — nicht selbst reparieren (Migrationen und Re-Init entscheidet der User).
+
+Falls `NOT_INITIALIZED`:
 
 ```markdown
 ## Beads nicht initialisiert
@@ -27,11 +32,7 @@ Stoppe hier.
 
 ### Schritt 2: Ready Tasks abrufen
 
-Nutze Beads MCP Tool oder CLI:
-
-```bash
-bd ready
-```
+Die Ausgabe von `bd ready` steht bereits in Schritt 1 — nicht erneut abrufen. Details zu einzelnen Tasks bei Bedarf via `bd show <id>`.
 
 ### Schritt 3: Formatierte Ausgabe
 
@@ -95,5 +96,3 @@ Keine Tasks ohne Blocker gefunden.
 | 1 | Hoch - Heute erledigen |
 | 2 | Normal - Diese Woche |
 | 3 | Niedrig - Irgendwann |
-
-$ARGUMENTS

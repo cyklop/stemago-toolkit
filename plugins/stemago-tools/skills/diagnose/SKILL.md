@@ -15,7 +15,7 @@ Der häufigste Debugging-Fehler: direkt in den Code gehen ohne reproduzierbares 
 
 ### Phase 1: Orient — Problem verstehen
 
-Stelle dem User maximal 3 gezielte Fragen via **AskUserQuestion**:
+Stelle dem User maximal 3 gezielte Fragen als normalen Text (offene Fragen — AskUserQuestion passt nur bei festen Optionen). Was `$ARGUMENTS` oder der bisherige Verlauf schon beantwortet, nicht erneut fragen:
 
 1. **Was wurde erwartet vs. was passiert?** (konkretes Verhalten, keine Vermutungen)
 2. **Wann hat es zuletzt funktioniert?** (letzter bekannter guter Zustand, Git-Commit wenn möglich)

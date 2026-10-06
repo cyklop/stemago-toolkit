@@ -1,6 +1,6 @@
 ---
 name: caveman
-description: "Ultra-komprimierter Kommunikationsmodus — reduziert Token-Verbrauch um ~75% durch Fragment-Sprache ohne Füllwörter und Artikel. Aktiviere bei langen Sessions, knappem Kontext, oder wenn du kurze knappe Antworten willst. Auch bei: 'weniger Text', 'kürzer', 'kompakter', 'token sparen', 'sei knapp'. Deaktiviere mit 'stop caveman' oder 'normal'."
+description: "Ultra-komprimierter Kommunikationsmodus: Fragment-Sprache ohne Füllwörter und Artikel, spart Tokens. Beenden mit 'stop caveman' oder 'normal'."
 disable-model-invocation: true
 ---
 

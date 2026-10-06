@@ -1,6 +1,6 @@
 ---
 name: zoom-out
-description: "Eine Abstraktionsebene hochgehen und einen Überblick über den relevanten Code bekommen. Verwende wenn du einen unbekannten Codeabschnitt verstehen, Module und deren Verbindungen mappen, oder den größeren Kontext rund um eine Stelle sehen willst. Auch bei: 'was macht dieser Code eigentlich', 'zeig mir den größeren Zusammenhang', 'ich verstehe nicht wie das zusammenhängt', 'wo wird das aufgerufen'."
+description: "Eine Abstraktionsebene hochgehen: Karte der relevanten Module, Caller, Dependencies und Subsystem-Grenzen statt Code."
 disable-model-invocation: true
 ---
 

@@ -6,15 +6,7 @@ argument-hint: "[--on|--off|--status]"
 
 # /reflect-config - Auto-Reflection steuern
 
-Konsolidierter Steuerungs-Skill für die automatische Session-Reflection. Ersetzt `reflect-on`, `reflect-off`, `reflect-status` (entfernt in v2.0.0).
-
-Für die manuelle Extraktion von Learnings nutze `/reflect`.
-
-## Argumente
-
-- `--on` — Auto-Reflect aktivieren
-- `--off` — Auto-Reflect deaktivieren
-- `--status` — aktuellen Status + Learnings-Statistik anzeigen (Default)
+Steuert die Erinnerung an `/stemago-tools:reflect` beim Session-Start. Die Learnings selbst liegen im eingebauten Memory von Claude Code (Verzeichnis im System-Prompt, Abschnitt „Memory").
 
 ## Argument-Routing
 
@@ -27,63 +19,43 @@ Werte `$ARGUMENTS` aus:
 
 ## Subjob ON (--on)
 
-### Step 1: State-Datei erstellen
-
 ```bash
 mkdir -p .claude/state
 echo "enabled=$(date -Iseconds)" > .claude/state/reflect-enabled
 ```
 
-### Step 2: Bestätigung
+Bestätigung:
 
 ```
 Auto-Reflect AKTIVIERT
 
-Beim Start jeder Session erinnert der session-reflect Hook daran,
-am Ende /reflect auszuführen. Die Extraktion selbst löst /reflect aus:
-- Korrektionen und explizite Anweisungen
-- Erfolgreiche Patterns
-- Implizite Präferenzen
+Der session-reflect Hook erinnert beim Session-Start (startup, resume, clear)
+daran, am Ende /reflect auszuführen. /reflect selbst läuft nicht automatisch —
+vor /compact oder einem Session-Wechsel manuell aufrufen.
 
-Learnings werden gespeichert in:
-   .claude/learnings/project-learnings.md
+Learnings landen im Memory von Claude Code und werden in jeder Session geladen.
 
 Befehle:
-- /reflect-config --off    - Deaktivieren
-- /reflect-config --status - Status anzeigen
-- /reflect                 - Manuell auslösen
-```
-
-### Step 3: Hook-Hinweis
-
-```
-Der session-reflect Hook läuft beim Session-Start (startup, resume, clear)
-und gibt nur die Erinnerung aus — /reflect selbst wird nicht automatisch
-ausgeführt. Vor /compact oder einem Session-Wechsel /reflect manuell aufrufen.
+- /stemago-tools:reflect-config --off    - Deaktivieren
+- /stemago-tools:reflect-config --status - Status anzeigen
+- /stemago-tools:reflect                 - Manuell auslösen
 ```
 
 ---
 
 ## Subjob OFF (--off)
 
-### Step 1: State-Datei entfernen
-
 ```bash
 rm -f .claude/state/reflect-enabled
 ```
 
-### Step 2: Bestätigung
+Bestätigung:
 
 ```
 Auto-Reflect DEAKTIVIERT
 
 Die Erinnerung beim Session-Start ist ausgeschaltet.
-
-Du kannst weiterhin manuell /reflect aufrufen.
-
-Befehle:
-- /reflect-config --on    - Wieder aktivieren
-- /reflect                - Manuell Learnings extrahieren
+/stemago-tools:reflect lässt sich weiterhin manuell aufrufen.
 ```
 
 ---
@@ -93,32 +65,22 @@ Befehle:
 ### Step 1: Auto-Reflect-Flag prüfen
 
 ```bash
-if [ -f ".claude/state/reflect-enabled" ]; then
-    cat .claude/state/reflect-enabled
-fi
+[ -f .claude/state/reflect-enabled ] && cat .claude/state/reflect-enabled
 ```
 
-### Step 2: Learnings-Statistik
+### Step 2: Memory-Statistik
 
-```
-Read .claude/learnings/project-learnings.md
-```
+Lies `MEMORY.md` im Memory-Verzeichnis der Session und die Frontmatter der dort verlinkten Dateien. Zähle die Memories pro Typ (`feedback`, `project`, `user`, `reference`).
 
-Zähle:
-- HIGH / MEDIUM / LOW confidence Learnings
-- Learnings pro Kategorie
+Nennt der System-Prompt kein Memory-Verzeichnis: „Auto-Memory ist in dieser Session aus" melden und die Statistik auslassen.
 
-### Step 3: Git-Historie
+### Step 3: Pflege-Hinweise
 
-```bash
-git log --oneline -5 -- .claude/learnings/project-learnings.md
-```
+- Zeiger in `MEMORY.md`, deren Datei fehlt, und Dateien ohne Zeiger
+- Memories, die Dateien, Funktionen oder Flags nennen, die es im Repo nicht mehr gibt
+- Alt-Bestand: existiert noch `.claude/learnings/project-learnings.md`, auf die Migration via `/stemago-tools:reflect` hinweisen
 
-### Step 4: Cleanup-Vorschläge
-
-Identifiziere Learnings älter als 30 Tage.
-
-### Step 5: Status-Output
+### Step 4: Status-Output
 
 ```
 REFLECTION SYSTEM STATUS
@@ -126,33 +88,15 @@ REFLECTION SYSTEM STATUS
 Auto-Reflect: AKTIV / INAKTIV
 Aktiviert am: [Datum] (wenn aktiv)
 
-LEARNINGS STATISTIK
-
-HIGH Confidence:   XX
-MEDIUM Confidence: XX
-LOW Confidence:    XX
+MEMORY
+Ort: <Memory-Verzeichnis>
+feedback:  XX
+project:   XX
+user:      XX
+reference: XX
 ---
-TOTAL:             XX
+TOTAL:     XX
 
-KATEGORIEN
-
-Code Style:    X | Prisma/Database: X
-Testing:       X | Git/Commits:     X
-Architecture:  X | Tools/MCP:       X
-UI/Components: X | API:             X
-
-LETZTE ÄNDERUNGEN
-
-[commit] learn: ... (vor X Tagen)
-
-CLEANUP
-
-X Learnings sind älter als 30 Tage. Führe /reflect aus um zu überprüfen.
-
-Befehle:
-- /reflect              - Learnings aus aktueller Session extrahieren
-- /reflect-config --on  - Auto-Reflect aktivieren
-- /reflect-config --off - Auto-Reflect deaktivieren
+PFLEGE
+[Hinweise aus Step 3 oder „nichts zu tun"]
 ```
-
-$ARGUMENTS

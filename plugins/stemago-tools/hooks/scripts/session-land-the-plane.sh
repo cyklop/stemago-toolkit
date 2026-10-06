@@ -48,7 +48,13 @@ except Exception:
     fi
 fi
 
+# Handoff der letzten Session erwähnen, falls vorhanden
+HANDOFF_LINE=""
+if [ -f "$BEADS_DIR/session-handoff.md" ]; then
+    HANDOFF_LINE=" Handoff der letzten Session: $BEADS_DIR/session-handoff.md."
+fi
+
 # Kontext-Hinweis für das Modell/den User
-echo "[stemago-tools] Beads ist in diesem Projekt aktiv${COUNT_LINE}. Ready-Queue: /stemago-tools:beads-ready. Am Session-Ende für sauberen Handoff: /stemago-tools:land-the-plane."
+echo "[stemago-tools] Beads ist in diesem Projekt aktiv${COUNT_LINE}.${HANDOFF_LINE} Ready-Queue: /stemago-tools:beads-ready. Am Session-Ende für sauberen Handoff: /stemago-tools:land-the-plane."
 
 exit 0

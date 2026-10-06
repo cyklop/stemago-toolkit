@@ -13,7 +13,7 @@ Führe ein strukturiertes Interview durch, um ein tiefes Verständnis der Anford
 - **YAGNI**: Hinterfrage jede Anforderung — brauchen wir das wirklich JETZT? Wenn der User "und vielleicht noch X" sagt: "Ist X für den ersten Release nötig?"
 - Stelle KEINE offensichtlichen Fragen — gehe in die TIEFE (Edge Cases, Trade-offs, Prioritäten)
 - **Challengiere vage Sprache sofort**: "smart", "flexibel", "skalierbar", "einfach" → sofort fragen: "Was meinst du konkret mit X?"
-- **Eine Frage nach der anderen** (im Grill-Modus): tiefere Antworten als bei Listen
+- **Runden klein halten**: thematisch zusammengehörige Fragen bündeln, Terminologie-Challenges und Stress-Test-Fragen einzeln stellen — tiefere Antworten als bei langen Listen
 
 ---
 
@@ -36,7 +36,7 @@ Lange Interviews füllen den Kontext. Damit nichts verloren geht, bevor die Spec
 
 ## Schritt 2: Interview führen
 
-Verwende **AskUserQuestion**. Stelle 2-4 Fragen pro Runde.
+Stelle pro Runde höchstens 4 thematisch zusammengehörige Fragen. **AskUserQuestion** für Fragen mit klaren Optionen (Entweder-oder, Priorisierung); offene Fragen ("Was passiert wenn …?") als normalen Text.
 
 **Fragegebiete:** Scope & Ziele, Technische Implementierung, UI/UX, Trade-offs, Edge Cases, Integration.
 → Details und Beispiel-Fragen: lies `REFERENCE.md` in diesem Skill-Verzeichnis.
@@ -59,7 +59,7 @@ Nach jeder Designentscheidung proaktiv herausfordern:
 
 Sobald Libraries/Frameworks genannt werden, Research-Agent parallel starten:
 ```
-Agent(subagent_type="research-agent", model="haiku",
+Agent(subagent_type="stemago-tools:research-agent", model="haiku",
   prompt="Recherchiere aktuelle Dokumentation für <library> via Context7.
     Fokus: aktuelle API, Breaking Changes, empfohlene Patterns. Kurze Zusammenfassung.")
 ```
@@ -76,13 +76,16 @@ Via **AskUserQuestion** Ansatz wählen lassen. **Erst fortfahren wenn ein Ansatz
 
 ---
 
-## Schritt 2c: Council-Stress-Test (PFLICHT)
+## Schritt 2c: Council-Stress-Test (per Rückfrage)
 
-Bevor die Spec geschrieben wird, wird der **gewählte** Lösungsansatz von einem adversarialen Council zerlegt. Das ist die formale, mehrperspektivische Version des Design-Stress-Tests — **kein optionaler Schritt.** Führe ihn in **jedem** Interview aus, auch bei kleinen Features.
+Bevor die Spec geschrieben wird, kann der **gewählte** Lösungsansatz von einem adversarialen Council zerlegt werden — die formale, mehrperspektivische Version des Design-Stress-Tests. Frage in **jedem** Interview via **AskUserQuestion**, mit einer Empfehlung passend zur Größe des Features:
 
-Starte **fünf Persona-Agents parallel in einem Message-Block** (`subagent_type: general-purpose`, Researcher via `research-agent`). Paste in jeden denselben Kurz-Kontext: die Anforderung, den gewählten Ansatz, die relevanten Constraints. Jede Persona greift den Ansatz aus ihrem Winkel an und liefert knapp zurück.
+1. **Council laufen lassen** — fünf parallele Persona-Agents greifen den Ansatz an (kostet fünf Agent-Läufe, Wall-Clock eine Runde). Empfehlen bei mehreren Tasks, neuen Abhängigkeiten oder Architekturentscheidungen.
+2. **Ohne Council weiter** — der Inline-Stress-Test aus Schritt 2 genügt. Empfehlen bei kleinen, klar umrissenen Features.
 
-**Kein Ersatz durch Inline-Selbstcheck.** Der Council sind fünf *echte* parallele Agents — nicht du, der die Perspektiven „im Kopf" oder in einer kurzen Inline-Notiz selbst durchgeht. Diese Rationalisierungen zählen NICHT: „der Ansatz ist Standard", „ich hab die Punkte eh schon bedacht", „ein komprimierter Selbstcheck ist gleichwertig und billiger", „für fünf Agents ist keine Zeit", „der User will's schnell". Fünf Agents laufen — sonst ist der Schritt nicht erfüllt. (Sie laufen parallel: Wall-Clock ist eine Runde, nicht fünf; der reale Preis sind Tokens, nicht Zeit.) Komprimieren darfst du die *Persona-Prompts*, nicht die *Anzahl der Agents*.
+Bei „Ohne Council" direkt weiter zu Schritt 3.
+
+Bei „Council": Starte **fünf Persona-Agents parallel in einem Message-Block** (`subagent_type: general-purpose`, Researcher via `stemago-tools:research-agent`). Paste in jeden denselben Kurz-Kontext: die Anforderung, den gewählten Ansatz, die relevanten Constraints. Jede Persona greift den Ansatz aus ihrem Winkel an und liefert knapp zurück. Hat der User den Council gewählt, laufen fünf echte Agents — ein Selbstcheck, bei dem du die Perspektiven selbst durchgehst, ist kein Ersatz.
 
 → Die fünf Persona-Prompts und die Synthese-Anleitung: lies den Abschnitt **„Council-Personas (Schritt 2c)"** in `REFERENCE.md`.
 
@@ -119,7 +122,7 @@ Schreibe nach `docs/specs/<feature-name>.md`.
 ## Schritt 4b: Spec-Review-Loop (max 3 Iterationen)
 
 ```
-Agent(subagent_type="quality-agent", model="sonnet",
+Agent(subagent_type="stemago-tools:quality-agent", model="sonnet",
   prompt="Reviewe docs/specs/<feature-name>.md auf:
     Vollständigkeit, Widersprüche, YAGNI, Umsetzbarkeit, Klarheit.
     Konkrete Verbesserungsvorschläge.")

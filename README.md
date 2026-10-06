@@ -38,9 +38,9 @@ Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende 
 | `db-inspect` | MariaDB MCP wrapper for database inspection | `/stemago-tools:db-inspect` |
 | `browser-test` | Chrome DevTools MCP for UI testing | `/stemago-tools:browser-test` |
 | `docs-lookup` | Context7 MCP for documentation lookup | `/stemago-tools:docs-lookup` |
-| `github-ops` | GitHub MCP for repository operations | `/stemago-tools:github-ops` |
+| `github-ops` | GitHub operations via `gh` CLI (PRs, issues, reviews, CI) | `/stemago-tools:github-ops` |
 | `interview` | Structured feature/plan interviews | `/stemago-tools:interview` |
-| `reflect` | Session learning extractor (manuell) | `/stemago-tools:reflect` |
+| `reflect` | Session learning extractor → Claude Code Memory (manuell) | `/stemago-tools:reflect` |
 | `review` | Code Review der lokalen Änderungen gegen CLAUDE.md | `/stemago-tools:review` |
 | `beads-ready` | Tasks ohne Blocker anzeigen (Ready Queue) | `/stemago-tools:beads-ready` |
 | `land-the-plane` | Session-Ende Handoff mit Prompt generieren | `/stemago-tools:land-the-plane` |
@@ -66,9 +66,10 @@ In eingerichteten Projekten lassen sich Setup-/Operativ-Skills bei Bedarf via `/
 - `beads-ready` — Einstieg in offene Tasks
 
 **Aktive Entwicklung**
-- `docs-lookup`, `browser-test`, `db-inspect`, `github-ops` — MCP-Wrapper
+- `docs-lookup`, `browser-test`, `db-inspect` — MCP-Wrapper
+- `github-ops` — GitHub über `gh` CLI
 - `review` — Code Review der lokalen Änderungen
-- `reflect` — Learnings aus der Session extrahieren
+- `reflect` — Learnings aus der Session ins Memory von Claude Code sichern
 - `land-the-plane` — Session-Handoff erzeugen
 
 **Operativ / optional**

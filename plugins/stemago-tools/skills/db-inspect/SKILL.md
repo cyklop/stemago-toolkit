@@ -3,59 +3,26 @@ name: db-inspect
 description: "Datenbank inspizieren - Tabellen, Schema, Queries ausführen. Verwende diesen Skill wenn der User Datenbank-Inhalte sehen will, Tabellen oder Schema anzeigen möchte, SQL-Queries ausführen will, oder Daten debuggen muss. Auch bei 'was steht in der DB', 'zeig mir die Tabellen', 'Daten prüfen', 'Schema anschauen', 'Query ausführen', oder wenn Prisma-Migrationen gegen den DB-Stand geprüft werden sollen."
 ---
 
-# MariaDB MCP - Datenbank-Inspektion
+# Datenbank-Inspektion mit MariaDB MCP
 
-Nutze den MariaDB MCP Server für alle Datenbank-Operationen.
+Inspiziere die Datenbank über die `mcp__mariadb__*`-Tools: `list_databases`, `list_tables`, `describe_table`, `execute_query`. Der Parameter `database` ist überall optional (Default-Datenbank des Servers).
 
-## Verfügbare Tools
+## Ablauf
 
-### `mcp__mariadb__list_databases`
-Alle verfügbaren Datenbanken auflisten.
+1. **Orientieren**: `list_tables`, dann `describe_table` für die beteiligten Tabellen — nicht aus dem ORM-Schema raten, die Datenbank ist die Wahrheit.
+2. **Abfragen**: `execute_query` mit einem gezielten `SELECT`. Immer `LIMIT` setzen, solange die Tabellengröße unbekannt ist; Spalten benennen statt `SELECT *` bei breiten Tabellen.
+3. **Befund melden**: die Query, die relevanten Zeilen und was sie für die Ausgangsfrage bedeuten.
 
-### `mcp__mariadb__list_tables`
-Tabellen einer Datenbank auflisten.
-```
-database: "<datenbank>"  # Optional, nutzt Default wenn nicht angegeben
-```
+## Regeln
 
-### `mcp__mariadb__describe_table`
-Schema einer Tabelle anzeigen (Spalten, Typen, Constraints).
-```
-table: "<Tabelle>"
-database: "<datenbank>"  # Optional
-```
+- **Lesend ist der Normalfall.** `execute_query` lässt auch `INSERT`, `UPDATE` und `DELETE` zu — schreibende Statements nur auf ausdrücklichen Auftrag, vorher das Statement und die betroffene Zeilenzahl (`SELECT COUNT(*)` mit derselben `WHERE`-Klausel) zeigen.
+- **Kein Schreiben ohne `WHERE`.**
+- **Schema-Fragen** über `describe_table`, nicht über rohes SQL.
+- **Vor Migrationen**: Ist-Schema mit dem ORM-Schema (z.B. `prisma/schema.prisma`) vergleichen und Abweichungen nennen, bevor migriert wird. Nach der Migration stichprobenartig verifizieren.
+- **Personenbezogene Daten** nur so weit ausgeben, wie die Frage es braucht.
 
-### `mcp__mariadb__execute_query`
-SQL-Query ausführen (SELECT, INSERT, UPDATE, DELETE, SHOW, DESCRIBE, EXPLAIN).
-```
-query: "SELECT * FROM <Tabelle> WHERE <spalte> = '<wert>'"
-database: "<datenbank>"  # Optional
-```
+## Typische Fragen
 
-## Typische Anwendungsfälle
-
-1. **Daten prüfen**: Vor Änderungen schauen was existiert
-2. **Schema verstehen**: Vor Prisma-Migrationen aktuellen Stand prüfen
-3. **Debugging**: Warum zeigt die UI falsche Daten?
-4. **Verifikation**: Nach Migration prüfen ob Daten korrekt sind
-
-## Beispiel-Queries
-
-```sql
--- Eltern mit Anzahl Kinder (1:n-Aggregation)
-SELECT p.name, COUNT(c.id) AS children
-FROM <Parent> p
-LEFT JOIN <Child> c ON c.parentId = p.id
-GROUP BY p.id;
-
--- Datensätze in einem bestimmten Status, mit Join auf den User
-SELECT r.*, u.email FROM <Tabelle> r
-JOIN User u ON u.id = r.userId
-WHERE r.status = '<STATUS>';
-```
-
-## Hinweise
-
-- **Nur lesende Queries** für Debugging verwenden
-- **Schreibende Queries** nur wenn explizit gewünscht
-- Bei Schema-Fragen besser `describe_table` als raw SQL
+- „Warum zeigt die UI falsche Daten?" → betroffenen Datensatz samt Joins abfragen und mit der API-Antwort vergleichen.
+- „Gibt es Waisen/Duplikate?" → `LEFT JOIN … WHERE x IS NULL` bzw. `GROUP BY … HAVING COUNT(*) > 1`.
+- „Ist die Migration durch?" → `describe_table` plus Stichprobe der neuen Spalten.

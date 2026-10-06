@@ -6,7 +6,7 @@ argument-hint: "[--project|--beads|--mcp|--all] [--force]"
 
 # /setup - Projekt-Initialisierung
 
-Konsolidierter Setup-Skill für Erst-Einrichtung eines Projekts. Ersetzt die früheren Einzel-Skills `init-project`, `beads-setup`, `mcp-setup` (entfernt in v2.0.0).
+Konsolidierter Setup-Skill für die Erst-Einrichtung eines Projekts.
 
 ## Argumente
 
@@ -38,7 +38,7 @@ Prüfe Projekt-Zustand und zeige Tabelle:
 ```bash
 [ -f CLAUDE.md ] && echo "✓ CLAUDE.md vorhanden" || echo "✗ CLAUDE.md fehlt"
 [ -d .beads ] && echo "✓ Beads initialisiert" || echo "✗ Beads fehlt"
-claude mcp list 2>/dev/null | grep -E "^(context7|beads|chrome-devtools)" || echo "✗ Core MCPs fehlen"
+claude mcp list 2>/dev/null | grep -E "^(plugin:[^:]+:)?(context7|beads|chrome-devtools):" || echo "✗ Core MCPs fehlen"
 ```
 
 Frage via AskUserQuestion welche fehlenden Subjobs ausgeführt werden sollen.
@@ -110,7 +110,9 @@ Falls nicht: stoppe mit "Beads benötigt ein Git-Repository. Bitte erst `git ini
 ls -la .beads/ 2>/dev/null
 ```
 
-Falls `.beads/` existiert und kein `--force`: Meldung "Beads bereits initialisiert. Mit `--force` neu initialisieren (löscht bestehende Tasks!)." und stoppe.
+Falls `.beads/` existiert und kein `--force`: Meldung "Beads bereits initialisiert. Mit `--force` neu initialisieren (überschreibt die lokalen Beads-Daten!)." und stoppe.
+
+Mit `--force`: vorher `bd export` als Backup ausführen und die Re-Initialisierung via AskUserQuestion bestätigen lassen. In B.6 dann `bd init --reinit-local` verwenden (`bd init --force` ist seit bd 1.x nur noch ein deprecated Alias dafür). Hat die Datenbank ein Remote, stoppen und auf `bd help init-safety` verweisen — Remote-Historie nie automatisch verwerfen.
 
 ### B.3 bd CLI prüfen und installieren
 
@@ -147,8 +149,9 @@ AskUserQuestion:
 ### B.6 Beads initialisieren
 
 ```bash
-bd init           # Normal
-bd init --stealth # Stealth
+bd init                # Normal
+bd init --stealth      # Stealth
+bd init --reinit-local # nur bei --force über bestehende lokale Daten (siehe B.2)
 ```
 
 ### B.7 MCP Server konfigurieren
@@ -163,23 +166,7 @@ Falls nicht konfiguriert:
 claude mcp add beads -- beads-mcp
 ```
 
-### B.8 Einstellungen speichern
-
-Speichere in `.claude/settings.local.json`:
-
-```json
-{
-  "beads": {
-    "mode": "normal|stealth",
-    "initialized": true,
-    "initializedAt": "ISO-timestamp"
-  }
-}
-```
-
-Bestehende Datei mergen, nicht überschreiben.
-
-### B.9 Abschluss-Tabelle
+### B.8 Abschluss-Tabelle
 
 ```
 | Komponente | Status |
@@ -216,10 +203,12 @@ claude mcp list
 
 | MCP | Status | Benötigt von |
 |-----|--------|-------------|
-| `github` | ✓/✗ | github-ops |
+| `github` | ✓/✗ | github-ops (optional — `gh` CLI reicht) |
 | `mariadb` | ✓/✗ | db-inspect |
 | `playwright` | ✓/✗ | functional-testing-agent |
 | `sequential-thinking` | ✓/✗ | — (aktuelle Modelle planen ohne externes Thinking-Tool; nur auf ausdrücklichen Wunsch) |
+
+Ein MCP zählt auch dann als ✓, wenn er von einem Plugin bereitgestellt wird (in `claude mcp list` als `plugin:<plugin>:<name>`, z.B. `plugin:context7:context7`) — nicht doppelt installieren.
 
 ### C.3 Idempotenz-Check
 
@@ -241,15 +230,15 @@ claude mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest
 **Optional ohne Credentials:**
 
 ```bash
-claude mcp add playwright -- npx -y @anthropic/mcp-server-playwright@latest
+claude mcp add playwright -- npx -y @executeautomation/playwright-mcp-server  # liefert die mcp__playwright__playwright_*-Tools des functional-testing-agent
 claude mcp add sequential-thinking -- npx -y @modelcontextprotocol/server-sequential-thinking  # nur auf Wunsch
 ```
 
 **Mit Credentials:**
 
 ```bash
-# GitHub - frage nach GITHUB_PERSONAL_ACCESS_TOKEN
-claude mcp add -e GITHUB_PERSONAL_ACCESS_TOKEN=<token> github -- npx -y @modelcontextprotocol/server-github
+# GitHub (offizieller Remote-Server) - frage nach einem GitHub PAT mit repo-Scope
+claude mcp add-json github '{"type":"http","url":"https://api.githubcopilot.com/mcp","headers":{"Authorization":"Bearer <token>"}}'
 
 # MariaDB - frage nach DB_HOST/DB_PORT/DB_USER/DB_PASSWORD
 claude mcp add -e DB_HOST=<host> -e DB_PORT=<port> -e DB_USER=<user> -e DB_PASSWORD=<pw> mariadb -- npx -y @benborla29/mcp-server-mysql
@@ -270,5 +259,3 @@ Hinweis: **Claude Code neu starten**, damit neue MCPs aktiv werden.
 - Bereits installierte/konfigurierte Komponenten nicht erneut behandeln (außer `--force`).
 - Bei Credentials immer User fragen, niemals Dummy-Werte.
 - Installationsfehler klar kommunizieren.
-
-$ARGUMENTS

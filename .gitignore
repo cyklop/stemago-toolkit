@@ -1,4 +1,5 @@
 .beads/.jsonl.lock
+.beads.gate.lock
 .claude/settings.local.json
 .idea/
 

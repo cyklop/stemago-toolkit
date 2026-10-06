@@ -14,6 +14,19 @@ Fahre die Pipeline End-to-End. Kürze keine Phase ab. Das ist schwerer als eine 
 
 **Abgrenzung:** `/roast` validiert eine *Idee* (GO/KILL). `/interview` plant ein *Feature* (Spec/Tasks). STORM *recherchiert ein Thema* multi-perspektivisch und quellenverifiziert. Der externe `deep-research`-Skill macht generischen Such-Fan-out → Report; STORM unterscheidet sich durch feste Perspektiven-Lenses, Contradiction-Map, designtes HTML-Briefing und Claim-Safety-Guide.
 
+## Regeln & Guardrails
+
+Diese Regeln stehen bewusst vor den Phasen: nach einem Auto-Compact bleiben nur die ersten ~5.000 Tokens eines Skills erhalten.
+
+
+- **Nur echte Recherche.** Jede Lens und jede Zitation muss auf eine reale, gefetchte Quelle zurückgehen. Keine erfundenen Studien, Zahlen oder URLs. Nicht verifizierbare Zahl → demoten oder streichen, nie übertünchen.
+- **Das Panel ist selbst gebaut.** Immer im Report offenlegen. Übereinstimmung über Lenses ist eine starke Hypothese, kein unabhängiger Beweis. Konvergenz nicht als Fachkonsens ausgeben.
+- **Verifikation ist Pflicht.** Ein Report ohne Phase 4 ist kein STORM-Report. Das Verifikations-Banner muss wahrhaftig sein.
+- **Verlässlichkeit = Evidenzqualität, nicht Confidence.** Nach der Quellen-Hierarchie scoren: peer-reviewt kausal > offizielle Politik-/Finanzdaten > einzelne beauftragte Umfrage > Analogie > Preprint.
+- **Den Leser adressieren, keine Default-Person.** Handlungsempfehlung und Claim-Safety-Guide sprechen die in Phase 0 bestimmte Rolle an.
+- **Kosten.** ~9-11 Agents pro Lauf. Das ist erwartet. Nicht breiter fächern als fünf Lenses bzw. ein Verifier pro Zitations-Cluster.
+- **Design.** Sauberes Weiß, professionell (Montserrat / Roboto Mono, blauer Akzent). Template-CSS verbatim halten. Keinen anderen Visual-Style einsetzen.
+
 ## Portabilität
 
 Self-contained. Hängt nur an built-in Tools (`Agent` mit `general-purpose`, `Write`, Websuche/-fetch in den Agents) plus `report-template.html` in diesem Ordner. Keine externen Skripte, APIs oder anderen Skills nötig.
@@ -90,13 +103,3 @@ Das trennt STORM von einem normalen Report. Vor der Auslieferung ausführen.
 1. Finales Deliverable: `docs/research/{topic-slug}-storm.html` (die v2, post-Verifikation).
 2. Für den User öffnen: macOS `open <pfad>`. Wenn das OS unklar ist, einfach den Pfad geben.
 3. Im Chat (deutsch, knapp): der Dateipfad, die Verifikations-Bilanz (`N/N geprüft, X erfunden, Y korrigiert, Z abgestuft`), der eine universelle Befund, die Frontier-Frage, und die Claim-Safety-Kurzfassung (was sicher behauptbar ist vs. vermeiden).
-
-## Regeln & Guardrails
-
-- **Nur echte Recherche.** Jede Lens und jede Zitation muss auf eine reale, gefetchte Quelle zurückgehen. Keine erfundenen Studien, Zahlen oder URLs. Nicht verifizierbare Zahl → demoten oder streichen, nie übertünchen.
-- **Das Panel ist selbst gebaut.** Immer im Report offenlegen. Übereinstimmung über Lenses ist eine starke Hypothese, kein unabhängiger Beweis. Konvergenz nicht als Fachkonsens ausgeben.
-- **Verifikation ist Pflicht.** Ein Report ohne Phase 4 ist kein STORM-Report. Das Verifikations-Banner muss wahrhaftig sein.
-- **Verlässlichkeit = Evidenzqualität, nicht Confidence.** Nach der Quellen-Hierarchie scoren: peer-reviewt kausal > offizielle Politik-/Finanzdaten > einzelne beauftragte Umfrage > Analogie > Preprint.
-- **Den Leser adressieren, keine Default-Person.** Handlungsempfehlung und Claim-Safety-Guide sprechen die in Phase 0 bestimmte Rolle an.
-- **Kosten.** ~9-11 Agents pro Lauf. Das ist erwartet. Nicht breiter fächern als fünf Lenses bzw. ein Verifier pro Zitations-Cluster.
-- **Design.** Sauberes Weiß, professionell (Montserrat / Roboto Mono, blauer Akzent). Template-CSS verbatim halten. Keinen anderen Visual-Style einsetzen.

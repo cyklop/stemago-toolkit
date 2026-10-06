@@ -43,7 +43,7 @@ Falls kein Argument: frage den User nach Plan oder Dateipfad.
 ## Vorgeschlagene Tasks
 
 ### [Task-Titel]
-- Typ: task | bug | research
+- Typ: task | bug | feature | chore | spike (zeitlich begrenzte Recherche)
 - Modus: AFK | HITL (Grund: ...)
 - Akzeptanzkriterium: [Satz der beschreibt wann done]
 - TDD-Signal: [Welcher Test/Check beweist es]

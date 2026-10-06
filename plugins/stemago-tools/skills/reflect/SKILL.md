@@ -1,120 +1,80 @@
 ---
 name: reflect
-description: "Session Learning Extractor - Analysiert die aktuelle Session und extrahiert Learnings für zukünftige Sessions. Verwende diesen Skill wenn der User Learnings speichern will, am Session-Ende reflektieren möchte, oder fragt 'was haben wir gelernt', 'speicher das als Learning', 'was war wichtig in dieser Session'. Auch bei 'reflektiere', 'Learnings extrahieren', oder wenn der User explizit um Reflection bittet."
+description: "Session Learning Extractor - Analysiert die aktuelle Session und sichert Learnings im Memory von Claude Code, damit sie in zukünftigen Sessions automatisch geladen werden. Verwende diesen Skill wenn der User Learnings speichern will, am Session-Ende reflektieren möchte, oder fragt 'was haben wir gelernt', 'speicher das als Learning', 'was war wichtig in dieser Session'. Auch bei 'reflektiere', 'Learnings extrahieren', oder wenn der User explizit um Reflection bittet."
 ---
 
 # /reflect - Session Learning Extractor
 
-Analysiere die aktuelle Session und extrahiere Learnings für zukünftige Sessions.
+Analysiere die aktuelle Session und sichere die Learnings im **eingebauten Memory von Claude Code**. Dort werden sie in jeder künftigen Session dieses Projekts automatisch geladen — eine eigene Learnings-Datei im Repo wird nicht mehr gepflegt.
 
-## Deine Aufgabe
+## Wohin geschrieben wird
 
-### Schritt 1: Session-Analyse
+Das Memory-Verzeichnis dieser Session steht im System-Prompt (Abschnitt „Memory", in der Regel `~/.claude/projects/<projekt-slug>/memory/`). Halte dich an das dort beschriebene Format: **eine Datei pro Fakt** mit Frontmatter (`name`, `description`, `type`) und eine Zeiger-Zeile im Index `MEMORY.md`.
+
+Nennt der System-Prompt kein Memory-Verzeichnis, ist Auto-Memory in dieser Session aus. Dann nichts schreiben: zeige die Vorschau aus Schritt 3 und sag dem User, dass er Memory aktivieren (`/memory`) oder die Punkte selbst in die `CLAUDE.md` übernehmen kann.
+
+## Schritt 1: Session-Analyse
 
 Scanne die gesamte Konversation nach:
 
-1. **Explizite Korrekturen** (HIGH confidence)
-   - User sagt "nicht X, sondern Y"
-   - "Das ist falsch, verwende stattdessen..."
-   - "NIE/IMMER X tun"
-   - Direkte Anweisungen mit "muss", "soll nicht"
+1. **Explizite Korrekturen** (HIGH)
+   - User sagt "nicht X, sondern Y", "Das ist falsch, verwende stattdessen..."
+   - "NIE/IMMER X tun", direkte Anweisungen mit "muss", "soll nicht"
 
-2. **Erfolgreiche Patterns** (MEDIUM confidence)
-   - Lösungen die funktioniert haben
-   - Patterns die positives Feedback erhielten
-   - "Das war gut", "Genau so"
+2. **Bestätigte Patterns** (MEDIUM)
+   - Lösungen, die funktioniert haben und positives Feedback bekamen ("Das war gut", "Genau so")
 
-3. **Implizite Präferenzen** (LOW confidence)
-   - User wählt konsistent eine Option
-   - Wiederholte Anpassungen in gleiche Richtung
-   - Stil-Präferenzen (Kommentare, Formatierung)
+3. **Implizite Präferenzen** (LOW)
+   - User wählt konsistent eine Option, wiederholte Anpassungen in gleiche Richtung
 
-### Schritt 2: Kategorisierung
+Ein Learning muss **dauerhaft** und **anwendbar** sein: es ändert dein Verhalten in künftigen Sessions. Nicht ins Memory gehören: was das Repo schon festhält (Code-Struktur, Git-Historie, `CLAUDE.md`), erledigte Arbeit, Task-Status, einmalige Details dieser Session.
 
-Ordne jedes Learning einer Kategorie zu:
+## Schritt 2: Typ zuordnen
 
-- **Code Style**: Formatierung, Kommentare, Naming
-- **Prisma/Database**: Migrationen, Schema-Änderungen
-- **Testing**: Test-Patterns, E2E, Unit Tests
-- **Git/Commits**: Commit-Messages, Branch-Naming
-- **Architecture**: Struktur, Patterns, Best Practices
-- **Tools/MCP**: Tool-Nutzung, MCP-Präferenzen
-- **UI/Components**: DaisyUI, Tailwind, React-Patterns
-- **API**: Endpoints, Validation, Error-Handling
+| Typ | Inhalt |
+|---|---|
+| `feedback` | Korrekturen und bestätigte Arbeitsweisen — mit **Why:** und **How to apply:** |
+| `project` | Ziele, Constraints, laufende Vorhaben, die nicht aus dem Code ableitbar sind |
+| `user` | Rolle, Expertise, Präferenzen des Users |
+| `reference` | Zeiger auf externe Ressourcen (URLs, Dashboards, Tickets) |
 
-### Schritt 3: Vorschau generieren
-
-Zeige dem User eine Vorschau der extrahierten Learnings:
+## Schritt 3: Vorschau zeigen
 
 ```markdown
 ## Gefundene Learnings
 
-### HIGH Confidence (Explizite Anweisungen)
-- [Code Style] "Immer deutsche Kommentare in UI-Komponenten"
-- [Prisma/Database] "Migrations nie mit 'chore:' committen"
+### HIGH (explizite Anweisungen) — werden gespeichert
+- [feedback] "Migrations nie mit 'chore:' committen" — Why: …
 
-### MEDIUM Confidence (Erfolgreiche Patterns)
-- [Testing] "E2E-Tests mit data-testid statt Text-Selektoren"
+### MEDIUM (bestätigte Patterns) — werden gespeichert
+- [feedback] "E2E-Tests mit data-testid statt Text-Selektoren"
 
-### LOW Confidence (Beobachtungen)
-- [UI/Components] "Bevorzugt btn-primary für Hauptaktionen"
-
-Sollen diese Learnings übernommen werden? [Ja/Nein/Bearbeiten]
+### LOW (Beobachtungen) — nur auf Wunsch
+- [user] "Bevorzugt btn-primary für Hauptaktionen"
 ```
 
-### Schritt 4: Nach Bestätigung
+Frage via **AskUserQuestion**: **HIGH + MEDIUM speichern** / **Alle speichern** / **Nichts speichern**. Einzelne Punkte kann der User über „Other" streichen oder umformulieren.
 
-1. **Lese bestehende Learnings**:
-   ```
-   Read .claude/learnings/project-learnings.md
-   ```
+## Schritt 4: Nach Bestätigung speichern
 
-2. **Merge neue Learnings** (Duplikate vermeiden):
-   - Prüfe ob ähnliches Learning existiert
-   - Update Confidence wenn nötig (LOW -> MEDIUM -> HIGH)
-   - Füge neue Learnings an richtige Kategorie an
+1. **Bestehendes Memory lesen**: `MEMORY.md` und die Dateien, die thematisch passen.
+2. **Zusammenführen statt duplizieren**: Deckt ein bestehendes Memory das Learning ab, diese Datei aktualisieren. Widerspricht die Session einem bestehenden Memory, es korrigieren oder löschen (samt Zeile in `MEMORY.md`).
+3. **Neue Memories schreiben**: eine Datei pro Fakt, danach die Zeiger-Zeile in `MEMORY.md`. Wortlaut des Users erhalten, wo die Formulierung zählt; eigene Interpretation als solche kennzeichnen.
 
-3. **Schreibe aktualisierte Datei**:
-   ```
-   Write .claude/learnings/project-learnings.md
-   ```
+Kein Git-Commit: das Memory liegt außerhalb des Repos.
 
-4. **Git Commit** (wenn Git verfügbar):
-   ```bash
-   git add .claude/learnings/project-learnings.md
-   git commit -m "learn: add session learnings - [Anzahl] new patterns"
-   ```
+## Schritt 5: Alt-Bestand migrieren (einmalig)
 
-### Schritt 5: Cleanup-Check (Optional)
+Existiert noch `.claude/learnings/project-learnings.md` aus früheren Plugin-Versionen, biete an, die weiterhin gültigen Einträge ins Memory zu übernehmen. Nach der Übernahme die Datei nicht selbst löschen — dem User überlassen.
 
-Prüfe bei jedem Reflect ob alte Learnings noch relevant sind:
-
-1. Lese Git-Log für Learnings-Datei
-2. Für Learnings älter als 30 Tage:
-   ```
-   Folgende Learnings sind älter als 30 Tage:
-   - [Category] "Learning text..." (hinzugefügt vor 45 Tagen)
-
-   Noch relevant? [Ja/Entfernen]
-   ```
-
-## Output Format
-
-Am Ende zeige:
+## Output
 
 ```
 Reflection abgeschlossen!
 
-Statistik:
-- HIGH: X neue Learnings
-- MEDIUM: Y neue Learnings
-- LOW: Z neue Learnings
-- Duplikate übersprungen: N
+Gespeichert: X neu, Y aktualisiert, Z entfernt
+Übersprungen (bereits abgedeckt): N
+Ort: <Memory-Verzeichnis>
 
-Gespeichert in: .claude/learnings/project-learnings.md
-Git Commit: [commit hash] (wenn committed)
-
-Tipp: /reflect-config --on schaltet beim Session-Start eine Erinnerung an /reflect ein
+Tipp: /stemago-tools:reflect-config --on schaltet beim Session-Start eine Erinnerung an /reflect ein
 ```
-
-$ARGUMENTS

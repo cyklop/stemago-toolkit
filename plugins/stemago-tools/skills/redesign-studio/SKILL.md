@@ -17,7 +17,7 @@ Arbeitsteilung: **Du denkst, entscheidest und gestaltest. Günstige Subagents (`
 | Brief (Interview-Capture) | `brainstorms/{YYYY-MM-DD}-redesign-{slug}.md` |
 | Recherche-Briefs | `docs/research/redesign-{slug}/inspiration-<quelle>.md` und `…/bestand.md` |
 | Mockups | `design/mockups/<richtung>/index.html` — eigenständiges HTML, CSS inline |
-| Scroll-Engine | `design/mockups/scrollfx.js` — einmal pro Projekt aus diesem Skill-Ordner kopieren: `cp "$(dirname "$CLAUDE_SKILL_PATH")/scrollfx.js" design/mockups/` |
+| Scroll-Engine | `design/mockups/scrollfx.js` — einmal pro Projekt aus diesem Skill-Ordner kopieren: `cp "${CLAUDE_SKILL_DIR}/scrollfx.js" design/mockups/` |
 | Vergleichsboard | `design/mockups/index.html` |
 | Verifier-Reports | `design/verify/<richtung>.md` |
 | Handoff | `design/handoff-{slug}/` |

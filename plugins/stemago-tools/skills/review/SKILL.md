@@ -1,6 +1,6 @@
 ---
 name: review
-description: "stemago-tools Code Review: prüft die Änderungen seit dem letzten Commit gegen Projekt-Konventionen aus CLAUDE.md mit fünf parallelen Review-Agents (Security, Performance, Quality, Docs, Spec-Compliance). Verwende wenn der User 'Review bitte', 'prüf den Code' oder 'ist das so OK' sagt UND das Projekt eine CLAUDE.md mit Konventionen hat. NICHT verwenden für PR-Reviews oder gezielte Security-Audits — dafür github-ops oder /code-review oder /security-review."
+description: "stemago-tools Code Review: prüft die Änderungen des aktuellen Branches inklusive uncommitteter Änderungen gegen Projekt-Konventionen aus CLAUDE.md mit fünf parallelen Review-Agents (Security, Performance, Quality, Docs, Spec-Compliance). Verwende wenn der User 'Review bitte', 'prüf den Code' oder 'ist das so OK' sagt UND das Projekt eine CLAUDE.md mit Konventionen hat. NICHT verwenden für PR-Reviews oder gezielte Security-Audits — dafür github-ops oder /code-review oder /security-review."
 ---
 
 # /review - Code Review
@@ -14,23 +14,20 @@ Führe einen strukturierten, parallelisierten Code Review der letzten Änderunge
 Ermittle die exakte Git-Range für den Review:
 
 ```bash
-# Exakte Range bestimmen
-BASE_SHA=$(git merge-base HEAD origin/main 2>/dev/null || git rev-parse HEAD~1)
-HEAD_SHA=$(git rev-parse HEAD)
+# Basis: Merge-Base mit dem Default-Branch (Fallback: origin/main, dann HEAD~1)
+DEFAULT_REF=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/main)
+BASE_SHA=$(git merge-base HEAD "$DEFAULT_REF" 2>/dev/null || git rev-parse HEAD~1)
 
-# Diff der Range
-git diff --stat $BASE_SHA..$HEAD_SHA
-git diff --name-only $BASE_SHA..$HEAD_SHA
-git diff $BASE_SHA..$HEAD_SHA
+# Diff von der Basis bis zum Working Tree: Commits des Branches UND uncommittete Änderungen
+git diff --stat "$BASE_SHA"
+git diff --name-only "$BASE_SHA"
+git diff "$BASE_SHA"
+
+# Neue, noch ungetrackte Dateien tauchen im Diff nicht auf — vollständig mitlesen
+git status --porcelain | grep '^??'
 ```
 
-Falls die Range leer ist, falle zurück auf:
-```bash
-git diff HEAD
-git diff --cached
-```
-
-Falls auch das leer ist: "Keine Änderungen zum Reviewen gefunden." — Abbruch.
+Falls Diff und ungetrackte Dateien leer sind: "Keine Änderungen zum Reviewen gefunden." — Abbruch.
 
 ### Schritt 2: Kontext sammeln
 
@@ -51,14 +48,14 @@ Ermittle abhängige Dateien:
 Starte **fünf spezialisierte Review-Agents parallel** — jeder fokussiert auf sein Gebiet:
 
 ```
-# Agent 1: Security Review (haiku — regelbasiert, schnell)
+# Agent 1: Security Review (sonnet — Fehlalarme und übersehene Lücken sind hier am teuersten)
 Agent(
-  subagent_type="quality-agent",
-  model="haiku",
+  subagent_type="stemago-tools:quality-agent",
+  model="sonnet",
   description="Security Review",
   prompt="Analysiere diese Dateien auf Security-Probleme (OWASP Top 10):
     Geänderte Dateien: <liste>
-    Diff: <diff>
+    Basis: <BASE_SHA> — hol dir den Diff selbst via `git diff <BASE_SHA>` und lies die geänderten Dateien vollständig.
 
     Prüfe auf: SQL Injection, XSS, Command Injection, unsichere Deserialisierung,
     hartcodierte Secrets/Credentials, fehlende Input-Validierung, CSRF, Path Traversal.
@@ -69,12 +66,12 @@ Agent(
 
 # Agent 2: Performance & Error Handling (haiku — pattern-matching)
 Agent(
-  subagent_type="quality-agent",
+  subagent_type="stemago-tools:quality-agent",
   model="haiku",
   description="Performance Review",
   prompt="Analysiere diese Dateien auf Performance und Error Handling:
     Geänderte Dateien: <liste>
-    Diff: <diff>
+    Basis: <BASE_SHA> — hol dir den Diff selbst via `git diff <BASE_SHA>` und lies die geänderten Dateien vollständig.
 
     Performance: N+1 Queries, unnötige Re-Renders, fehlende Indizes, große Payloads, Memory Leaks.
     Error Handling: Unbehandelte Exceptions, fehlende Null-Checks, unklare Fehlermeldungen.
@@ -85,13 +82,13 @@ Agent(
 
 # Agent 3: Code-Qualität, Patterns & Docs (sonnet — braucht Urteilsvermögen)
 Agent(
-  subagent_type="quality-agent",
+  subagent_type="stemago-tools:quality-agent",
   model="sonnet",
   description="Quality & Pattern Review",
   prompt="Analysiere diese Dateien auf Code-Qualität, Pattern-Einhaltung und Dokumentation:
     Geänderte Dateien: <liste>
-    Vollständige Dateien + Kontext-Dateien: <inhalt>
-    Diff: <diff>
+    Kontext-Dateien (Importe, Aufrufer, Typen): <liste>
+    Basis: <BASE_SHA> — hol dir den Diff selbst via `git diff <BASE_SHA>` und lies die geänderten Dateien vollständig.
 
     Code-Qualität: Naming-Konventionen, Konsistenz, unnötige Komplexität, Duplizierung.
     Pattern-Einhaltung: Passt der Code zu bestehenden Patterns im Projekt?
@@ -107,7 +104,7 @@ Agent(
 
 # Agent 4: Docs-Validierung (haiku + Context7 — aktuelle API-Prüfung)
 Agent(
-  subagent_type="research-agent",
+  subagent_type="stemago-tools:research-agent",
   model="haiku",
   description="Docs Validation",
   prompt="Prüfe ob der geänderte Code aktuelle Library-APIs und Best Practices verwendet.
@@ -125,13 +122,13 @@ Agent(
 
 # Agent 5: Spec-Compliance (sonnet — nur wenn Spec/Plan vorhanden)
 Agent(
-  subagent_type="quality-agent",
+  subagent_type="stemago-tools:quality-agent",
   model="sonnet",
   description="Spec-Compliance Review",
   prompt="Prüfe ob die Implementierung die Spec/Plan-Anforderungen erfüllt:
     Spec/Plan: <spec-inhalt>
     Geänderte Dateien: <liste>
-    Diff: <diff>
+    Basis: <BASE_SHA> — hol dir den Diff selbst via `git diff <BASE_SHA>` und lies die geänderten Dateien vollständig.
 
     Prüfe:
     1. Sind ALLE Anforderungen/Akzeptanzkriterien aus der Spec erfüllt?
@@ -145,6 +142,8 @@ Agent(
     Falls keine Spec vorhanden: 'Keine Spec gefunden — Spec-Compliance-Check übersprungen.'"
 )
 ```
+
+Die Agents lesen Diff und Dateien selbst — Dateiinhalte nicht in die Prompts kopieren. Nur Agent 4 bekommt den Diff eingefügt (der research-agent hat kein Bash).
 
 **WICHTIG:** Alle fünf Agents in EINEM Message-Block starten für echte Parallelität. Agent 5 nur starten wenn eine Spec/Plan-Datei gefunden wurde.
 
@@ -160,7 +159,7 @@ Sammle die Ergebnisse aller Agents und zeige eine konsolidierte Übersicht:
 ## Code Review Ergebnis
 
 ### Git-Range
-`<BASE_SHA>..<HEAD_SHA>` (<N> Commits, <M> Dateien)
+`<BASE_SHA>..Working Tree` (<N> Commits, <M> Dateien, uncommittete Änderungen: ja/nein)
 
 ### Geprüfte Dateien
 - file1.ts (geändert)
@@ -240,5 +239,3 @@ Nach Abschluss (Fixes oder Task-Erstellung), frage den User via **AskUserQuestio
 
 1. **Reflect starten** — `/reflect` ausführen um Session-Learnings zu extrahieren
 2. **Fertig** — Review abschließen
-
-$ARGUMENTS

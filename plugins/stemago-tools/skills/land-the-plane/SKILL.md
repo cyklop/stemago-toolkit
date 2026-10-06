@@ -1,6 +1,7 @@
 ---
 name: land-the-plane
 description: "Session-Ende Handoff mit Prompt für nächste Session. Verwende diesen Skill wenn der User die Session beenden, einen Handoff erstellen, oder den Stand für die nächste Session sichern will. Auch bei 'Feierabend', 'ich höre auf', 'Session beenden', 'mach einen Handoff', 'sichere den Stand', 'was muss die nächste Session wissen'."
+allowed-tools: Bash(bd list *) Bash(bd ready *) Bash(bd blocked *) Bash(bd export *) Bash(git status *) Bash(git stash list *) Bash(git branch --show-current)
 ---
 
 # Land the Plane
@@ -55,13 +56,7 @@ bd blocked --json
 
 ### Schritt 3: Session-Kontext aus Konversation extrahieren
 
-Falls `/recap` verfügbar ist, führe es zuerst aus — es zeigt was passiert ist während das Terminal nicht im Fokus war und ergänzt den manuellen Kontext-Extrakt:
-
-```bash
-/recap
-```
-
-Analysiere dann die aktuelle Session nach:
+Analysiere die aktuelle Session nach:
 
 1. **Was wurde erreicht?**
    - Implementierte Features
@@ -90,11 +85,15 @@ Analysiere dann die aktuelle Session nach:
 
 ### Schritt 4: Git-Status prüfen
 
-```bash
-git status --porcelain
-git stash list
-git branch --show-current
+Stand beim Laden des Skills (Branch, geänderte Dateien, Stashes):
+
+```!
+git branch --show-current 2>&1 || true
+git status --porcelain 2>&1 || true
+git stash list 2>&1 || true
 ```
+
+Steht dort `[shell command execution disabled by policy]`, die drei Befehle selbst ausführen. Hat sich seitdem etwas geändert (z.B. durch Schritt 6 und 7), vor Schritt 8 `git status --short` neu abrufen.
 
 ### Schritt 5: Handoff-Prompt generieren
 
@@ -153,7 +152,25 @@ Speichere in `.beads/session-handoff.md`:
 bd export   # schreibt .beads/issues.jsonl, damit der Stand mit dem Commit ins Repo geht
 ```
 
-### Schritt 8: Zusammenfassung anzeigen
+### Schritt 8: Commit & Push (mit Rückfrage)
+
+Zeige `git status --short` und frage via **AskUserQuestion**:
+
+1. **Committen und pushen** — Stand ins Remote bringen
+2. **Nur committen** — lokal sichern, nicht pushen
+3. **Nichts** — Working Tree bleibt wie er ist
+
+Bei 1 oder 2: nur die Dateien dieser Session plus `.beads/issues.jsonl` und `.beads/session-handoff.md` stagen (kein `git add -A`), Commit-Message nach der Konvention des Projekts. Bei 1 danach:
+
+```bash
+git pull --rebase
+git push
+git status   # muss "up to date with origin" zeigen
+```
+
+Schlägt der Rebase oder Push fehl: nicht erzwingen, Fehler zeigen und im Handoff unter „Offene Fragen / Blocker" festhalten. Bei 2 oder 3 im Handoff vermerken, dass der Stand nicht gepusht ist.
+
+### Schritt 9: Zusammenfassung anzeigen
 
 ```markdown
 ## Session erfolgreich gelandet!
@@ -163,6 +180,7 @@ bd export   # schreibt .beads/issues.jsonl, damit der Stand mit dem Commit ins R
 | Erledigte Tasks | X |
 | Ready Tasks | Y |
 | Geblockte Tasks | Z |
+| Git | gepusht / nur committet / uncommittet |
 
 ### Handoff gespeichert
 Pfad: `.beads/session-handoff.md`
@@ -193,7 +211,6 @@ Beide ergänzen sich und sollten am Session-Ende ausgeführt werden:
 
 - **Keine Tasks erledigt**: Trotzdem Handoff generieren mit aktuellem Stand
 - **Keine Ready Tasks**: Hinweis dass neue Tasks erstellt werden sollten
-- **Uncommitted Changes**: Warnung ausgeben, Handoff trotzdem erstellen
+- **Uncommitted Changes**: Handoff trotzdem erstellen, in Schritt 8 klären
+- **Kein Remote / kein Git-Repo**: Schritt 8 überspringen bzw. nur Commit anbieten
 - **Beads nicht initialisiert**: Auf `/setup --beads` verweisen
-
-$ARGUMENTS

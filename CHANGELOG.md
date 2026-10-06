@@ -3,6 +3,38 @@
 Alle nennenswerten Änderungen am stemago-toolkit Plugin.
 Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
+## 3.1.0 — 2026-10-06
+
+Skill-Audit gegen Claude Code 2.1.291 und bd 1.3.1.
+
+### Fixed
+- `usage-report`, `redesign-studio`: `$CLAUDE_SKILL_PATH` (existiert nicht) → `${CLAUDE_SKILL_DIR}`; Extraktions-Skript und `scrollfx.js` werden wieder gefunden.
+- `interview`, `review`: Plugin-Agents mit Präfix aufgerufen (`stemago-tools:research-agent`, `stemago-tools:quality-agent`, `stemago-tools:task-orchestrator`).
+- `review`: Diff läuft von der Merge-Base bis zum Working Tree, uncommittete und ungetrackte Dateien werden mitgeprüft; Default-Branch wird ermittelt statt `origin/main` fest zu verdrahten.
+- `setup`: Playwright-Paket korrigiert (`@anthropic/mcp-server-playwright` gab es nie → `@executeautomation/playwright-mcp-server`, passend zu den Tools des `functional-testing-agent`); GitHub-MCP auf den offiziellen Remote-Server umgestellt (`@modelcontextprotocol/server-github` ist deprecated); MCP-Detection erkennt Plugin-MCPs (`plugin:context7:context7`); Beads-`--force` nutzt `bd init --reinit-local` mit Backup und Rückfrage.
+- `docs-lookup`: Context7 auch unter dem Plugin-Präfix `mcp__plugin_context7_context7__*`.
+- `land-the-plane`: `/recap`-Bash-Block entfernt (eingebautes CLI-Kommando, vom Modell nicht ausführbar).
+- `to-beads`: ungültiger Issue-Typ `research` → `spike` (laut `bd types`).
+- Beads-Datenbank dieses Repos auf Schema v66 migriert (`bd migrate --force`, bd 1.3.1); Schreibzugriffe waren seit dem bd-Update gesperrt.
+- `hooks.json`: `${CLAUDE_PLUGIN_ROOT}` in Anführungszeichen (Pfade mit Leerzeichen); `claude plugin validate` läuft ohne Warnungen.
+
+### Changed
+- `reflect`, `reflect-config`: Learnings gehen ins eingebaute Memory von Claude Code statt nach `.claude/learnings/project-learnings.md` (die Datei wurde nie in Sessions geladen). `/reflect` bietet die einmalige Migration des Alt-Bestands an; kein `learn:`-Commit mehr.
+- `land-the-plane`: neuer Schritt „Commit & Push" mit Rückfrage (committen und pushen / nur committen / nichts). Der SessionStart-Hook nennt den Handoff der letzten Session, falls vorhanden.
+- `interview`: Council-Stress-Test läuft per Rückfrage statt als Pflicht; Widerspruch bei der Fragenzahl pro Runde aufgelöst.
+- `review`: Security-Agent auf `sonnet`; die quality-agents holen Diff und Dateien selbst, statt sie im Prompt zu bekommen.
+- `usage-report`: Gap-Analyse findet Skills und Agents auch in `.claude/`, `~/.claude/` und installierten Plugins, nicht nur unter `plugins/`.
+- `diagnose`: offene Orientierungsfragen als Text statt über AskUserQuestion.
+- `setup`: ungenutzten `beads`-Block in `.claude/settings.local.json` entfernt.
+- `caveman`, `zoom-out`: Beschreibungen gekürzt (beide sind nur manuell aufrufbar); überflüssiges `$ARGUMENTS` am Dateiende in sechs Skills entfernt.
+- `beads-ready`, `land-the-plane`: `bd ready` bzw. der Git-Status werden per Kontext-Injektion beim Laden eingebettet; `allowed-tools` erspart die Permission-Prompts für die lesenden `bd`- und `git`-Befehle. `usage-report`: `allowed-tools` für das Extraktions-Skript.
+- `browser-test`, `db-inspect`: auf Ablauf und Regeln gestrafft statt Tool-Schemas zu wiederholen; `browser-test` nennt die inzwischen verpflichtende `pageId`. `docs-lookup`: feste Library-IDs und versionsgebundene Beispiele entfernt.
+- `task-orchestrator`: Beschreibung von ca. 730 auf ca. 150 Tokens gekürzt (wird in jeder Session geladen).
+- `.claude/learnings/project-learnings.md` aus diesem Repo entfernt (Inhalt liegt vollständig im Memory); `.beads.gate.lock` in `.gitignore`.
+- Eval-Daten `skills/usage-report-workspace/` → `docs/evals/usage-report/` (werden nicht mehr mit dem Plugin ausgeliefert).
+- `github-ops`: auf `gh` CLI umgeschrieben; die dokumentierten Tool-Namen stammten aus dem abgekündigten GitHub-MCP-Paket.
+- `storm-research`: „Regeln & Guardrails" vor die Phasen gezogen, damit sie die 5.000-Token-Grenze nach einem Auto-Compact überleben.
+
 ## 3.0.1 — 2026-09-03
 
 ### Fixed

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.0.1.
+**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.1.0.
 
 ## Testing the Plugin
 

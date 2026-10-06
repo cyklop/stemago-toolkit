@@ -9,6 +9,8 @@ Nutze den Context7 MCP Server um aktuelle Dokumentation für Libraries abzurufen
 
 ## Verfügbare Tools
 
+Der Tool-Präfix hängt davon ab, wie Context7 installiert ist: als eigener MCP-Server `mcp__context7__*`, als Claude-Code-Plugin `mcp__plugin_context7_context7__*`. Nutze den Präfix, der in dieser Session verfügbar ist — die Tool-Namen dahinter sind identisch.
+
 ### `mcp__context7__resolve-library-id`
 Library-ID für Context7 ermitteln.
 ```
@@ -28,47 +30,9 @@ query: "How to implement server actions with form handling"
 1. **resolve-library-id** aufrufen um ID zu bekommen
 2. **query-docs** mit der ID und spezifischer Frage
 
-## Wichtige Libraries
+## Library-IDs
 
-| Library | ID | Verwendung |
-|---------|-----|------------|
-| Next.js | `/vercel/next.js` | App Router, Server Components |
-| React | `/facebook/react` | Hooks, Components |
-| Prisma | `/prisma/prisma` | ORM, Schema, Queries |
-| Tailwind CSS | `/tailwindlabs/tailwindcss` | Styling |
-| DaisyUI | `/saadeghi/daisyui` | UI Components |
-| Zod | `/colinhacks/zod` | Validation |
-| NextAuth.js | `/nextauthjs/next-auth` | Authentication |
-| React Hook Form | `/react-hook-form/react-hook-form` | Formulare |
-| date-fns | `/date-fns/date-fns` | Datum/Zeit |
-| Playwright | `/microsoft/playwright` | E2E Testing |
-| Vitest | `/vitest-dev/vitest` | Unit Testing |
-
-## Typische Anfragen
-
-### Next.js 15
-```
-libraryId: "/vercel/next.js"
-query: "App Router params as Promise in Next.js 15"
-```
-
-### React 19
-```
-libraryId: "/facebook/react"
-query: "useTransition and server actions"
-```
-
-### Prisma
-```
-libraryId: "/prisma/prisma"
-query: "How to create a migration with optional field"
-```
-
-### DaisyUI
-```
-libraryId: "/saadeghi/daisyui"
-query: "Modal component with form"
-```
+IDs nicht aus dem Gedächtnis nehmen — sie ändern sich, wenn Projekte umziehen. Immer zuerst `resolve-library-id`, dann die zurückgegebene ID verwenden. Welche Libraries und Versionen das Projekt nutzt, steht in `package.json` (bzw. dem Lockfile); die Version in die Query schreiben ("Next.js 15 App Router …").
 
 ## Anwendungsfälle
 

@@ -61,7 +61,7 @@ Jede Persona liefert knapp: eine Ein-Zeilen-Haltung, ihre 3-5 schärfsten Punkte
 **3. Der Logician (Erste Prinzipien)** — `general-purpose`, KEINE externe Recherche
 > Denk rein aus ersten Prinzipien: Hält die Architektur? Stimmen Datenfluss, Zuständigkeiten und Invarianten? Gibt es Zustände, die der Ansatz nicht sauber abbildet? Ergeben die Zusicherungen zusammen Sinn oder widersprechen sie sich? Zerleg es auf die Fundamente. KONTEXT: [kontext]
 
-**4. Der Researcher (Evidenz)** — `research-agent`, model `haiku`
+**4. Der Researcher (Evidenz)** — `stemago-tools:research-agent`, model `haiku`
 > Via Context7/Web: Gibt es etablierte Patterns, Libraries oder Framework-Features, die genau das lösen — statt es selbst zu bauen? Löst jemand das nachweislich anders (besser)? Nutzt der Ansatz deprecated APIs oder veraltete Patterns? Zitiere Fundstellen. KONTEXT: [kontext]
 
 **5. Der User/Stakeholder** — `general-purpose`
@@ -154,7 +154,7 @@ mcp__beads__dep({
 
 ```javascript
 Agent({
-  subagent_type: "task-orchestrator",
+  subagent_type: "stemago-tools:task-orchestrator",
   prompt: `Analysiere und bearbeite die Beads Task-Queue für Feature '<feature-name>'.
     Spec: docs/specs/<feature-name>.md
     Labels: from-interview, <feature-name>
