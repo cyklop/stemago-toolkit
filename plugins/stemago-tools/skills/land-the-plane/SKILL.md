@@ -149,7 +149,7 @@ Speichere in `.beads/session-handoff.md`:
 ### Schritt 7: Beads exportieren
 
 ```bash
-bd export   # schreibt .beads/issues.jsonl, damit der Stand mit dem Commit ins Repo geht
+bd export -o .beads/issues.jsonl   # ohne -o schreibt bd export nur nach stdout
 ```
 
 ### Schritt 8: Commit & Push (mit Rückfrage)
@@ -167,6 +167,8 @@ git pull --rebase
 git push
 git status   # muss "up to date with origin" zeigen
 ```
+
+Ist ein Dolt-Remote konfiguriert (`bd dolt remote list` zeigt einen Eintrag), danach `bd dolt push`, damit auch die Beads-Datenbank im Remote landet.
 
 Schlägt der Rebase oder Push fehl: nicht erzwingen, Fehler zeigen und im Handoff unter „Offene Fragen / Blocker" festhalten. Bei 2 oder 3 im Handoff vermerken, dass der Stand nicht gepusht ist.
 

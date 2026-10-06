@@ -112,7 +112,7 @@ ls -la .beads/ 2>/dev/null
 
 Falls `.beads/` existiert und kein `--force`: Meldung "Beads bereits initialisiert. Mit `--force` neu initialisieren (überschreibt die lokalen Beads-Daten!)." und stoppe.
 
-Mit `--force`: vorher `bd export` als Backup ausführen und die Re-Initialisierung via AskUserQuestion bestätigen lassen. In B.6 dann `bd init --reinit-local` verwenden (`bd init --force` ist seit bd 1.x nur noch ein deprecated Alias dafür). Hat die Datenbank ein Remote, stoppen und auf `bd help init-safety` verweisen — Remote-Historie nie automatisch verwerfen.
+Mit `--force`: vorher `bd export --all -o <backup>.jsonl` als Backup ausführen und die Re-Initialisierung via AskUserQuestion bestätigen lassen. In B.6 dann `bd init --reinit-local` verwenden (`bd init --force` ist seit bd 1.x nur noch ein deprecated Alias dafür). Hat die Datenbank ein Remote, stoppen und auf `bd help init-safety` verweisen — Remote-Historie nie automatisch verwerfen.
 
 ### B.3 bd CLI prüfen und installieren
 

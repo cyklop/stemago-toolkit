@@ -9,7 +9,7 @@ bd ready              # Find available work
 bd show <id>          # View issue details
 bd update <id> --status in_progress  # Claim work
 bd close <id>         # Complete work
-bd export             # Issues nach .beads/issues.jsonl schreiben (für Git)
+bd export -o .beads/issues.jsonl   # Issues als JSONL für Git schreiben (ohne -o: stdout)
 ```
 
 ## Landing the Plane (Session Completion)
@@ -22,7 +22,7 @@ A session ends with the work pushed, because unpushed work is invisible to the n
 4. Push:
    ```bash
    git pull --rebase
-   bd export
+   bd export -o .beads/issues.jsonl
    git push
    git status  # should report "up to date with origin"
    ```

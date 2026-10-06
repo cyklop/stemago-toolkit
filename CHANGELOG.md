@@ -3,6 +3,15 @@
 Alle nennenswerten Änderungen am stemago-toolkit Plugin.
 Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
+## 3.1.1 — 2026-10-06
+
+### Fixed
+- `land-the-plane`, `setup`, `CLAUDE.md`, `AGENTS.md`: `bd export` schreibt in bd 1.3.1 nach stdout; die Datei entsteht nur mit `bd export -o .beads/issues.jsonl`.
+- `land-the-plane`: nach dem Git-Push `bd dolt push`, wenn ein Dolt-Remote konfiguriert ist.
+
+### Changed
+- Beads-Datenbank dieses Repos erstmals zum Dolt-Remote gepusht (`refs/dolt/data`); „Landing the Plane" in `CLAUDE.md` um `bd dolt push` ergänzt.
+
 ## 3.1.0 — 2026-10-06
 
 Skill-Audit gegen Claude Code 2.1.291 und bd 1.3.1.
