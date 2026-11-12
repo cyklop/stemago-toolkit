@@ -29,7 +29,7 @@ Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende 
 
 ## Features
 
-### Skills (23)
+### Skills (24)
 
 | Skill | Description | Usage |
 |-------|-------------|-------|
@@ -44,6 +44,7 @@ Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende 
 | `review` | Code Review der lokalen Änderungen gegen CLAUDE.md | `/stemago-tools:review` |
 | `beads-ready` | Tasks ohne Blocker anzeigen (Ready Queue) | `/stemago-tools:beads-ready` |
 | `land-the-plane` | Session-Ende Handoff mit Prompt generieren | `/stemago-tools:land-the-plane` |
+| `build-brief` | Interview, das einen startfertigen Auftrags-Prompt für einen langen Qualitätslauf in einer neuen Session liefert (Web, Apple-nativ, Backend, allgemein) | `/stemago-tools:build-brief [vorhaben]` |
 | `grill-me` | Schonungsloses Interview mit Checkpoint-Datei in `brainstorms/` | `/stemago-tools:grill-me` |
 | `to-beads` | Plan oder Spec direkt in Beads-Tasks zerlegen | `/stemago-tools:to-beads [spec-pfad]` |
 | `roast` | Idee vom Fünfer-Council zerlegen lassen: GO / RESHAPE / KILL | `/stemago-tools:roast [idee]` |
@@ -64,6 +65,7 @@ In eingerichteten Projekten lassen sich Setup-/Operativ-Skills bei Bedarf via `/
 **Onboarding (neue Projekte)**
 - `setup` — CLAUDE.md, Beads und MCPs einrichten
 - `interview` — Feature-Anforderungen klären, Spec erstellen
+- `build-brief` — ein Vorhaben in einem langen, eigenständigen Lauf bauen lassen: Interview, dann Prompt für eine neue Session
 - `beads-ready` — Einstieg in offene Tasks
 
 **Aktive Entwicklung**
@@ -140,10 +142,11 @@ stemago-toolkit/
 │   └── stemago-tools/            # Main plugin
 │       ├── .claude-plugin/
 │       │   └── plugin.json       # Plugin manifest
-│       ├── skills/               # 23 Skills (je SKILL.md)
+│       ├── skills/               # 24 Skills (je SKILL.md)
 │       │   ├── architecture-review/
 │       │   ├── beads-ready/
 │       │   ├── browser-test/
+│       │   ├── build-brief/
 │       │   ├── caveman/
 │       │   ├── db-inspect/
 │       │   ├── diagnose/

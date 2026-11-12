@@ -3,6 +3,22 @@
 Alle nennenswerten Änderungen am stemago-toolkit Plugin.
 Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
+## 3.3.0 — 2026-11-12
+
+### Added
+- `build-brief`: neuer Skill, der mit dem User ein Interview führt und daraus einen fertigen, für sich allein verständlichen Auftrags-Prompt liefert. Der User fügt ihn in eine neue Claude-Code-Session ein, wo er einen langen, eigenständigen Qualitätslauf auslöst. Der Prompt enthält zehn feste Bausteine: Einsatz und Publikum, Anfrage mit Referenz und ihren Lücken, ein Star, Konkretion, markierte Freiheit, „Was exzellent sein muss" mit Verbotsliste, Messlatte, Prüfschalter, Prozess mit Verbesserungsrunden und Stoppregel, Risikohinweise. Der Skill liest zuerst den Projektkontext und fragt nicht ab, was die `CLAUDE.md` schon regelt. Der Prompt landet unter `docs/briefs/<datum>-<slug>.md` und zusätzlich als Codeblock, das Interview-Capture unter `brainstorms/`.
+- `build-brief/profiles/`: vier Plattform-Profile, die der Skill je nach Projekttyp lädt: `web.md` (Browser-Prüfung, Auflösungen, URL-Schalter), `apple.md` (visionOS, iOS, macOS), `backend.md` (Tests, Messwerte und Beispielausgaben statt Screenshots) und `general.md`. Jedes nennt, wie der Lauf sein Ergebnis zu sehen bekommt, welche Schalter für Zustände sinnvoll sind, welche Rolle der Kritiker hat und was sich in der Umgebung nicht prüfen lässt.
+- `build-brief/profiles/apple.md`: Der Prüfweg für visionOS ist an Xcode 27.2 und dem visionOS-27.2-Simulator durchgespielt (Build, Start mit Startargumenten und Umgebungsvariablen, Screenshot und Video über `simctl`, Tests). Das Profil verlangt in jedem Prompt die Liste „Am Gerät zu prüfen", die der Lauf im Schlussbericht zurückgibt, weil Tiefenwirkung, Blick- und Handsteuerung, Komfort und Leistung im Simulator nicht beurteilbar sind.
+- `build-brief/REFERENCE.md`, `build-brief/prompt-template.md`: Fragen und Nachhak-Muster je Baustein, Laufgrößen mit Kostenspanne, Formulierungsregeln nach dem Prompting-Guide für Claude Fable 5.2 (gelesen am 12.11.2026), Abnahmeliste und das Gerüst des Prompts.
+
+- `docs/evals/build-brief/`: zwei durchgespielte Beispiele mit Antwortblatt und erzeugtem Prompt, eines für ein Web-Feature in einem Next.js-Projekt und eines für eine Funktion einer visionOS-App. Die Befunde der beiden Durchläufe sind in den Skill eingearbeitet.
+
+### Fixed
+- `block-destructive-commands`: Das Muster für Shutdown und Reboot blockte auch `xcrun simctl shutdown <gerät>` und jeden Befehl, in dem ein Wort auf „halt" endet (zum Beispiel eine Commit-Nachricht mit „Inhalt"). `shutdown`, `reboot`, `halt` und `poweroff` zählen jetzt nur noch als Befehlswort. Ein nacktes `reboot` oder `poweroff` ohne Argument, das bisher durchlief, wird damit geblockt.
+
+### Changed
+- `CLAUDE.md`: „File Paths Convention" nennt `docs/briefs/` für Build-Briefs.
+
 ## 3.2.0 — 2026-11-12
 
 ### Added

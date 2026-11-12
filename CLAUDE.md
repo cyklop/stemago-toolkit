@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.2.0.
+**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.3.0.
 
 The plugin lives in `plugins/stemago-tools/` (skills, agents, hooks). The format conventions are visible in the existing files there. What the plugin expects from the projects that use it (for example the `CONTEXT.md` glossary) is documented in `README.md`.
 
@@ -47,6 +47,7 @@ bd export -o .beads/issues.jsonl   # Issues als JSONL für Git schreiben (ohne -
 - Domain Language: `CONTEXT.md` (Projekt-Root)
 - Bug Post-Mortems: `docs/post-mortems/<datum>-<bug>.md`
 - Design-Mockups (`/redesign-studio`): `design/mockups/<richtung>/index.html`, Verifier-Reports `design/verify/`, Handoff `design/handoff-<slug>/`
+- Build-Briefs (`/build-brief`): `docs/briefs/<datum>-<slug>.md` (der fertige Auftrags-Prompt, ohne Vorspann; das Interview dazu liegt als Capture unter `brainstorms/<datum>-brief-<slug>.md`, die Laufnotiz des späteren Laufs daneben als `docs/briefs/<datum>-<slug>.lauf.md`)
 - Brainstorm-Captures: `brainstorms/<datum>-<topic-slug>.md` (Projekt-Root, bewusst NICHT unter `docs/` — ein vorhersehbarer Sammelort für rohe Interview-Erfassungen aus `/grill-me` und `/interview`. Polierte Ergebnisse wandern danach in `docs/` oder `projects/`.)
 
 ## Landing the Plane (Session Completion)
