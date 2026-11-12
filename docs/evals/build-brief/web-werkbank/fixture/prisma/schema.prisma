@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Kunde {
+  id        String    @id @default(cuid())
+  name      String
+  strasse   String
+  plz       String
+  ort       String
+  telefon   String?
+  auftraege Auftrag[]
+}
+
+model Monteur {
+  id        String    @id @default(cuid())
+  name      String
+  kuerzel   String    @unique
+  auftraege Auftrag[]
+}
+
+enum AuftragStatus {
+  NEU
+  GEPLANT
+  IN_ARBEIT
+  WARTET_AUF_MATERIAL
+  ERLEDIGT
+  ABGERECHNET
+}
+
+model Auftrag {
+  id           String        @id @default(cuid())
+  nummer       String        @unique // Format A-2026-00412
+  titel        String
+  beschreibung String?
+  status       AuftragStatus @default(NEU)
+  termin       DateTime?
+  kunde        Kunde         @relation(fields: [kundeId], references: [id])
+  kundeId      String
+  monteur      Monteur?      @relation(fields: [monteurId], references: [id])
+  monteurId    String?
+  erstelltAm   DateTime      @default(now())
+  geaendertAm  DateTime      @updatedAt
+}
