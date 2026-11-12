@@ -98,10 +98,34 @@ In eingerichteten Projekten lassen sich Setup-/Operativ-Skills bei Bedarf via `/
 
 | Hook | Event | Description |
 |------|-------|-------------|
-| `block-destructive-commands` | PreToolUse | Prevents dangerous git/system commands (whitelists `git rm`) |
+| `block-destructive-commands` | PreToolUse | Blocks dangerous git/system commands (whitelists `git rm`). Recursive `rm` inside the project, the session scratchpad or a temp directory runs; anywhere else it asks for confirmation |
 | `session-land-the-plane` | SessionStart | Beads session handoff reminder |
 | `session-reflect` | SessionStart | Reminder to run /reflect at session end (if enabled) |
 | `session-review-reminder` | SessionStart | Reminder for uncommitted changes |
+
+## Domain Language (CONTEXT.md)
+
+Jedes Projekt das stemago-tools nutzt, sollte eine `CONTEXT.md` im Root haben — ein lebendes Glossar für projektspezifische Begriffe.
+
+**Format:**
+```markdown
+# CONTEXT.md — Domain Language
+
+## Begriffe
+
+### [Begriff]
+[Präzise Definition in 1-2 Sätzen]
+Abgrenzung zu: [verwandte Begriffe]
+
+### [Begriff 2]
+...
+```
+
+**Regeln:**
+- Skills challengen vage Sprache sofort und ergänzen klare Definitionen direkt in `CONTEXT.md`
+- Neue Begriffe werden inline während Interviews/Planung definiert — nicht nachträglich
+- Bei Konflikten zwischen `CONTEXT.md` und Code: Code ist die Wahrheit, `CONTEXT.md` updaten
+- Ein Begriff gilt als definiert sobald er in `CONTEXT.md` steht — danach challengen gilt nicht mehr
 
 ## Structure
 

@@ -2,6 +2,7 @@
 name: tdd-validation-agent
 description: Comprehensive TDD methodology validation and quality gate enforcement agent
 tools: Read, Bash, Grep, Glob, mcp__beads__show, mcp__beads__update, mcp__beads__list, mcp__ide__getDiagnostics
+model: sonnet
 color: red
 ---
 

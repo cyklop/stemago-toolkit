@@ -44,6 +44,6 @@ IDs nicht aus dem Gedächtnis nehmen — sie ändern sich, wenn Projekte umziehe
 ## Hinweise
 
 - **Spezifische Fragen stellen**: Je präziser, desto besser
-- **Versions-Kontext**: Bei Next.js 15+ spezifisch danach fragen
-- **Max 3 Calls**: Pro Frage nicht mehr als 3 Aufrufe
+- **Versions-Kontext**: Die Version aus `package.json` in die Query schreiben
+- **Nicht festbeißen**: Nach etwa drei Abfragen ohne brauchbares Ergebnis auf WebSearch wechseln, statt die Query weiter zu variieren
 - **Fallback**: Bei fehlendem Result WebSearch nutzen

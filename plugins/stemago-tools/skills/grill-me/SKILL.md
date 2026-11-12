@@ -18,14 +18,14 @@ Lange Interviews füllen den Kontext. Wenn du die Antworten nur im Kopf hältst,
 2. **Erstelle die Datei sofort** mit einem Header: Titel, Datum, Ziel der Session und einem leeren Abschnitt "Offene Flags".
 3. **Sag dem User, wo du speicherst**, in einer Zeile. Dann stelle Q1.
 
-## Die Checkpoint-Regel (nicht verhandelbar)
+## Die Checkpoint-Regel
 
-Nach JEDER User-Antwort, BEVOR du die nächste Frage stellst:
+Nach jeder User-Nachricht, bevor du die nächste Frage stellst:
 - Hänge einen strukturierten Eintrag an die Capture-Datei an: das Frage-Thema, die Kernfakten und Entscheidungen aus der Antwort (in seinen Worten, wo die Formulierung zählt), und alle Flags (Dinge die er nicht beantworten konnte, plus wer es kann).
 - Aktualisiere oder korrigiere frühere Einträge, falls eine spätere Antwort sie verändert.
 - Erst dann stelle die nächste Frage.
 
-Batche niemals mehrere Antworten in einen Write. Checkpointe eine Antwort nach der anderen. Der Punkt: Wenn der Kontext in irgendeinem Moment verloren geht, hält die Datei bereits alles, was bis dahin gesagt wurde.
+Ein Write pro User-Nachricht: Sammle keine Antworten über mehrere Nachrichten hinweg. Beantwortet eine Nachricht mehrere Fragen, reicht ein gemeinsamer Write. Der Punkt: Wenn der Kontext in irgendeinem Moment verloren geht, hält die Datei bereits alles, was bis dahin gesagt wurde.
 
 ## Interview-Methode
 

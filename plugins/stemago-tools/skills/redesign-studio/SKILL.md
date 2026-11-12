@@ -8,7 +8,7 @@ argument-hint: "[url-oder-repo]"
 
 Der komplette Weg **Brief → Interview → Recherche → N Mockups → Auswahl → Folgeseiten → Handoff**, als eigenständige HTML-Prototypen im Repo.
 
-Arbeitsteilung: **Du denkst, entscheidest und gestaltest. Günstige Subagents (`model="haiku"`) lesen, sammeln und prüfen.** Jeder Subagent bekommt den Brief, `bestand.md`, eine präzise Aufgabe und ein Ausgabeformat; er liefert Fakten, keine Empfehlungen. Rohquellen (Inspirationsseiten, Codebase-Dumps) bleiben aus deinem Kontext — du liest nur die Briefs der Subagents.
+Arbeitsteilung: **Du denkst, entscheidest und gestaltest. Subagents lesen, sammeln und prüfen** — Inspirations-Scans und Verifier mit `model="haiku"`, die Bestands-Analyse mit `model="sonnet"`, weil alle Mockups auf ihr aufbauen. Jeder Subagent bekommt den Brief, `bestand.md`, eine präzise Aufgabe und ein Ausgabeformat; er liefert Fakten, keine Empfehlungen. Die Inspirationsseiten liest du nicht selbst, dafür reichen die Briefs. Die Bestandsquellen (Tokens, zentrale Komponenten, Copy) schlägst du gezielt selbst nach, wo ein Mockup davon abhängt.
 
 ## Dateien
 
@@ -36,10 +36,10 @@ Defaults, wenn der User nichts anderes sagt: **3 Mockups**, Startpunkt Startseit
 
 ## Phase 1: Recherche (parallele Subagents)
 
-Alle Agents in **einem** Message-Block starten (`subagent_type="general-purpose"`, `model="haiku"`); die Prompts stehen in `REFERENCE.md`.
+Alle Agents in **einem** Message-Block starten (`subagent_type="general-purpose"`, Modell je Agent wie unten); die Prompts stehen in `REFERENCE.md`.
 
-- **Inspirations-Scan**, ein Agent pro Quelle: Referenzen, die zu Zielgruppe, Ton und den gewünschten Mustern passen — Layoutmuster, Scroll-Mechanik, Typo-Prinzip, was übertragbar ist. Muster, keine Marken-UI.
-- **Bestands-Analyse**, ein Agent: Tokens, Komponenten-Inventar, Seitenstruktur, echte Copy-Strings, was das Produkt tatsächlich tut, Technik. `bestand.md` ist danach verbindlich für Branding und Fachlichkeit in allen Mockups.
+- **Inspirations-Scan**, ein Agent pro Quelle (`model="haiku"`): Referenzen, die zu Zielgruppe, Ton und den gewünschten Mustern passen — Layoutmuster, Scroll-Mechanik, Typo-Prinzip, was übertragbar ist. Muster, keine Marken-UI.
+- **Bestands-Analyse**, ein Agent (`model="sonnet"`): Tokens, Komponenten-Inventar, Seitenstruktur, echte Copy-Strings, was das Produkt tatsächlich tut, Technik. Bevor `bestand.md` verbindlich wird, prüfst du fünf Fakten daraus selbst gegen die Quelle: zwei Tokens, zwei Copy-Strings und eine Aussage zum Produktverhalten. Stimmt einer nicht, läuft die Analyse mit dem Hinweis auf den Fehler erneut. Danach gilt `bestand.md` für Branding und Fachlichkeit in allen Mockups.
 
 **Synthese (du):** Aus den Briefs N deutlich unterschiedliche Richtungen ableiten, jede in drei Zeilen: Name, Kernidee, Signature-Element (das, was man sich merkt). Die Unterschiede liegen auf benennbaren Achsen — hell/dunkel, editorial/produktnah, narrativ/strukturell, ruhig/kinetisch — nie drei Varianten derselben Idee. Richtungen kurz vorstellen; widerspricht der User nicht, bauen.
 

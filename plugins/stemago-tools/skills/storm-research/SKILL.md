@@ -24,7 +24,7 @@ Diese Regeln stehen bewusst vor den Phasen: nach einem Auto-Compact bleiben nur 
 - **Verifikation ist Pflicht.** Ein Report ohne Phase 4 ist kein STORM-Report. Das Verifikations-Banner muss wahrhaftig sein.
 - **Verlässlichkeit = Evidenzqualität, nicht Confidence.** Nach der Quellen-Hierarchie scoren: peer-reviewt kausal > offizielle Politik-/Finanzdaten > einzelne beauftragte Umfrage > Analogie > Preprint.
 - **Den Leser adressieren, keine Default-Person.** Handlungsempfehlung und Claim-Safety-Guide sprechen die in Phase 0 bestimmte Rolle an.
-- **Kosten.** ~9-11 Agents pro Lauf. Das ist erwartet. Nicht breiter fächern als fünf Lenses bzw. ein Verifier pro Zitations-Cluster.
+- **Kosten.** ~9-11 Agents pro Lauf. Das ist erwartet. Lenses und Verifier laufen mit `model="sonnet"`; Synthese und Self-Review machst du. Nicht breiter fächern als fünf Lenses bzw. ein Verifier pro Zitations-Cluster.
 - **Design.** Sauberes Weiß, professionell (Montserrat / Roboto Mono, blauer Akzent). Template-CSS verbatim halten. Keinen anderen Visual-Style einsetzen.
 
 ## Portabilität
@@ -41,7 +41,7 @@ Self-contained. Hängt nur an built-in Tools (`Agent` mit `general-purpose`, `Wr
 
 ## Phase 1: Fünf Experten-Lenses (parallele Agents)
 
-Starte **fünf `general-purpose`-Agents in EINEM Message-Block**, damit sie parallel laufen. Jeder bekommt dasselbe Themen-Framing plus seine Lens. Nutze **exakt** diese Prompts (englisch, verbatim), ersetze `{TOPIC}` und ein einzeiliges `{TOPIC_FRAME}` (deine Phase-0-Interpretation):
+Starte **fünf `general-purpose`-Agents (`model="sonnet"`) in einem Message-Block**, damit sie parallel laufen. Jeder bekommt dasselbe Themen-Framing plus seine Lens. Nutze **exakt** diese Prompts (englisch, verbatim), ersetze `{TOPIC}` und ein einzeiliges `{TOPIC_FRAME}` (deine Phase-0-Interpretation):
 
 **1. THE PRACTITIONER** — `You are THE PRACTITIONER for: {TOPIC} ({TOPIC_FRAME}). You work with this daily. Do real web research (prioritize recent sources, case studies, practitioner threads, operator data). Surface the GAP between what hands-on operators know and what academics/pundits miss, and the practical realities (workflow friction, what actually works, where it breaks) that get ignored. Return EXACTLY: 1) CORE POSITION in 2 sentences. 2) STRONGEST EVIDENCE, 3-5 bullets each with a concrete data point/case/named source + URL. 3) THE ONE THING only a practitioner would say. Cite real sources with URLs. Keep it tight: a brief, not an essay.`
 
@@ -87,7 +87,7 @@ Das trennt STORM von einem normalen Report. Vor der Auslieferung ausführen.
 
 **4a. Self-Review (inline).** Jeden der 5 Befunde 1-10 auf Verlässlichkeit scoren und begründen. Das schwächste Glied identifizieren und was es verifizieren würde. Bias-Check (welche Lens die Synthese dominiert hat, was untergewichtet wurde). Die fehlende 6. Perspektive benennen. Eine ehrliche Gesamtnote vergeben.
 
-**4b. Jede Zitation verifizieren (parallele Agents).** Starte `general-purpose`-Agents in einem Message-Block, einen pro Zitations-Cluster (verwandte Claims gruppieren; ~4-6 Agents). Prompt je Agent (englisch, verbatim):
+**4b. Jede Zitation verifizieren (parallele Agents).** Starte `general-purpose`-Agents (`model="sonnet"`) in einem Message-Block, einen pro Zitations-Cluster (verwandte Claims gruppieren; ~4-6 Agents). Prompt je Agent (englisch, verbatim):
 
 `Independently verify a citation against its PRIMARY source. Be skeptical; do not trust secondary blog summaries. CLAIM: {claim + cited figure + named source}. Find the actual primary source. Confirm or correct: exact title/authors/venue/year/URL, the real figure or effect size as published, sample/method and any author-stated limits, and peer-review status (published vs preprint). For any contested claim, find the strongest credible counter-source. Return: VERDICT = CONFIRMED / PARTIALLY CONFIRMED (list corrections) / UNVERIFIED / FALSE, then the corrected one-line citation, then 2-4 bullets of specifics with the primary URL. Keep it tight: specifics, not narrative.`
 

@@ -57,7 +57,7 @@ Nach jeder Designentscheidung proaktiv herausfordern:
 
 #### Docs-Recherche
 
-Sobald Libraries/Frameworks genannt werden, Research-Agent parallel starten:
+Hängt eine Entscheidung im Interview von der aktuellen API einer Library ab und liegt in `docs/research/` nichts dazu, den Research-Agent parallel starten. Einfache Nachschläge (eine Signatur, eine Option) gehen direkt über Context7 schneller (`/stemago-tools:docs-lookup`). Wird eine Library nur erwähnt, ohne dass eine Entscheidung an ihr hängt, ist keine Recherche nötig.
 ```
 Agent(subagent_type="stemago-tools:research-agent", model="haiku",
   prompt="Recherchiere aktuelle Dokumentation für <library> via Context7.
@@ -76,12 +76,14 @@ Via **AskUserQuestion** Ansatz wählen lassen. **Erst fortfahren wenn ein Ansatz
 
 ---
 
-## Schritt 2c: Council-Stress-Test (per Rückfrage)
+## Schritt 2c: Council-Stress-Test (bei größeren Features)
 
-Bevor die Spec geschrieben wird, kann der **gewählte** Lösungsansatz von einem adversarialen Council zerlegt werden — die formale, mehrperspektivische Version des Design-Stress-Tests. Frage in **jedem** Interview via **AskUserQuestion**, mit einer Empfehlung passend zur Größe des Features:
+Bevor die Spec geschrieben wird, kann der **gewählte** Lösungsansatz von einem adversarialen Council zerlegt werden — die formale, mehrperspektivische Version des Design-Stress-Tests. Das lohnt sich, wenn das Feature mehrere Tasks umfasst, neue Abhängigkeiten einführt oder eine Architekturentscheidung enthält. Dann via **AskUserQuestion** anbieten:
 
-1. **Council laufen lassen** — fünf parallele Persona-Agents greifen den Ansatz an (kostet fünf Agent-Läufe, Wall-Clock eine Runde). Empfehlen bei mehreren Tasks, neuen Abhängigkeiten oder Architekturentscheidungen.
-2. **Ohne Council weiter** — der Inline-Stress-Test aus Schritt 2 genügt. Empfehlen bei kleinen, klar umrissenen Features.
+1. **Council laufen lassen** — fünf parallele Persona-Agents greifen den Ansatz an (kostet fünf Agent-Läufe, Wall-Clock eine Runde).
+2. **Ohne Council weiter** — der Inline-Stress-Test aus Schritt 2 genügt.
+
+Bei kleinen, klar umrissenen Features entfällt die Frage: Sag in einem Satz, dass der Inline-Stress-Test genügt, und geh zu Schritt 3. Verlangt der User den Council ausdrücklich, läuft er unabhängig von der Größe.
 
 Bei „Ohne Council" direkt weiter zu Schritt 3.
 

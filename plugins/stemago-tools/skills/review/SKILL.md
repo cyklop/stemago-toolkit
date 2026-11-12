@@ -1,11 +1,11 @@
 ---
 name: review
-description: "stemago-tools Code Review: prüft die Änderungen des aktuellen Branches inklusive uncommitteter Änderungen gegen Projekt-Konventionen aus CLAUDE.md mit fünf parallelen Review-Agents (Security, Performance, Quality, Docs, Spec-Compliance). Verwende wenn der User 'Review bitte', 'prüf den Code' oder 'ist das so OK' sagt UND das Projekt eine CLAUDE.md mit Konventionen hat. NICHT verwenden für PR-Reviews oder gezielte Security-Audits — dafür github-ops oder /code-review oder /security-review."
+description: "stemago-tools Code Review: prüft die Änderungen des aktuellen Branches inklusive uncommitteter Änderungen gegen Projekt-Konventionen aus CLAUDE.md — kleine Diffs direkt, größere mit parallelen Review-Agents (Security, Performance, Quality, Docs, Spec-Compliance). Verwende wenn der User 'Review bitte', 'prüf den Code' oder 'ist das so OK' sagt UND das Projekt eine CLAUDE.md mit Konventionen hat. NICHT verwenden für PR-Reviews oder gezielte Security-Audits — dafür github-ops oder /code-review oder /security-review."
 ---
 
 # /review - Code Review
 
-Führe einen strukturierten, parallelisierten Code Review der letzten Änderungen durch.
+Führe einen strukturierten Code Review der letzten Änderungen durch.
 
 ## Deine Aufgabe
 
@@ -29,23 +29,33 @@ git status --porcelain | grep '^??'
 
 Falls Diff und ungetrackte Dateien leer sind: "Keine Änderungen zum Reviewen gefunden." — Abbruch.
 
-### Schritt 2: Kontext sammeln
+### Schritt 2: Umfang bestimmen und Kontext sammeln
 
-Lies NICHT nur den Diff — lies die **vollständigen geänderten Dateien** sowie **direkt abhängige Dateien** (Imports, aufgerufene Module, Typdefinitionen). Nur mit dem vollen Kontext kann ein Review Qualität liefern.
+Ein Review braucht mehr als den Diff: die **vollständigen geänderten Dateien** und die **direkt abhängigen Dateien** (Imports, aufgerufene Module, Typdefinitionen). Wer sie liest, hängt vom Umfang ab — ein Subagent kostet einen eigenen Kontext und kennt nur, was in seinem Prompt steht:
+
+- **Kleiner Diff** (bis etwa 3 Dateien oder 150 geänderte Zeilen): Du reviewst selbst. Lies die geänderten und die abhängigen Dateien, prüfe die Gebiete aus Schritt 3 (Security, Performance und Error Handling, Qualität, aktuelle Library-APIs, Spec-Compliance) ohne Agents und mach bei Schritt 4 weiter.
+- **Größerer Diff**: Die Review-Agents aus Schritt 3 lesen die Dateien. Du liest sie nicht vorab selbst, sondern sammelst nur die Dateilisten für ihre Prompts.
 
 Ermittle abhängige Dateien:
 - Folge Imports der geänderten Dateien
 - Prüfe welche Dateien die geänderten Exports verwenden (via Grep)
-- Lies relevante Typdefinitionen und Interfaces
+- Relevante Typdefinitionen und Interfaces
 
 **Spec/Plan-Referenz ermitteln:**
 - Prüfe ob eine zugehörige Spec existiert: `docs/specs/<feature-name>.md`
 - Prüfe ob ein Implementierungsplan existiert
 - Falls vorhanden, lies diese als Referenz für den Spec-Compliance-Check
 
-### Schritt 3: Parallele Review-Agents starten
+### Schritt 3: Review-Agents starten (größerer Diff)
 
-Starte **fünf spezialisierte Review-Agents parallel** — jeder fokussiert auf sein Gebiet:
+Starte die Review-Agents, deren Gebiet der Diff berührt — parallel, jeder fokussiert auf sein Gebiet:
+
+- **Agent 1 (Security)**: wenn der Diff Eingaben, Auth, Datenbankzugriffe, Datei- oder Shell-Operationen berührt
+- **Agent 2 (Performance & Error Handling)** und **Agent 3 (Qualität)**: bei jedem größeren Diff
+- **Agent 4 (Docs-Validierung)**: wenn der Diff Library- oder Framework-APIs verwendet
+- **Agent 5 (Spec-Compliance)**: wenn eine Spec oder ein Plan gefunden wurde
+
+Lässt du einen Agent weg, nenne das im Ergebnis in einem Halbsatz („Security: Diff berührt keine Eingaben").
 
 ```
 # Agent 1: Security Review (sonnet — Fehlalarme und übersehene Lücken sind hier am teuersten)
@@ -94,7 +104,7 @@ Agent(
     Pattern-Einhaltung: Passt der Code zu bestehenden Patterns im Projekt?
     Dokumentation: Neue exports/APIs ohne Docs? README/CLAUDE.md veraltet?
 
-    WICHTIG: Nenne auch explizit was GUT gemacht wurde (Strengths).
+    Nenne auch, was gut gelöst ist (Strengths).
 
     Ausgabe:
     1. Strengths: Was ist gut gelungen? (spezifisch mit Datei:Zeile)
@@ -145,11 +155,11 @@ Agent(
 
 Die Agents lesen Diff und Dateien selbst — Dateiinhalte nicht in die Prompts kopieren. Nur Agent 4 bekommt den Diff eingefügt (der research-agent hat kein Bash).
 
-**WICHTIG:** Alle fünf Agents in EINEM Message-Block starten für echte Parallelität. Agent 5 nur starten wenn eine Spec/Plan-Datei gefunden wurde.
+Die gewählten Agents in einem Message-Block starten, damit sie parallel laufen.
 
 ### Plausibilitäts-Check nach Agents
 
-Wenn alle Agents zurück sind und bevor du konsolidierst: jedes Critical- und Warning-Finding gegen den Code prüfen, den es benennt. Ein Finding ohne belastbare Stelle im Code ist ein False Positive und wird als solches markiert, nicht weitergereicht.
+Wenn Agents gelaufen sind und alle zurück sind, bevor du konsolidierst: jedes Critical- und Warning-Finding gegen den Code prüfen, den es benennt. Ein Finding ohne belastbare Stelle im Code ist ein False Positive und wird als solches markiert, nicht weitergereicht.
 
 ### Schritt 4: Review-Ergebnis konsolidieren
 
@@ -199,7 +209,7 @@ Sammle die Ergebnisse aller Agents und zeige eine konsolidierte Übersicht:
 - **Begründung:** [1-2 Sätze technische Einschätzung]
 ```
 
-### Schritt 5: Nächste Aktion — Immer User fragen
+### Schritt 5: Nächste Aktion
 
 Falls Findings vorhanden, frage den User via **AskUserQuestion**:
 
@@ -208,7 +218,7 @@ Falls Findings vorhanden, frage den User via **AskUserQuestion**:
 3. **Als Beads-Tasks tracken** — Findings als Tasks in Beads erstellen (für spätere Bearbeitung)
 4. **Nichts tun** — Nur zur Kenntnis nehmen
 
-**WICHTIG:** Keine automatischen Fixes — IMMER erst Rückfrage mit dem User.
+Findings zuerst zeigen, dann fragen, was behoben wird — den Umfang entscheidet der User. Hat er vorab ausdrücklich „review und fix" beauftragt, gilt das als Auftrag: Dann die Critical- und Warning-Findings direkt beheben und die Rückfrage auslassen.
 
 **Push-Back Guidance:** Falls du als Reviewer ein Finding für falsch hältst, erkläre dem User warum mit technischer Begründung. Zeige Code/Tests die beweisen dass es korrekt ist. Reviewer-Feedback ist beratend, nicht absolut — aber ignoriere valide technische Kritik nicht.
 
@@ -233,9 +243,6 @@ mcp__beads__create({
 
 Zeige Zusammenfassung der erstellten Tasks.
 
-### Schritt 6: Reflect anbieten
+### Schritt 6: Abschluss
 
-Nach Abschluss (Fixes oder Task-Erstellung), frage den User via **AskUserQuestion**:
-
-1. **Reflect starten** — `/reflect` ausführen um Session-Learnings zu extrahieren
-2. **Fertig** — Review abschließen
+Schließe mit einer kurzen Zusammenfassung: was behoben oder als Task angelegt wurde und ob die Tests grün sind. Hat das Review etwas ergeben, das über diese Session hinaus gilt, in einem Satz auf `/stemago-tools:reflect` hinweisen — als Hinweis, nicht als Rückfrage.

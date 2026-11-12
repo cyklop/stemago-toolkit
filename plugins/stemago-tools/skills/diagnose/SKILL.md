@@ -1,6 +1,6 @@
 ---
 name: diagnose
-description: "Strukturiertes Debugging für hartnäckige Bugs, Regressions und unerwartetes Verhalten — mit Feedback-Loop-First-Ansatz. Verwende diesen Skill IMMER bei: Bugs die sich nicht sofort erklären lassen, Testfehlern die keinen offensichtlichen Fix haben, Performance-Regressions, 'es funktioniert manchmal nicht', 'ich verstehe nicht warum'. NICHT verwenden für: offensichtliche Tippfehler, bekannte Konfigurationsprobleme mit sofortigem Fix."
+description: "Strukturiertes Debugging für hartnäckige Bugs, Regressions und unerwartetes Verhalten — mit Feedback-Loop-First-Ansatz. Verwende diesen Skill bei: Bugs die sich nicht sofort erklären lassen, Testfehlern die keinen offensichtlichen Fix haben, Performance-Regressions, 'es funktioniert manchmal nicht', 'ich verstehe nicht warum'. NICHT verwenden für: offensichtliche Tippfehler, bekannte Konfigurationsprobleme mit sofortigem Fix."
 argument-hint: "[bug-beschreibung]"
 ---
 
@@ -35,7 +35,7 @@ Formuliere daraus eine **Problemhypothese** in einem Satz — bevor es weitergeh
 
 Ohne deterministisches Signal ist jede Hypothese Spekulation.
 
-**Ziel:** Ein Befehl der in unter 30 Sekunden automatisch zeigt: ✅ Fixed / ❌ Broken.
+**Ziel:** Ein Befehl, der automatisch zeigt: ✅ Fixed / ❌ Broken — möglichst in unter 30 Sekunden.
 
 Optionen (in dieser Präferenz-Reihenfolge):
 
@@ -49,7 +49,7 @@ Optionen (in dieser Präferenz-Reihenfolge):
 **Der Feedback-Loop muss:**
 - Deterministisch sein (kein "manchmal rot")
 - Automatisch pass/fail signalisieren (kein manuelles Interpretieren)
-- In unter 30s laufen (sonst wird er nicht benutzt)
+- Möglichst in unter 30s laufen (sonst wird er nicht benutzt). Dauert der kürzeste ehrliche Loop länger (E2E, Build), nimm ihn trotzdem und sag es dazu
 
 Zeige dem User den Feedback-Loop-Befehl und führe ihn aus. Er muss **rot** sein bevor es weitergeht.
 
@@ -119,7 +119,7 @@ Führe nach dem Fix sofort aus:
 
 ### Phase 7: Regression-Test sichern
 
-**Der Feedback-Loop bleibt im Repo.** Kein Fix ohne dauerhaften Test.
+**Der Feedback-Loop bleibt im Repo** — als dauerhafter Test. Wo ein Test nichts prüfen kann (Konfiguration, Infrastruktur, Umgebung), stattdessen die Verifikationsschritte im Post-Mortem festhalten.
 
 Falls der Feedback-Loop ein Ad-hoc-Script war: in echten Test umwandeln.
 Falls es bereits ein Test war: sicherstellen dass er Teil der normalen Test-Suite ist.
@@ -152,6 +152,6 @@ Speichere in `docs/post-mortems/<datum>-<bug>.md`.
 
 - ❌ Code ändern ohne Feedback-Loop
 - ❌ Mehrere Hypothesen gleichzeitig testen
-- ❌ Den Fix committen ohne Regressions-Test
+- ❌ Den Fix committen ohne Regressions-Test oder festgehaltene Verifikationsschritte
 - ❌ "Ich probiere mal X" ohne Hypothese dahinter
 - ❌ Umgebungsvariablen ändern ohne zu verstehen warum

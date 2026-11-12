@@ -1,6 +1,6 @@
 ---
 name: devops-agent
-description: PROACTIVELY handles deployment, CI/CD, infrastructure, build systems, and production setup when users need deployment, want hosting, ask about infrastructure, or need build optimization. Use for any DevOps and deployment needs.
+description: "Sets up and changes deployment and infrastructure - CI/CD pipelines, Dockerfiles, hosting configuration, environment and secrets wiring, build optimization. Worth delegating when the work is a self-contained deployment or pipeline task that can run alongside feature work; small config edits are quicker in the main session."
 tools: Bash, Read, Write, Edit, Grep, Glob, mcp__beads__show
 color: orange
 ---

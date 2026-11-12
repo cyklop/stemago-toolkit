@@ -3,6 +3,29 @@
 Alle nennenswerten Änderungen am stemago-toolkit Plugin.
 Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
+## 3.1.2 — 2026-11-12
+
+Prompt-Audit gegen den Prompting-Guide für Claude Fable 5.2: absolute Regeln bekommen Geltungsbereich und Ausnahme, stehende Anweisungen zum Delegieren hängen jetzt am Umfang der Aufgabe.
+
+### Fixed
+- `block-destructive-commands`: Mehrzeilige Befehle liefen unter `/bin/sh` auf macOS ungeprüft durch, weil `echo` das `\n` im Hook-JSON zu einem echten Zeilenumbruch machte und `jq` daran scheiterte. Das Skript reicht Eingaben jetzt mit `printf` weiter.
+- `block-destructive-commands`: Das Muster `format\s+` blockte auch `--format "…"` und `clang-format datei`. `format` zählt nur noch als Befehlswort.
+- `db-inspect`: „Kein Schreiben ohne `WHERE`" traf auch `INSERT`. Die Regel gilt jetzt für `UPDATE` und `DELETE`.
+- Implementierungs-Agents (component, feature, infrastructure): Ohne Beads-ID brachen sie ab, obwohl die Beschreibung direkte Aufträge zusagt. Sie arbeiten jetzt nach dem Auftrag des Callers, wenn er Ziel und Akzeptanzkriterien nennt.
+- `CLAUDE.md`, `AGENTS.md`: Der Push am Session-Ende geschieht nach Rückfrage, passend zu `land-the-plane`. `AGENTS.md` nennt jetzt auch `bd dolt push`.
+
+### Changed
+- `block-destructive-commands`: Rekursives `rm` im Projekt, im Scratchpad der Session und in Temp-Ordnern läuft durch. Außerhalb davon, oder wenn die Ziele nicht auflösbar sind, bestätigt der User (`permissionDecision: "ask"`). In den Modi `bypassPermissions` und `dontAsk` bleibt es beim Block. Protokolliert werden nur noch Blockaden und Rückfragen, unter `~/.claude/logs/` statt in `/tmp`.
+- `review`: Kleine Diffs (bis etwa 3 Dateien oder 150 Zeilen) prüft die Hauptsession selbst. Bei größeren starten nur die Agents, deren Gebiet der Diff berührt. Die Rückfrage zu `/reflect` am Ende ist ein Hinweissatz.
+- `interview`: Der Research-Agent startet nur, wenn eine Entscheidung von der aktuellen API abhängt. Die Council-Frage kommt nur bei größeren Features.
+- `redesign-studio`: Die Bestands-Analyse läuft mit Sonnet, und die Hauptsession prüft fünf Fakten daraus gegen die Quelle, bevor `bestand.md` verbindlich wird.
+- `roast`, `storm-research`: Personas, Lenses und Verifier laufen mit `model="sonnet"` statt mit dem Modell der Session.
+- `setup`: Die Vorlage für neue Projekt-CLAUDE.md verlangt keine Task-Liste ab drei Schritten und keine Rückfragen am Aufgabenende mehr.
+- `diagnose`, `grill-me`, `docs-lookup`: harte Grenzen (30 Sekunden, „niemals batchen", „Max 3 Calls") mit Grund und Ausnahme formuliert.
+- `reflect`: Absolute Aussagen des Users werden mit Geltungsbereich und Grund gespeichert; Vorsichtsregeln ohne gültigen Grund werden gelöscht.
+- Agents: Die Beschreibungen von `devops-agent`, `functional-testing-agent`, `quality-agent` und `infrastructure-implementation-agent` nennen, wann sich das Delegieren lohnt, statt „PROACTIVELY". `tdd-validation-agent` und `functional-testing-agent` laufen mit Sonnet. Der `task-orchestrator` fasst bei kleinen Tasks Gate 1 und 2 zusammen.
+- `CLAUDE.md`: Abschnitte gestrichen, die sich aus dem Repo ablesen lassen (Plugin-Struktur, Formate, Hook-System, Workflows). Neu ist der Abschnitt „Release". „Domain Language" steht jetzt in der `README.md`.
+
 ## 3.1.1 — 2026-10-06
 
 ### Fixed

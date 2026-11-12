@@ -29,6 +29,8 @@ Scanne die gesamte Konversation nach:
 
 Ein Learning muss **dauerhaft** und **anwendbar** sein: es ändert dein Verhalten in künftigen Sessions. Nicht ins Memory gehören: was das Repo schon festhält (Code-Struktur, Git-Historie, `CLAUDE.md`), erledigte Arbeit, Task-Status, einmalige Details dieser Session.
 
+Absolute Aussagen des Users („nie", „immer") speicherst du mit Geltungsbereich und Grund, nicht als nackte Regel — spätere Sessions nehmen ein „nie" wörtlich, auch dort, wo es nicht gemeint war. Geht der Grund aus der Session nicht hervor, frag in Schritt 3 einmal danach.
+
 ## Schritt 2: Typ zuordnen
 
 | Typ | Inhalt |
@@ -58,7 +60,7 @@ Frage via **AskUserQuestion**: **HIGH + MEDIUM speichern** / **Alle speichern** 
 ## Schritt 4: Nach Bestätigung speichern
 
 1. **Bestehendes Memory lesen**: `MEMORY.md` und die Dateien, die thematisch passen.
-2. **Zusammenführen statt duplizieren**: Deckt ein bestehendes Memory das Learning ab, diese Datei aktualisieren. Widerspricht die Session einem bestehenden Memory, es korrigieren oder löschen (samt Zeile in `MEMORY.md`).
+2. **Zusammenführen statt duplizieren**: Deckt ein bestehendes Memory das Learning ab, diese Datei aktualisieren. Widerspricht die Session einem bestehenden Memory, es korrigieren oder löschen (samt Zeile in `MEMORY.md`). Dasselbe gilt für Vorsichtsregeln, deren Grund entfallen ist (ein behobener Bug, ein ersetztes Tool): löschen statt mitschleppen.
 3. **Neue Memories schreiben**: eine Datei pro Fakt, danach die Zeiger-Zeile in `MEMORY.md`. Wortlaut des Users erhalten, wo die Formulierung zählt; eigene Interpretation als solche kennzeichnen.
 
 Kein Git-Commit: das Memory liegt außerhalb des Repos.

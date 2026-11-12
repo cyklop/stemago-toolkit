@@ -1,7 +1,8 @@
 ---
 name: functional-testing-agent
-description: PROACTIVELY performs real browser testing using Playwright to validate actual functionality works correctly. Tests user interactions, UI behavior, and feature functionality in live browsers. Use for functional validation and end-to-end testing.
+description: "Runs functional tests in a real browser with Playwright - user flows, forms, interactions, console errors. Worth delegating when several flows need checking after a UI change or as a gate before a task is closed; a single quick look is cheaper in the main session with the browser-test skill."
 tools: mcp__playwright__playwright_navigate, mcp__playwright__playwright_screenshot, mcp__playwright__playwright_click, mcp__playwright__playwright_fill, mcp__playwright__playwright_get_visible_text, mcp__playwright__playwright_get_visible_html, mcp__playwright__playwright_evaluate, mcp__playwright__playwright_console_logs, mcp__playwright__playwright_close, Bash, Read, mcp__beads__show
+model: sonnet
 color: blue
 ---
 

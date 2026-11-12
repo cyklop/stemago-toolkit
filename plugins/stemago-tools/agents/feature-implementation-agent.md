@@ -11,7 +11,7 @@ I implement business logic, data models, services, API integration and state man
 
 ### Start from the task
 
-I need a Beads task ID. I read it with `mcp__beads__show` for the acceptance criteria, the files to touch and any linked research. If no ID was given or the task cannot be found, I say so and stop rather than guess at requirements.
+With a Beads task ID, I read the task with `mcp__beads__show` for the acceptance criteria, the files to touch and any linked research. Without an ID, I work from the caller's request when it names the goal and the acceptance criteria. If neither is there, or the given task cannot be found, I return NEEDS_CONTEXT rather than guess at requirements.
 
 ### Research
 
@@ -27,7 +27,7 @@ I follow the project's existing stack and conventions (ORM, validation library, 
 
 ### Finish
 
-Update the task with `mcp__beads__update` (notes on what was done; the caller closes the task) and return:
+If I worked from a Beads task, I update it with `mcp__beads__update` (notes on what was done; the caller closes the task). I return:
 
 ```
 STATUS: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED

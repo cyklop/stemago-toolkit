@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.1.1.
+**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.1.2.
+
+The plugin lives in `plugins/stemago-tools/` (skills, agents, hooks). The format conventions are visible in the existing files there. What the plugin expects from the projects that use it (for example the `CONTEXT.md` glossary) is documented in `README.md`.
 
 ## Testing the Plugin
 
@@ -31,82 +33,10 @@ bd close <id>         # Complete work
 bd export -o .beads/issues.jsonl   # Issues als JSONL für Git schreiben (ohne -o: stdout)
 ```
 
-## Architecture
+## Release
 
-### Plugin Structure
-
-```
-plugins/stemago-tools/
-├── .claude-plugin/plugin.json   # Plugin manifest (version, metadata)
-├── skills/                      # User-invokable slash commands
-│   └── <skill-name>/SKILL.md    # Skill definition (frontmatter + prompt)
-├── agents/                      # Subagent definitions
-│   └── <agent-name>.md          # Agent definition (frontmatter + system prompt)
-└── hooks/
-    ├── hooks.json               # Hook event bindings
-    └── scripts/*.sh             # Hook implementations
-```
-
-### Skill Format
-
-Skills are SKILL.md files with YAML frontmatter:
-```yaml
----
-name: skill-name
-description: "What the skill does"
-argument-hint: "[optional-args]"
----
-# Prompt content follows...
-```
-
-### Agent Format
-
-Agents are markdown files with YAML frontmatter:
-```yaml
----
-name: agent-name
-description: When/how to use this agent
-tools: tool1, tool2, mcp__server__tool
-model: sonnet  # optional: sonnet, opus, haiku
-color: green   # optional: terminal color
----
-# System prompt content follows...
-```
-
-### Hook System
-
-Hooks in `hooks.json` bind to events:
-- **PreToolUse** (matcher `Bash`): runs before a shell command and can block it
-- **SessionStart** (matchers `startup`, `resume`, `clear`): runs when a session begins; its stdout is injected into the model's context as a one-line reminder
-
-PreToolUse scripts receive the tool call as JSON on stdin; exit code 2 blocks the call and stderr is shown as the reason.
-
-## Key Workflows
-
-### Session Start
-```bash
-/stemago-tools:beads-ready    # See available tasks
-```
-
-### Session End
-```bash
-/stemago-tools:land-the-plane # Generate handoff for next session
-```
-
-Hooks automatically remind about:
-- Uncommitted changes
-- Open Beads tasks
-- Reflection (if enabled)
-
-### Agent Orchestration
-
-The task-orchestrator coordinates specialized agents:
-- `infrastructure-implementation-agent` - Build systems, tooling
-- `component-implementation-agent` - UI components
-- `feature-implementation-agent` - Business logic
-- `research-agent` - Context7 documentation lookup
-
-All implementation agents follow TDD methodology (Red-Green-Refactor).
+- Beim Version-Bump drei Dateien synchron halten: `plugins/stemago-tools/.claude-plugin/plugin.json`, diese Datei (Project Overview) und `.claude-plugin/marketplace.json` (`metadata.version` und `plugins[0].version`). Ohne das Update in `marketplace.json` erkennt Claude Code keine neue Version.
+- Der Marketplace-Clone unter `~/.claude/plugins/marketplaces/stemago-toolkit/` wird nicht automatisch gepullt. Nach einem `git push` dort `git pull` ausführen. Sonst liest Claude Code weiter die alte Version, egal wie oft `claude plugin update stemago-tools@stemago-toolkit` läuft.
 
 ## File Paths Convention
 
@@ -118,38 +48,14 @@ All implementation agents follow TDD methodology (Red-Green-Refactor).
 - Design-Mockups (`/redesign-studio`): `design/mockups/<richtung>/index.html`, Verifier-Reports `design/verify/`, Handoff `design/handoff-<slug>/`
 - Brainstorm-Captures: `brainstorms/<datum>-<topic-slug>.md` (Projekt-Root, bewusst NICHT unter `docs/` — ein vorhersehbarer Sammelort für rohe Interview-Erfassungen aus `/grill-me` und `/interview`. Polierte Ergebnisse wandern danach in `docs/` oder `projects/`.)
 
-## Domain Language (CONTEXT.md)
-
-Jedes Projekt das stemago-tools nutzt, sollte eine `CONTEXT.md` im Root haben — ein lebendes Glossar für projektspezifische Begriffe.
-
-**Format:**
-```markdown
-# CONTEXT.md — Domain Language
-
-## Begriffe
-
-### [Begriff]
-[Präzise Definition in 1-2 Sätzen]
-Abgrenzung zu: [verwandte Begriffe]
-
-### [Begriff 2]
-...
-```
-
-**Regeln:**
-- Skills challengen vage Sprache sofort und ergänzen klare Definitionen direkt in `CONTEXT.md`
-- Neue Begriffe werden inline während Interviews/Planung definiert — nicht nachträglich
-- Bei Konflikten zwischen `CONTEXT.md` und Code: Code ist die Wahrheit, `CONTEXT.md` updaten
-- Ein Begriff gilt als definiert sobald er in `CONTEXT.md` steht — danach challengen gilt nicht mehr
-
 ## Landing the Plane (Session Completion)
 
-Work is NOT complete until `git push` succeeds:
+Der Session-Abschluss läuft über `/stemago-tools:land-the-plane`. Gepusht wird nach Rückfrage beim User. Schlägt Rebase oder Push fehl: nicht erzwingen, sondern den Fehler melden und im Handoff festhalten.
 
 ```bash
 git pull --rebase
 bd export -o .beads/issues.jsonl
 git push
 bd dolt push         # Beads-Datenbank zum Dolt-Remote
-git status  # Must show "up to date with origin"
+git status  # sollte "up to date with origin" zeigen
 ```

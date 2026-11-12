@@ -37,7 +37,7 @@ Lege **vor dem Council** eine Capture-Datei unter `brainstorms/{YYYY-MM-DD}-{ide
 
 ## Schritt 2: Den Council einberufen (5 Agents, parallel)
 
-Starte **alle fünf Agents parallel in einem Message-Block** (je ein `Agent`-Call, `subagent_type: general-purpose`). Paste in jeden dasselbe Briefing, dann das jeweilige Persona-Mandat.
+Starte **alle fünf Agents parallel in einem Message-Block** (je ein `Agent`-Call, `subagent_type: general-purpose`, `model: "sonnet"` — für die Personas reicht Sonnet, das Urteil fällst du). Paste in jeden dasselbe Briefing, dann das jeweilige Persona-Mandat.
 
 Jedes Council-Mitglied liefert zurück: eine Ein-Zeilen-Haltung, seine 3-5 schärfsten Punkte, das eine wichtigste Ding das der User hören muss, und einen Score 1-10 auf der eigenen Dimension (1 = Finger weg, 10 = No-Brainer).
 

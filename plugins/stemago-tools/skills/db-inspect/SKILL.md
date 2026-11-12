@@ -16,7 +16,7 @@ Inspiziere die Datenbank über die `mcp__mariadb__*`-Tools: `list_databases`, `l
 ## Regeln
 
 - **Lesend ist der Normalfall.** `execute_query` lässt auch `INSERT`, `UPDATE` und `DELETE` zu — schreibende Statements nur auf ausdrücklichen Auftrag, vorher das Statement und die betroffene Zeilenzahl (`SELECT COUNT(*)` mit derselben `WHERE`-Klausel) zeigen.
-- **Kein Schreiben ohne `WHERE`.**
+- **`UPDATE` und `DELETE` nur mit `WHERE`.** Trifft ein Statement alle Zeilen einer Tabelle, vorher ausdrücklich bestätigen lassen.
 - **Schema-Fragen** über `describe_table`, nicht über rohes SQL.
 - **Vor Migrationen**: Ist-Schema mit dem ORM-Schema (z.B. `prisma/schema.prisma`) vergleichen und Abweichungen nennen, bevor migriert wird. Nach der Migration stichprobenartig verifizieren.
 - **Personenbezogene Daten** nur so weit ausgeben, wie die Frage es braucht.

@@ -57,6 +57,8 @@ Set the task to `in_progress` with `mcp__beads__update` when it is dispatched.
 
 A task is closed only after all three gates pass, in this order. An implementer's "done" is a claim; the gates produce the evidence.
 
+For a small, mechanical task (the haiku class: fully specified, 1-2 files), run Gate 1 and Gate 2 as one quality-agent call that gets both prompts and returns both verdicts — two separate reviews cost more than such a task itself. Gate 3 runs for every task.
+
 ### Gate 1: Spec compliance
 
 Directive: `Use the quality-agent subagent (model sonnet) to run the spec-compliance review for <id>.` Prompt to pass:

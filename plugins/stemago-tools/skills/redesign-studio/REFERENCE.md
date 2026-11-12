@@ -60,7 +60,7 @@ Abgabe: …
 
 ## Subagent-Prompts (Phase 1 und 2)
 
-Alle mit `subagent_type="general-purpose"`, `model="haiku"`, in einem Message-Block. `<BRIEF>` ist der bestätigte Brief wortgleich; `<slug>` der Projekt-Slug.
+Alle mit `subagent_type="general-purpose"` in einem Message-Block; `model="haiku"` außer bei der Bestands-Analyse (`model="sonnet"`). `<BRIEF>` ist der bestätigte Brief wortgleich; `<slug>` der Projekt-Slug.
 
 ### A. Inspirations-Scan — ein Agent pro Quelle
 
@@ -82,7 +82,7 @@ Agent(subagent_type="general-purpose", model="haiku",
 ### B. Bestands-Analyse — ein Agent
 
 ```
-Agent(subagent_type="general-purpose", model="haiku",
+Agent(subagent_type="general-purpose", model="sonnet",
   description="Bestand analysieren",
   prompt="Du bist Analyst. Brief: <BRIEF>. Quellen: <Design-System-Ordner / Repo / Live-URL>.
     Liefere einen Fakten-Brief, nur aus den Quellen, Unklares als 'unklar' markieren:
