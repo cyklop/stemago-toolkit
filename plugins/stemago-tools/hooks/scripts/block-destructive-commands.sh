@@ -223,8 +223,10 @@ check_system_destruction() {
         block_command "killall with SIGKILL can cause data loss" "$cmd"
     fi
     
-    # System shutdown/reboot
-    if printf '%s\n' "$cmd" | grep -qiE "shutdown\s+|reboot\s+|halt\s+"; then
+    # System shutdown/reboot: only as the command word. A bare 'shutdown\s+' also
+    # matched subcommands such as 'xcrun simctl shutdown <device>', and 'halt\s+'
+    # matched any text ending in "halt", for example a commit message with "Inhalt".
+    if printf '%s\n' "$cmd" | grep -qiE "(^|[;&|(])[[:space:]]*(sudo[[:space:]]+)?(shutdown|reboot|halt|poweroff)([[:space:]]|$)"; then
         block_command "system shutdown/reboot command" "$cmd"
     fi
     
