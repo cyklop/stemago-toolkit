@@ -29,7 +29,7 @@ Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende 
 
 ## Features
 
-### Skills (22)
+### Skills (23)
 
 | Skill | Description | Usage |
 |-------|-------------|-------|
@@ -53,6 +53,7 @@ Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende 
 | `architecture-review` | Deep-Modules-Check: Reibungspunkte und Vertiefungs-Kandidaten | `/stemago-tools:architecture-review [pfad]` |
 | `zoom-out` | Karte eines Codebereichs: Module, Caller, Dependencies, Grenzen | `/stemago-tools:zoom-out` |
 | `usage-report` | Nutzungsauswertung von Skills, Agents und Modellen | `/stemago-tools:usage-report [--months n]` |
+| `prompt-audit` | Setup gegen die aktuelle Prompting-Doku von Anthropic prüfen: Tabelle mit Fundstelle und Umformulierung, Umsetzung nach Freigabe | `/stemago-tools:prompt-audit [bereich] [--tage n]` |
 | `caveman` | Ultra-komprimierter Antwortmodus zum Token-Sparen | `/stemago-tools:caveman` |
 | `redesign-studio` | Website-Redesign: Interview, Recherche, N Mockups, Auswahl, Folgeseiten, Handoff | `/stemago-tools:redesign-studio [url-oder-repo]` |
 
@@ -74,6 +75,8 @@ In eingerichteten Projekten lassen sich Setup-/Operativ-Skills bei Bedarf via `/
 
 **Operativ / optional**
 - `reflect-config` — Auto-Reflect aktivieren/deaktivieren/Status
+- `prompt-audit` — nach einem Modellwechsel oder alle paar Monate: Anweisungen gegen die aktuelle Anthropic-Doku prüfen
+- `usage-report` — welche Skills, Agents und Modelle tatsächlich genutzt werden
 
 ### Agents (9)
 
@@ -137,7 +140,7 @@ stemago-toolkit/
 │   └── stemago-tools/            # Main plugin
 │       ├── .claude-plugin/
 │       │   └── plugin.json       # Plugin manifest
-│       ├── skills/               # 22 Skills (je SKILL.md)
+│       ├── skills/               # 23 Skills (je SKILL.md)
 │       │   ├── architecture-review/
 │       │   ├── beads-ready/
 │       │   ├── browser-test/
@@ -149,6 +152,7 @@ stemago-toolkit/
 │       │   ├── grill-me/
 │       │   ├── interview/
 │       │   ├── land-the-plane/
+│       │   ├── prompt-audit/
 │       │   ├── prototype/
 │       │   ├── redesign-studio/
 │       │   ├── reflect/

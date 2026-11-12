@@ -23,6 +23,7 @@ A session should end with the work pushed, because unpushed work is invisible to
    ```bash
    git pull --rebase
    bd export -o .beads/issues.jsonl
+   git add .beads/issues.jsonl && git commit -m "chore: Beads-Export"   # only needed if the file changed
    git push
    bd dolt push   # Beads database to the Dolt remote
    git status  # should report "up to date with origin"

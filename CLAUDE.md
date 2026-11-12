@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.1.2.
+**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.2.0.
 
 The plugin lives in `plugins/stemago-tools/` (skills, agents, hooks). The format conventions are visible in the existing files there. What the plugin expects from the projects that use it (for example the `CONTEXT.md` glossary) is documented in `README.md`.
 
@@ -36,6 +36,7 @@ bd export -o .beads/issues.jsonl   # Issues als JSONL für Git schreiben (ohne -
 ## Release
 
 - Beim Version-Bump drei Dateien synchron halten: `plugins/stemago-tools/.claude-plugin/plugin.json`, diese Datei (Project Overview) und `.claude-plugin/marketplace.json` (`metadata.version` und `plugins[0].version`). Ohne das Update in `marketplace.json` erkennt Claude Code keine neue Version.
+- Zu jeder neuen Version gehört ein Eintrag oben in `CHANGELOG.md`.
 - Der Marketplace-Clone unter `~/.claude/plugins/marketplaces/stemago-toolkit/` wird nicht automatisch gepullt. Nach einem `git push` dort `git pull` ausführen. Sonst liest Claude Code weiter die alte Version, egal wie oft `claude plugin update stemago-tools@stemago-toolkit` läuft.
 
 ## File Paths Convention
@@ -55,6 +56,7 @@ Der Session-Abschluss läuft über `/stemago-tools:land-the-plane`. Gepusht wird
 ```bash
 git pull --rebase
 bd export -o .beads/issues.jsonl
+git add .beads/issues.jsonl && git commit -m "chore: Beads-Export"   # nur nötig, wenn sich die Datei geändert hat
 git push
 bd dolt push         # Beads-Datenbank zum Dolt-Remote
 git status  # sollte "up to date with origin" zeigen

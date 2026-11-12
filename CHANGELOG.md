@@ -3,6 +3,20 @@
 Alle nennenswerten Änderungen am stemago-toolkit Plugin.
 Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
+## 3.2.0 — 2026-11-12
+
+### Added
+- `prompt-audit`: neuer Skill, der das Claude-Code-Setup (CLAUDE.md-Kette, Memory, Skills, Agents, Hooks, Output-Styles, geplante Aufgaben) gegen die Prompting-Doku von Anthropic für das laufende Modell prüft. Die Doku wird bei jedem Lauf frisch über `platform.claude.com/llms.txt` geholt; ohne Doku gibt es keinen Audit. Ergebnis ist eine Tabelle mit Fundstelle und Umformulierung, geändert wird erst nach Freigabe, Dateien ohne Versionierung werden vorher gesichert.
+- `prompt-audit/scripts/inventory.py`: listet alle Anweisungsquellen eines Projekts mit Größe, Geltung und Versionierung, einschließlich Elternordnern und `@`-Importen. Einstellungen werden nur schlüsselweise gelesen.
+- `prompt-audit/scripts/usage_evidence.py`: zählt Subagent-Starts, Skill-Aufrufe, Hook-Fehler und abgelehnte Tool-Aufrufe nach dem Zeitstempel der Einträge.
+
+### Fixed
+- `CLAUDE.md`, `AGENTS.md`: Die Landing-Sequenz committet den Beads-Export vor dem Push; bisher wurde er exportiert, aber nicht übertragen.
+
+### Changed
+- `CLAUDE.md`: Zu den Release-Regeln gehört der Changelog-Eintrag.
+- `.gitignore`: `__pycache__/`.
+
 ## 3.1.2 — 2026-11-12
 
 Prompt-Audit gegen den Prompting-Guide für Claude Fable 5.2: absolute Regeln bekommen Geltungsbereich und Ausnahme, stehende Anweisungen zum Delegieren hängen jetzt am Umfang der Aufgabe.
