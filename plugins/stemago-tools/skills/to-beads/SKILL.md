@@ -31,7 +31,7 @@ Falls kein Argument: frage den User nach Plan oder Dateipfad.
 - Eigenständig demonstrierbar sein (ein zeigbares Ergebnis)
 - Von einem Agenten in einer Session machbar sein
 - Klare Akzeptanzkriterien haben
-- TDD-fähig sein (welcher Test beweist done?)
+- Einen ausführbaren Done-Check haben: ein Befehl mit eindeutigem Pass/Fail (Test, Build, `curl` mit erwartetem Status, Skript). Wer den Task abschließt, zeigt dessen tatsächliche Ausgabe, nicht nur die Behauptung „fertig".
 
 **Klassifikation pro Task:**
 - **AFK** (Away From Keyboard): Agent kann alleine erledigen
@@ -46,7 +46,7 @@ Falls kein Argument: frage den User nach Plan oder Dateipfad.
 - Typ: task | bug | feature | chore | spike (zeitlich begrenzte Recherche)
 - Modus: AFK | HITL (Grund: ...)
 - Akzeptanzkriterium: [Satz der beschreibt wann done]
-- TDD-Signal: [Welcher Test/Check beweist es]
+- Done-Check: [Befehl mit Pass/Fail, z. B. `npm test -- auth.spec.ts`]
 - Abhängig von: [anderer Task-Titel | —]
 
 ### [Nächster Task]
@@ -70,7 +70,7 @@ mcp__beads__context({ workspace_root: process.cwd() })
 // Tasks anlegen (in Dependency-Reihenfolge)
 mcp__beads__create({
   title: "Task-Titel",
-  description: "Akzeptanzkriterium: [...]\nTDD-Signal: [...]\nBetroffene Dateien: [...]",
+  description: "Akzeptanzkriterium: [...]\nDone-Check: [Befehl]\nBetroffene Dateien: [...]",
   issue_type: "task",
   priority: 2,
   labels: ["to-beads", "<feature-label>"]

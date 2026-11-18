@@ -148,10 +148,6 @@ Speichere in `docs/post-mortems/<datum>-<bug>.md`.
 
 ---
 
-## Anti-Patterns — was du NICHT tun sollst
+## Umgebung
 
-- ❌ Code ändern ohne Feedback-Loop
-- ❌ Mehrere Hypothesen gleichzeitig testen
-- ❌ Den Fix committen ohne Regressions-Test oder festgehaltene Verifikationsschritte
-- ❌ "Ich probiere mal X" ohne Hypothese dahinter
-- ❌ Umgebungsvariablen ändern ohne zu verstehen warum
+Umgebungsvariablen und Konfiguration änderst du erst, wenn eine Hypothese sie als Ursache benennt. Sonst verdeckt die Änderung den Bug, statt ihn zu erklären.

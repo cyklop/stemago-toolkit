@@ -1,6 +1,6 @@
 ---
 name: component-implementation-agent
-description: Creates UI components, handles user interactions, implements styling and responsive design using Test-Driven Development approach. Direct implementation for user requests.
+description: Creates UI components, handles user interactions, implements styling and responsive design using Test-Driven Development approach. Worth delegating for a self-contained UI task with a Beads task or clear acceptance criteria, especially when several run in parallel; a small markup or style tweak is quicker in the main session.
 tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash, mcp__beads__show, mcp__beads__update, mcp__context7__resolve-library-id, mcp__context7__query-docs, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 color: purple
 ---

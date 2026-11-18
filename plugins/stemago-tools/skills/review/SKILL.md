@@ -206,8 +206,14 @@ Sammle die Ergebnisse aller Agents und zeige eine konsolidierte Übersicht:
 ### Zusammenfassung
 - Critical: X | Warning: Y | Info: Z | Deprecated: V
 - **Ready to merge?** [Yes / With fixes / No]
+- **Risiko:** [niedrig / mittel / hoch] → [Empfehlung zum menschlichen Review]
 - **Begründung:** [1-2 Sätze technische Einschätzung]
 ```
+
+**Risiko einstufen:** Wie viel menschliches Review nötig ist, hängt davon ab, was schiefgehen kann, nicht von der Diff-Größe.
+- **Niedrig** (Doku, Texte, Styles, Tests, interne Tools): Reicht, wenn die Checks grün sind; kein menschliches Review nötig.
+- **Mittel** (Feature-Code mit Tests, Refactorings): ein menschlicher Blick auf die Findings und den Diff.
+- **Hoch** (Auth, Zahlungen, Datenmigrationen, Sicherheitsgrenzen, öffentliche APIs, Infrastruktur): gründliches menschliches Review, bei Teams zwei Reviewer.
 
 ### Schritt 5: Nächste Aktion
 

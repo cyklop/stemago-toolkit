@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks. Version 3.3.0.
+**stemago-toolkit** is a Claude Code plugin providing development workflows, specialized agents, and safety hooks.
 
 The plugin lives in `plugins/stemago-tools/` (skills, agents, hooks). The format conventions are visible in the existing files there. What the plugin expects from the projects that use it (for example the `CONTEXT.md` glossary) is documented in `README.md`.
 
@@ -23,19 +23,11 @@ claude --plugin-dir ./plugins/stemago-tools
 
 ## Issue Tracking with Beads
 
-This project uses **Beads** (`bd`) for issue tracking instead of external systems.
-
-```bash
-bd ready              # Find tasks without blockers
-bd show <id>          # View task details
-bd update <id> --status in_progress  # Claim work
-bd close <id>         # Complete work
-bd export -o .beads/issues.jsonl   # Issues als JSONL für Git schreiben (ohne -o: stdout)
-```
+Aufgaben stehen in Beads (`bd`), nicht in Markdown. `bd export` schreibt ohne `-o .beads/issues.jsonl` nur nach stdout.
 
 ## Release
 
-- Beim Version-Bump drei Dateien synchron halten: `plugins/stemago-tools/.claude-plugin/plugin.json`, diese Datei (Project Overview) und `.claude-plugin/marketplace.json` (`metadata.version` und `plugins[0].version`). Ohne das Update in `marketplace.json` erkennt Claude Code keine neue Version.
+- Beim Version-Bump zwei Dateien synchron halten: `plugins/stemago-tools/.claude-plugin/plugin.json` und `.claude-plugin/marketplace.json` (`metadata.version` und `plugins[0].version`). Ohne das Update in `marketplace.json` erkennt Claude Code keine neue Version.
 - Zu jeder neuen Version gehört ein Eintrag oben in `CHANGELOG.md`.
 - Der Marketplace-Clone unter `~/.claude/plugins/marketplaces/stemago-toolkit/` wird nicht automatisch gepullt. Nach einem `git push` dort `git pull` ausführen. Sonst liest Claude Code weiter die alte Version, egal wie oft `claude plugin update stemago-tools@stemago-toolkit` läuft.
 
@@ -52,13 +44,4 @@ bd export -o .beads/issues.jsonl   # Issues als JSONL für Git schreiben (ohne -
 
 ## Landing the Plane (Session Completion)
 
-Der Session-Abschluss läuft über `/stemago-tools:land-the-plane`. Gepusht wird nach Rückfrage beim User. Schlägt Rebase oder Push fehl: nicht erzwingen, sondern den Fehler melden und im Handoff festhalten.
-
-```bash
-git pull --rebase
-bd export -o .beads/issues.jsonl
-git add .beads/issues.jsonl && git commit -m "chore: Beads-Export"   # nur nötig, wenn sich die Datei geändert hat
-git push
-bd dolt push         # Beads-Datenbank zum Dolt-Remote
-git status  # sollte "up to date with origin" zeigen
-```
+Der Session-Abschluss läuft über `/stemago-tools:land-the-plane`, der Skill enthält die Befehlsfolge. Gepusht wird nach Rückfrage beim User. Schlägt Rebase oder Push fehl: nicht erzwingen, sondern den Fehler melden und im Handoff festhalten.

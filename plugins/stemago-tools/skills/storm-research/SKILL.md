@@ -10,7 +10,7 @@ argument-hint: "[Thema der Recherche]"
 
 Macht aus einem Thema ein verifiziertes, mehrperspektivisches HTML-Briefing. Fünf Experten-Lenses recherchieren das Thema, eine Contradiction-Map legt offen wo sie sich widersprechen, alles wird zu einem self-contained HTML-Report synthetisiert — der sich dann selbst adversarial peer-reviewt und jede Zitation gegen ihre Primärquelle prüft, bevor er ausgeliefert wird. Ergebnis: eine HTML-Datei ohne blinde Flecken und ohne ungeprüfte Aussagen.
 
-Fahre die Pipeline End-to-End. Kürze keine Phase ab. Das ist schwerer als eine schnelle Web-Abfrage — genau das ist der Punkt. **Report-Inhalt auf Deutsch**; die Lens- und Verifier-Prompts unten bleiben **englisch verbatim** (kalibriert — nicht übersetzen).
+Fahre die Pipeline End-to-End. Jede Phase fängt eine eigene Fehlerart ab (blinde Flecken, Widersprüche, falsche Zitate); wer eine auslässt, liefert genau die ungeprüften Aussagen, die das Briefing vermeiden soll. **Report-Inhalt auf Deutsch**; die Lens- und Verifier-Prompts unten bleiben **englisch verbatim** (kalibriert — nicht übersetzen).
 
 **Abgrenzung:** `/roast` validiert eine *Idee* (GO/KILL). `/interview` plant ein *Feature* (Spec/Tasks). STORM *recherchiert ein Thema* multi-perspektivisch und quellenverifiziert. Der externe `deep-research`-Skill macht generischen Such-Fan-out → Report; STORM unterscheidet sich durch feste Perspektiven-Lenses, Contradiction-Map, designtes HTML-Briefing und Claim-Safety-Guide.
 

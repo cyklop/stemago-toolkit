@@ -8,7 +8,7 @@ Claude Code development toolkit with MCP wrappers, specialized agents, and safet
 /stemago-tools:setup --mcp
 ```
 
-Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende interaktiv. Für komplette Erst-Einrichtung (CLAUDE.md + Beads + MCPs): `/stemago-tools:setup --all`.
+Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende interaktiv. Für komplette Erst-Einrichtung (CLAUDE.md, Beads, MCPs, Prüf-Hooks, Sicherheitsregeln): `/stemago-tools:setup --all`.
 
 ## Installation
 
@@ -33,7 +33,7 @@ Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende 
 
 | Skill | Description | Usage |
 |-------|-------------|-------|
-| `setup` | Projekt-Initialisierung: CLAUDE.md, Beads, MCPs (konsolidiert) | `/stemago-tools:setup [--project\|--beads\|--mcp\|--all]` |
+| `setup` | Projekt-Initialisierung: CLAUDE.md, Beads, MCPs, Prüf-Hooks, Deny-Regeln/Sandbox/Auto-Mode | `/stemago-tools:setup [--project\|--beads\|--mcp\|--hooks\|--safety\|--all]` |
 | `reflect-config` | Auto-Reflection ein/aus + Status (konsolidiert) | `/stemago-tools:reflect-config [--on\|--off\|--status]` |
 | `db-inspect` | MariaDB MCP wrapper for database inspection | `/stemago-tools:db-inspect` |
 | `browser-test` | Chrome DevTools MCP for UI testing | `/stemago-tools:browser-test` |
@@ -63,7 +63,7 @@ Prüft welche empfohlenen MCP Server konfiguriert sind und installiert fehlende 
 In eingerichteten Projekten lassen sich Setup-/Operativ-Skills bei Bedarf via `/skills` deaktivieren, um die Liste übersichtlich zu halten.
 
 **Onboarding (neue Projekte)**
-- `setup` — CLAUDE.md, Beads und MCPs einrichten
+- `setup` — CLAUDE.md, Beads, MCPs, Prüf-Hooks und Sicherheitsregeln einrichten
 - `interview` — Feature-Anforderungen klären, Spec erstellen
 - `build-brief` — ein Vorhaben in einem langen, eigenständigen Lauf bauen lassen: Interview, dann Prompt für eine neue Session
 - `beads-ready` — Einstieg in offene Tasks
@@ -103,7 +103,7 @@ In eingerichteten Projekten lassen sich Setup-/Operativ-Skills bei Bedarf via `/
 
 | Hook | Event | Description |
 |------|-------|-------------|
-| `block-destructive-commands` | PreToolUse | Blocks dangerous git/system commands (whitelists `git rm`). Recursive `rm` inside the project, the session scratchpad or a temp directory runs; anywhere else it asks for confirmation |
+| `block-destructive-commands` | PreToolUse | Blocks irreversible git/system commands (whitelists `git rm`). Reversible operations such as package scaffolding or forced installs are left to auto mode. Recursive `rm` inside the project, the session scratchpad or a temp directory runs; anywhere else it asks for confirmation |
 | `session-land-the-plane` | SessionStart | Beads session handoff reminder |
 | `session-reflect` | SessionStart | Reminder to run /reflect at session end (if enabled) |
 | `session-review-reminder` | SessionStart | Reminder for uncommitted changes |

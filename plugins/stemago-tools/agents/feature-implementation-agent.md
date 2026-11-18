@@ -1,6 +1,6 @@
 ---
 name: feature-implementation-agent
-description: Implements core business logic, data services, API integration, and state management functionality using Test-Driven Development approach. Focused on backend services and data models.
+description: Implements core business logic, data services, API integration, and state management functionality using Test-Driven Development approach. Focused on backend services and data models. Worth delegating for a self-contained logic or data task with a Beads task or clear acceptance criteria, especially when several run in parallel; a small fix in one or two files is quicker in the main session.
 tools: Read, Write, Edit, MultiEdit, Glob, Grep, mcp__beads__show, mcp__beads__update, Bash
 color: blue
 ---

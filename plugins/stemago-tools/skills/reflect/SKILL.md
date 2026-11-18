@@ -5,7 +5,7 @@ description: "Session Learning Extractor - Analysiert die aktuelle Session und s
 
 # /reflect - Session Learning Extractor
 
-Analysiere die aktuelle Session und sichere die Learnings im **eingebauten Memory von Claude Code**. Dort werden sie in jeder künftigen Session dieses Projekts automatisch geladen — eine eigene Learnings-Datei im Repo wird nicht mehr gepflegt.
+Analysiere die aktuelle Session und sichere die Learnings im **eingebauten Memory von Claude Code**. Dort werden sie in jeder künftigen Session dieses Projekts automatisch geladen.
 
 ## Wohin geschrieben wird
 

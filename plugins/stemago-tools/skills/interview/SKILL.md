@@ -11,7 +11,7 @@ Führe ein strukturiertes Interview durch, um ein tiefes Verständnis der Anford
 ## Grundprinzipien
 
 - **YAGNI**: Hinterfrage jede Anforderung — brauchen wir das wirklich JETZT? Wenn der User "und vielleicht noch X" sagt: "Ist X für den ersten Release nötig?"
-- Stelle KEINE offensichtlichen Fragen — gehe in die TIEFE (Edge Cases, Trade-offs, Prioritäten)
+- Frag nach dem, was der User nicht von selbst sagt: Edge Cases, Trade-offs, Prioritäten. Was die Spec oder der Code schon beantwortet, fragst du nicht.
 - **Challengiere vage Sprache sofort**: "smart", "flexibel", "skalierbar", "einfach" → sofort fragen: "Was meinst du konkret mit X?"
 - **Runden klein halten**: thematisch zusammengehörige Fragen bündeln, Terminologie-Challenges und Stress-Test-Fragen einzeln stellen — tiefere Antworten als bei langen Listen
 
@@ -97,9 +97,9 @@ Kurze Zusammenfassung zeigen, dann weiter zu Schritt 3.
 
 ---
 
-## Schritt 3: Abschluss-Optionen (nach jeder Runde ab 2b)
+## Schritt 3: Abschluss-Optionen (ab 2b)
 
-Via **AskUserQuestion** immer diese 4 Optionen anbieten:
+Sind die wichtigen offenen Punkte geklärt oder will der User abschließen, biete via **AskUserQuestion** diese Optionen an. Gibt es noch offene Fragen mit Gewicht, stell die nächste Runde, statt das Menü zu zeigen:
 
 1. **Vertiefen** — weitere Fragen
 2. **Spec speichern** → Schritt 4 → 4b
@@ -138,7 +138,7 @@ Findings zeigen → User entscheidet ob Anpassungen. Danach: **explizites Approv
 
 Codebase erkunden (Glob/Grep), dann:
 - **File Structure Map**: welche Dateien neu / modifiziert
-- **Task-Dekomposition**: unabhängige Tasks mit Akzeptanzkriterien, TDD-Ansatz, Test-Befehlen
+- **Task-Dekomposition**: unabhängige Tasks mit Akzeptanzkriterien, TDD-Ansatz und je einem ausführbaren Done-Check (Befehl mit Pass/Fail)
 
 Plan via **AskUserQuestion** zeigen und Feedback abwarten.
 

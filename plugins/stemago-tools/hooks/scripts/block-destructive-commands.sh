@@ -119,41 +119,6 @@ check_git_destruction() {
     fi
 }
 
-# Check for package manager destructive operations
-check_package_manager_destruction() {
-    local cmd="$1"
-    
-    # npm create commands (can overwrite directories)
-    if printf '%s\n' "$cmd" | grep -qiE "npm\s+create\s+"; then
-        block_command "npm create can overwrite existing directories" "$cmd"
-    fi
-    
-    # npx create commands
-    if printf '%s\n' "$cmd" | grep -qiE "npx\s+create-"; then
-        block_command "npx create commands can overwrite files" "$cmd"
-    fi
-    
-    # yarn create commands
-    if printf '%s\n' "$cmd" | grep -qiE "yarn\s+create\s+"; then
-        block_command "yarn create can overwrite directories" "$cmd"
-    fi
-    
-    # pnpm create commands
-    if printf '%s\n' "$cmd" | grep -qiE "pnpm\s+create\s+"; then
-        block_command "pnpm create can overwrite directories" "$cmd"
-    fi
-    
-    # Force package installations (can break dependencies)
-    if printf '%s\n' "$cmd" | grep -qiE "npm\s+install\s+.*--force"; then
-        block_command "npm install --force can break dependencies" "$cmd"
-    fi
-    
-    # pip force reinstall
-    if printf '%s\n' "$cmd" | grep -qiE "pip\s+install\s+.*--force-reinstall"; then
-        block_command "pip force reinstall can break dependencies" "$cmd"
-    fi
-}
-
 # Check for database destruction
 check_database_destruction() {
     local cmd="$1"
@@ -218,11 +183,6 @@ check_network_risks() {
 check_system_destruction() {
     local cmd="$1"
     
-    # Kill all processes
-    if printf '%s\n' "$cmd" | grep -qiE "killall\s+.*-9"; then
-        block_command "killall with SIGKILL can cause data loss" "$cmd"
-    fi
-    
     # System shutdown/reboot: only as the command word. A bare 'shutdown\s+' also
     # matched subcommands such as 'xcrun simctl shutdown <device>', and 'halt\s+'
     # matched any text ending in "halt", for example a commit message with "Inhalt".
@@ -282,6 +242,17 @@ rm_targets_are_safe() (
     case "$cmd" in
         *'$'*|*'`'*|*'~'*|*'..'*|*'{'*|*'\'*) return 1 ;;
     esac
+
+    # A leading 'cd /absolute/path &&' sets the directory for the rest, as long
+    # as no further cd follows. Relative rm targets then resolve against it.
+    lead=$(printf '%s\n' "$cmd" | sed -nE '1s#^[[:space:]]*cd[[:space:]]+(/[^[:space:];&|()]*)[[:space:]]*&&(.*)$#\1#p')
+    if [ -n "$lead" ]; then
+        rest=$(printf '%s\n' "$cmd" | sed -E '1s#^[[:space:]]*cd[[:space:]]+/[^[:space:];&|()]*[[:space:]]*&&##')
+        if ! printf '%s\n' "$rest" | grep -qE '(^|[;&|(]|[[:space:]])(cd|pushd|popd)([[:space:]]|$)'; then
+            CWD="${lead%/}"
+            cmd="$rest"
+        fi
+    fi
     [ -n "$CWD" ] || return 1
 
     has_cd=0
@@ -390,7 +361,6 @@ check_recursive_delete() {
 # Run all destructive command checks
 check_filesystem_destruction "$COMMAND"
 check_git_destruction "$COMMAND"
-check_package_manager_destruction "$COMMAND"
 check_database_destruction "$COMMAND"
 check_container_destruction "$COMMAND"
 check_network_risks "$COMMAND"

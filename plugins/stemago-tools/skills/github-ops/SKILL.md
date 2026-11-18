@@ -27,6 +27,8 @@ gh pr merge <nr> --squash            # oder --merge / --rebase
 
 - Vor `gh pr create`: Branch muss gepusht sein (`git push -u origin <branch>`).
 - PR-Titel folgen der Commit-Konvention des Projekts (siehe CLAUDE.md).
+- **Merge, sobald bereit:** `gh pr merge <nr> --auto --squash` aktiviert GitHubs Auto-Merge. Der PR wird gemergt, sobald die Pflicht-Checks grün und nötige Reviews da sind. Voraussetzung: Auto-Merge ist in den Repo-Einstellungen erlaubt und der Branch hat Schutzregeln.
+- **CI rot:** `gh pr checks <nr>` zeigt den fehlgeschlagenen Lauf, `gh run view <run-id> --log-failed` dessen Log. Den Fehler lokal reproduzieren, beheben, Done-Check zeigen, pushen (nach Rückfrage) und die Checks erneut verfolgen (`gh pr checks <nr> --watch`).
 - `gh pr merge` und alles, was nach außen sichtbar ist (PR/Issue anlegen, kommentieren, Review abgeben), erst nach ausdrücklichem Auftrag oder Rückfrage ausführen.
 
 ## Reviews

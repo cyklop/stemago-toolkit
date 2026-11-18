@@ -139,8 +139,10 @@ Lies den fertigen Prompt so, wie die neue Session ihn liest: ohne dieses Gesprä
 
    ```
    cd <projektordner>
-   claude --model fable --effort high --permission-mode auto
+   claude --model <modell-des-laufs> --effort high --permission-mode auto
    ```
+
+   `<modell-des-laufs>` ist das Modell, für das du den Prompt geschrieben hast (ohne andere Angabe das dieser Session, z. B. `fable` oder `opus`).
 
    Danach den Prompt einfügen oder der Session die Datei nennen. Dazu sagst du dem User sinngemäß:
 

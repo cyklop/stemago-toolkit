@@ -130,7 +130,9 @@ mcp__beads__create({
 
 TDD-Ansatz:
 - Zuerst schreiben: [welcher Test]
-- Test-Befehl: [npm test ... / pytest ...]
+
+Done-Check (Pass/Fail, Ausgabe beim Abschluss zeigen):
+- [npm test -- <datei> / pytest <pfad> / curl -sf <url>]
 
 Betroffene Dateien:
 - src/path/to/new-file.ts (neu)
@@ -169,7 +171,7 @@ Agent({
 })
 ```
 
-Der Orchestrator startet keine Agents selbst (Subagents können in Claude Code keine Subagents starten). Er plant und endet mit einer Direktive `Use the <agent> subagent to …`; du startest die genannten Agents parallel in einem Message-Block und rufst ihn mit den Ergebnissen erneut auf.
+Der Orchestrator startet keine Agents selbst (er hat bewusst kein `Agent`-Tool, damit die Hauptsession steuert, was läuft). Er plant und endet mit einer Direktive `Use the <agent> subagent to …`; du startest die genannten Agents parallel in einem Message-Block und rufst ihn mit den Ergebnissen erneut auf.
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: prompt-audit
-description: "Prüft das Claude-Code-Setup gegen die aktuelle Prompting-Doku von Anthropic: CLAUDE.md-Dateien, Memory, Skills, Agents, Hooks, Output-Styles und geplante Aufgaben. Holt die Doku zum laufenden Modell bei jedem Lauf frisch, zeigt eine Tabelle mit Fundstelle und Umformulierung und ändert erst nach Freigabe. Verwende bei 'Prompt-Audit', 'prüf meine CLAUDE.md', 'sind meine Anweisungen noch aktuell', nach einem Modellwechsel oder wenn Claude unnötig nachfragt, zu viel delegiert oder Regeln zu wörtlich nimmt. NICHT für Nutzungsstatistik (dafür /usage-report) oder Installations-Checks (dafür das eingebaute /doctor)."
+description: "Prüft das Claude-Code-Setup gegen die aktuelle Prompting-Doku von Anthropic: CLAUDE.md-Dateien, Memory, Skills, Agents, Hooks, Output-Styles und geplante Aufgaben. Holt die Doku zum laufenden Modell bei jedem Lauf frisch, zeigt eine Tabelle mit Fundstelle und Umformulierung und ändert erst nach Freigabe. Verwende bei 'Prompt-Audit', 'prüf meine CLAUDE.md', 'sind meine Anweisungen noch aktuell', nach einem Modellwechsel oder wenn Claude unnötig nachfragt, zu viel delegiert oder Regeln zu wörtlich nimmt. NICHT für Nutzungsstatistik (dafür /usage-report) oder Installations-Checks (dafür das eingebaute /doctor). Für einen schnellen Check nur des Prompt-Texts reicht das eingebaute /doctor prompt-audit; dieser Skill ergänzt frische Doku, Hooks, Memory, geplante Aufgaben und Nutzungsbelege."
 argument-hint: "[bereich: claude-md|memory|skills|agents|hooks|tasks] [--tage <n>]"
 allowed-tools: Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/inventory.py *) Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/usage_evidence.py *)
 ---
@@ -8,6 +8,8 @@ allowed-tools: Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/inventory.py *) Bash(pyt
 # Prompt-Audit
 
 Prüft alle Anweisungen, die eine Claude-Code-Session in diesem Projekt lädt, gegen das, was Anthropic für das laufende Modell aktuell empfiehlt. Ergebnis ist eine Tabelle mit Fundstelle, heutigem Wortlaut und Umformulierung. Umgesetzt wird erst, was der User freigibt.
+
+Claude Code bringt mit `/doctor prompt-audit` einen eingebauten Audit mit, der CLAUDE.md, Regeln, Commands, Skills und Agents auf veraltete Muster prüft. Dieser Skill geht weiter: Er liest die Doku zum Modell frisch, nimmt Hooks, Memory und geplante Aufgaben dazu und belegt mit Nutzungsdaten, was tatsächlich läuft. Hat der User in dieser Session schon `/doctor prompt-audit` laufen lassen, übernimm dessen Funde als bekannt und prüf sie nicht noch einmal.
 
 Der Maßstab ist die Doku von heute, nicht dein Wissen über frühere Modelle: Empfehlungen ändern sich mit jeder Modellgeneration, und eine Regel, die für das letzte Modell nötig war, kann beim jetzigen schaden.
 

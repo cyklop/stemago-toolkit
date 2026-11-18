@@ -1,6 +1,6 @@
 ---
 name: tdd-validation-agent
-description: Comprehensive TDD methodology validation and quality gate enforcement agent
+description: "Quality gate before a task is closed - runs tests, typecheck and build, checks that tests exist for the new behavior and were written test-first where the task demanded it, and returns PASS or FAIL with remediation items. Worth delegating as the final gate for an implementation task from the orchestrator flow; for a quick test run after a small change, run the tests in the main session."
 tools: Read, Bash, Grep, Glob, mcp__beads__show, mcp__beads__update, mcp__beads__list, mcp__ide__getDiagnostics
 model: sonnet
 color: red

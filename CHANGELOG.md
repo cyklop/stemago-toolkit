@@ -3,6 +3,32 @@
 Alle nennenswerten Änderungen am stemago-toolkit Plugin.
 Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
+## 3.4.0 — 2026-11-18
+
+Umsetzung des Talks „Rethinking Claude Code Best Practices" (Anthropic, 12.11.2026) und eines Prompt-Audits gegen Opus 5.5.
+
+### Added
+- `setup --hooks`: richtet Prüf-Hooks im Projekt ein. Nach Edit/Write prüft `check-after-edit.sh` die geänderte Datei (Linter, Format), vor dem Rundenende lässt `verify-on-stop.sh` die Tests laufen, sofern Code-Dateien geändert sind. Beide enden bei Fehlern mit Exit 2, damit Claude weiterarbeitet; der Stop-Hook blockt nach einem Rücksprung nicht erneut (`stop_hook_active`). Vorlagen unter `skills/setup/templates/`, die Befehle leitet der Skill aus dem Projekt ab und testet sie vor dem Eintragen.
+- `setup --safety`: Deny-Regeln für Secrets und Unumkehrbares, `ask` für Aktionen mit Außenwirkung, optional Sandbox mit erlaubten Domains und `autoMode.environment` für vertraute Ziele, alles in der committeten `.claude/settings.json`.
+- `github-ops`: Auto-Merge (`gh pr merge --auto`) und der Weg bei roter CI (`gh run view --log-failed`, `gh pr checks --watch`).
+- `review`: Risikostufe im Ergebnis mit Empfehlung, wie viel menschliches Review nötig ist.
+
+### Changed
+- `block-destructive-commands`: blockt nur noch Unumkehrbares. Projekt-Gerüste über `npm/npx/yarn/pnpm create`, erzwungene Installationen bei npm und pip sowie `killall -9` entscheidet jetzt der Auto-Mode. Ein führendes `cd /absoluter/pfad &&` gilt für relative `rm -r`-Ziele danach, damit Aufräumen im Scratchpad nicht mehr blockiert wird.
+- `task-orchestrator`: `model: inherit` statt `sonnet`, weil Planen und Bewerten das stärkste Modell braucht und die Umsetzung delegiert wird.
+- `to-beads`, `interview`: Jeder Task bekommt einen ausführbaren Done-Check (Befehl mit Pass/Fail), dessen Ausgabe beim Abschluss gezeigt wird.
+- `prompt-audit`: grenzt sich vom eingebauten `/doctor prompt-audit` ab und übernimmt dessen Funde, statt sie doppelt zu prüfen.
+- `CLAUDE.md`: Beads-Befehlsliste und Landing-Sequenz gekürzt, beides steht in `bd --help` bzw. im Skill `land-the-plane`.
+- Prompt-Audit gegen Opus 5.5 umgesetzt (`/doctor prompt-audit`).
+- Agent-Descriptions von `tdd-validation-agent`, `component-implementation-agent`, `feature-implementation-agent`, `research-agent` und `task-orchestrator` sagen jetzt, wann sich das Delegieren lohnt und wann die Hauptsession schneller ist.
+- `task-orchestrator`: Gate 1 (Spec) und Gate 2 (Code-Qualität) laufen standardmäßig in einem gemeinsamen quality-agent-Aufruf, getrennt nur bei großen Tasks. Gate 3 nur bei Tasks, die Code ändern.
+- `task-orchestrator`, `interview/REFERENCE.md`: Die Begründung „Subagents können keine Subagents starten" ist veraltet (Claude Code erlaubt laut Doku bis zu drei Ebenen). Der Orchestrator startet weiter keine Agents, weil er bewusst kein `Agent`-Tool hat.
+- `interview`: Fragen nach Tiefe ohne Großbuchstaben-Druck; das Abschluss-Menü erscheint erst, wenn die wichtigen Punkte geklärt sind, nicht nach jeder Runde.
+- `diagnose`: Die Anti-Pattern-Liste wiederholte die Phasen, sie ist auf die eine neue Regel zur Umgebung reduziert.
+- `build-brief`: Der Startbefehl nennt das Modell, für das der Prompt geschrieben ist, statt fest `fable`.
+- `storm-research`, `reflect`: Regel mit Begründung statt „Kürze keine Phase ab"; Verweis auf die Vorversion entfernt.
+- `CLAUDE.md`: Versionsnummer aus dem Project Overview entfernt, beim Release sind nur noch zwei Dateien synchron zu halten.
+
 ## 3.3.0 — 2026-11-12
 
 ### Added
